@@ -97,6 +97,16 @@
                     </h2>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Email Address -->
+                        <div class="space-y-1 sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700">Email Address <span class="text-rose-500">*</span></label>
+                            <input type="email" 
+                                   wire:model="email"
+                                   placeholder="your.email@example.com" 
+                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                            @error('email') <span class="text-[11px] font-bold text-rose-500">{{ $message }}</span> @enderror
+                        </div>
+
                         <!-- First Name -->
                         <div class="space-y-1">
                             <label class="block text-xs font-bold text-slate-700">First Name <span class="text-rose-500">*</span></label>

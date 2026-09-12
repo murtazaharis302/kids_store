@@ -21,6 +21,7 @@ class Checkout extends Component
     public $selectedAddressId = null;
     public $useNewAddress = false;
 
+    public $email = '';
     public $first_name = '';
     public $last_name = '';
     public $phone = '';
@@ -45,17 +46,29 @@ class Checkout extends Component
 
     public function mount()
     {
-        // 1. Authentication check
-        if (!auth()->check()) {
-            return redirect()->route('login');
-        }
+        // 1. Role & Address Check for Logged-In Users
+        if (auth()->check()) {
+            $user = auth()->user();
+            $this->email = $user->email ?? '';
 
-        $user = auth()->user();
+            if (in_array($user->role, ['admin', 'staff'])) {
+                session()->flash('error', 'Admin/staff accounts cannot place customer storefront orders.');
+                return redirect()->route('cart.index');
+            }
 
-        // Admin/staff role check: Admin/staff accounts must not be treated as normal customers for customer checkout
-        if (in_array($user->role, ['admin', 'staff'])) {
-            session()->flash('error', 'Admin/staff accounts cannot place customer storefront orders.');
-            return redirect()->route('cart.index');
+            $savedAddresses = Address::where('user_id', $user->id)->get();
+            if ($savedAddresses->isNotEmpty()) {
+                $defaultAddr = $savedAddresses->firstWhere('is_default', true) ?? $savedAddresses->first();
+                $this->selectedAddressId = $defaultAddr->id;
+                $this->useNewAddress = false;
+            } else {
+                $this->useNewAddress = true;
+                $nameParts = explode(' ', $user->name, 2);
+                $this->first_name = $nameParts[0] ?? '';
+                $this->last_name = $nameParts[1] ?? '';
+            }
+        } else {
+            $this->useNewAddress = true;
         }
 
         // 2. Cart Resolution & Empty Cart Check
@@ -63,19 +76,6 @@ class Checkout extends Component
         if ($cart->items()->count() === 0) {
             session()->flash('error', 'Your shopping cart is empty.');
             return redirect()->route('cart.index');
-        }
-
-        // Pre-fill default address or user defaults
-        $savedAddresses = Address::where('user_id', $user->id)->get();
-        if ($savedAddresses->isNotEmpty()) {
-            $defaultAddr = $savedAddresses->firstWhere('is_default', true) ?? $savedAddresses->first();
-            $this->selectedAddressId = $defaultAddr->id;
-            $this->useNewAddress = false;
-        } else {
-            $this->useNewAddress = true;
-            $nameParts = explode(' ', $user->name, 2);
-            $this->first_name = $nameParts[0] ?? '';
-            $this->last_name = $nameParts[1] ?? '';
         }
     }
 
@@ -197,20 +197,16 @@ class Checkout extends Component
     {
         $this->errorMessage = '';
 
-        if (!auth()->check()) {
-            return redirect()->route('login');
-        }
+        $user = auth()->check() ? auth()->user() : null;
 
-        $user = auth()->user();
-
-        if (in_array($user->role, ['admin', 'staff'])) {
+        if ($user && in_array($user->role, ['admin', 'staff'])) {
             $this->errorMessage = 'Admin/staff accounts cannot place storefront orders.';
             return;
         }
 
         // Address Validation & Data Resolution
         $shippingData = [];
-        if (!$this->useNewAddress && $this->selectedAddressId) {
+        if ($user && !$this->useNewAddress && $this->selectedAddressId) {
             // Freshly query database to verify address ownership
             $address = Address::where('id', $this->selectedAddressId)
                 ->where('user_id', $user->id)
@@ -233,13 +229,19 @@ class Checkout extends Component
                 'country' => $address->country,
             ];
         } else {
-            $this->validate([
+            $rules = [
                 'first_name' => 'required|string|max:100',
                 'phone' => 'required|string|max:30',
                 'address_line_1' => 'required|string|max:255',
                 'city' => 'required|string|max:100',
                 'country' => 'required|string|max:100',
-            ]);
+            ];
+
+            if (!$user) {
+                $rules['email'] = 'required|email|max:255';
+            }
+
+            $this->validate($rules);
 
             $shippingData = [
                 'first_name' => trim($this->first_name),
@@ -253,7 +255,7 @@ class Checkout extends Component
                 'country' => trim($this->country),
             ];
 
-            if ($this->save_address) {
+            if ($user && $this->save_address) {
                 Address::create(array_merge(['user_id' => $user->id], $shippingData));
             }
         }
@@ -347,7 +349,7 @@ class Checkout extends Component
 
                 // Create Order record
                 $order = Order::create([
-                    'user_id' => $user->id,
+                    'user_id' => $user ? $user->id : null,
                     'order_number' => $orderNumber,
                     'subtotal' => $subtotal,
                     'discount' => $discount,
@@ -376,7 +378,7 @@ class Checkout extends Component
                 if ($couponModel && $discount > 0) {
                     CouponUsage::create([
                         'coupon_id' => $couponModel->id,
-                        'user_id' => $user->id,
+                        'user_id' => $user ? $user->id : null,
                         'order_id' => $order->id,
                         'discount_amount' => $discount,
                     ]);
@@ -427,7 +429,7 @@ class Checkout extends Component
         $shippingCost = 200.00;
         $total = max(0.00, round($subtotal - $discount + $shippingCost, 2));
 
-        $savedAddresses = Address::where('user_id', auth()->id())->get();
+        $savedAddresses = auth()->check() ? Address::where('user_id', auth()->id())->get() : collect();
 
         return view('livewire.storefront.checkout', [
             'cart' => $cart,

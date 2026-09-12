@@ -30,8 +30,8 @@ Route::get('/', StorefrontHome::class)->name('home');
 Route::get('/shop', StorefrontShop::class)->name('shop');
 Route::get('/products/{product:slug}', StorefrontProductShow::class)->name('products.show');
 Route::get('/cart', StorefrontCart::class)->name('cart.index');
-Route::get('/checkout', StorefrontCheckout::class)->middleware(['auth'])->name('checkout.index');
-Route::get('/orders/{order}', StorefrontOrderShow::class)->middleware(['auth'])->name('orders.show');
+Route::get('/checkout', StorefrontCheckout::class)->name('checkout.index');
+Route::get('/orders/{order}', StorefrontOrderShow::class)->name('orders.show');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

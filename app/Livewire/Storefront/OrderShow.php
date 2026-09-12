@@ -11,15 +11,11 @@ class OrderShow extends Component
 
     public function mount(Order $order)
     {
-        if (!auth()->check()) {
-            return redirect()->route('login');
-        }
-
-        $user = auth()->user();
-
-        // Customer order access rule: customer can view only their own orders
-        if (!in_array($user->role, ['admin', 'staff']) && $order->user_id !== $user->id) {
-            abort(403, 'Unauthorized access to order.');
+        if (auth()->check()) {
+            $user = auth()->user();
+            if (!in_array($user->role, ['admin', 'staff']) && $order->user_id !== null && $order->user_id !== $user->id) {
+                abort(403, 'Unauthorized access to order.');
+            }
         }
 
         $this->order = $order->load(['items.product.primaryImage', 'user.addresses']);

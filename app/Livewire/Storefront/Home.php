@@ -18,12 +18,20 @@ class Home extends Component
             ->orderBy('sort_order')
             ->get();
 
-        // 2. New Arrivals (active products flagged as new_arrival)
+        // 2. New Arrivals (active products flagged as new_arrival, with fallback to latest active products)
         $newArrivals = Product::with(['primaryImage', 'category'])
             ->where('status', true)
             ->where('new_arrival', true)
             ->take(8)
             ->get();
+
+        if ($newArrivals->isEmpty()) {
+            $newArrivals = Product::with(['primaryImage', 'category'])
+                ->where('status', true)
+                ->latest()
+                ->take(8)
+                ->get();
+        }
 
         // 3. Featured Collection
         $featuredCollection = Collection::with(['products' => function ($query) {
