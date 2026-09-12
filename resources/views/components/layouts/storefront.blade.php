@@ -44,7 +44,7 @@
                 
                 <!-- Logo & Brand Name -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0 group">
-                    <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" class="h-12 sm:h-16 lg:h-18 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+                    <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" class="h-12 sm:h-16 lg:h-18 w-auto object-contain group-hover:scale-105 transition-transform duration-300" style="max-height: 64px; width: auto;">
                     <div class="flex flex-col">
                         <span class="font-extrabold text-xl sm:text-2xl lg:text-3xl text-slate-900 font-heading tracking-tight leading-none group-hover:text-rose-600 transition duration-200">
                             Al Hayat <span class="text-rose-600">Kids</span>
@@ -164,7 +164,7 @@
                 <!-- Mobile Drawer Header -->
                 <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                     <a href="{{ route('home') }}" class="flex items-center gap-3">
-                        <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" class="h-10 w-auto">
+                        <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" class="h-10 w-auto" style="max-height: 40px; width: auto;">
                         <span class="font-extrabold text-xl text-slate-900 font-heading">Al Hayat Kids</span>
                     </a>
                     <button @click="mobileMenuOpen = false" class="text-slate-400 hover:text-slate-700 p-1" aria-label="Close menu">
@@ -294,7 +294,7 @@
                 <div class="lg:col-span-2 space-y-4">
                     <div class="flex items-center gap-3.5">
                         <div class="p-2 bg-white rounded-2xl shadow-sm inline-block">
-                            <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" class="h-12 w-auto object-contain">
+                            <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" class="h-12 w-auto object-contain" style="max-height: 48px; width: auto;">
                         </div>
                         <div class="flex flex-col">
                             <span class="font-extrabold text-2xl text-white font-heading tracking-wide">Al Hayat Kids</span>
