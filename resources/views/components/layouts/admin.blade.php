@@ -13,7 +13,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles / Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        @php
+            $manifestPath = public_path('build/manifest.json');
+            $cssFile = 'assets/app-BzJL9BKc.css';
+            $jsFile = 'assets/app-l0sNRNKZ.js';
+            if (file_exists($manifestPath)) {
+                $manifest = json_decode(@file_get_contents($manifestPath), true);
+                $cssFile = $manifest['resources/css/app.css']['file'] ?? $cssFile;
+                $jsFile = $manifest['resources/js/app.js']['file'] ?? $jsFile;
+            }
+        @endphp
+        <link rel="stylesheet" href="{{ asset('build/' . $cssFile) }}">
+        <script type="module" src="{{ asset('build/' . $jsFile) }}"></script>
+    @endif
     @livewireStyles
 
     <style>
