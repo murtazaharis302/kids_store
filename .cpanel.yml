@@ -2,3 +2,6 @@
 deployment:
   tasks:
     - /bin/cp -R public/. /home/alhayatkids/public_html/
+    - /usr/local/bin/php /home/alhayatkids/repositories/kids_store/artisan migrate --force
+    - /usr/local/bin/php /home/alhayatkids/repositories/kids_store/artisan view:clear
+    - /usr/local/bin/php /home/alhayatkids/repositories/kids_store/artisan config:clear
