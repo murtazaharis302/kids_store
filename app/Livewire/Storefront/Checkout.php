@@ -41,6 +41,7 @@ class Checkout extends Component
     public $couponMessageType = 'success';
 
     public $payment_method = 'jazzcash';
+    public $reference_number = '';
     public $customer_notes = '';
 
     public $errorMessage = '';
