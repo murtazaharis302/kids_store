@@ -67,9 +67,9 @@
                             <div class="flex items-start sm:items-center gap-4">
                                 <!-- Thumbnail (using product primary image if product exists, or placeholder) -->
                                 <div class="w-14 h-14 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0">
-                                    @if($item->product && $item->product->primaryImage)
-                                        <img src="{{ asset('storage/' . $item->product->primaryImage->image) }}" alt="{{ $item->product_name }}" class="w-full h-full object-cover">
-                                    @else
+                                     @if($item->product && $item->product->primaryImage && !empty($item->product->primaryImage->url))
+                                         <img src="{{ $item->product->primaryImage->url }}" alt="{{ $item->product_name }}" class="w-full h-full object-cover">
+                                     @else
                                         <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                                     @endif
                                 </div>

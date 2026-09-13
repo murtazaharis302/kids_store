@@ -213,6 +213,10 @@ class Shop extends Component
             case 'name_asc':
                 $query->orderBy('name', 'asc');
                 break;
+            case 'shuffle':
+            case 'random':
+                $query->inRandomOrder();
+                break;
             case 'featured':
             default:
                 $query->orderBy('featured', 'desc')->orderBy('id', 'desc');

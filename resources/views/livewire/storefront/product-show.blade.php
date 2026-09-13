@@ -19,21 +19,8 @@
         <div class="lg:col-span-7 space-y-4">
             @php
                 $activeImgPath = $selectedImage;
-                $hasActiveImg = false;
-                $activeImgUrl = '';
-
-                if ($activeImgPath) {
-                    if (\Illuminate\Support\Str::startsWith($activeImgPath, ['http://', 'https://'])) {
-                        $activeImgUrl = $activeImgPath;
-                        $hasActiveImg = true;
-                    } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($activeImgPath)) {
-                        $activeImgUrl = asset('storage/' . $activeImgPath);
-                        $hasActiveImg = true;
-                    } elseif (file_exists(public_path($activeImgPath))) {
-                        $activeImgUrl = asset($activeImgPath);
-                        $hasActiveImg = true;
-                    }
-                }
+                $activeImgUrl = \App\Models\ProductImage::getImageUrl($activeImgPath);
+                $hasActiveImg = !empty($activeImgUrl);
             @endphp
 
             <!-- Hero Active Image Container -->
@@ -85,21 +72,8 @@
                     <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
                         @foreach($galleryImages as $gImg)
                             @php
-                                $thumbPath = $gImg->image;
-                                $thumbUrl = '';
-                                $hasThumb = false;
-                                if ($thumbPath) {
-                                    if (\Illuminate\Support\Str::startsWith($thumbPath, ['http://', 'https://'])) {
-                                        $thumbUrl = $thumbPath;
-                                        $hasThumb = true;
-                                    } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($thumbPath)) {
-                                        $thumbUrl = asset('storage/' . $thumbPath);
-                                        $hasThumb = true;
-                                    } elseif (file_exists(public_path($thumbPath))) {
-                                        $thumbUrl = asset($thumbPath);
-                                        $hasThumb = true;
-                                    }
-                                }
+                                $thumbUrl = $gImg->url;
+                                $hasThumb = !empty($thumbUrl);
                             @endphp
 
                             <button type="button" 

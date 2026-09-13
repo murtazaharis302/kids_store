@@ -47,6 +47,24 @@ Route::get('/orders/{order}/receipt-image', function (\App\Models\Order $order) 
     return response()->file($filePath);
 })->name('orders.receipt-image');
 
+// Dynamic Product Media File Serving Route (Bypasses cPanel symlink 403 Forbidden issues)
+Route::get('/media/products/{path}', function ($path) {
+    $filePath = storage_path('app/public/products/' . $path);
+    if (!file_exists($filePath)) {
+        $filePath = storage_path('app/public/' . $path);
+    }
+    if (!file_exists($filePath)) {
+        $filePath = public_path('products/' . $path);
+    }
+    if (!file_exists($filePath)) {
+        $filePath = public_path($path);
+    }
+    if (!file_exists($filePath)) {
+        abort(404, 'Product image not found');
+    }
+    return response()->file($filePath);
+})->where('path', '.*')->name('media.products');
+
 // Storage File Serving Route (Fallback for cPanel servers without symlink access)
 Route::get('/storage/{path}', function ($path) {
     $fullPath = storage_path('app/public/' . $path);

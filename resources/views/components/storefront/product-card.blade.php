@@ -2,21 +2,15 @@
 
 @php
     $primaryImg = $product->primaryImage;
-    $imgPath = $primaryImg ? $primaryImg->image : null;
-    $hasValidImage = false;
     $imageUrl = '';
+    $hasValidImage = false;
 
-    if ($imgPath) {
-        if (\Illuminate\Support\Str::startsWith($imgPath, ['http://', 'https://'])) {
-            $imageUrl = $imgPath;
-            $hasValidImage = true;
-        } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($imgPath)) {
-            $imageUrl = asset('storage/' . $imgPath);
-            $hasValidImage = true;
-        } elseif (file_exists(public_path($imgPath))) {
-            $imageUrl = asset($imgPath);
-            $hasValidImage = true;
-        }
+    if ($primaryImg && !empty($primaryImg->url)) {
+        $imageUrl = $primaryImg->url;
+        $hasValidImage = true;
+    } elseif ($product->images && $product->images->isNotEmpty()) {
+        $imageUrl = $product->images->first()->url;
+        $hasValidImage = !empty($imageUrl);
     }
 
     $regularPrice = (float) $product->price;

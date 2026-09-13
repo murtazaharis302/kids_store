@@ -85,10 +85,10 @@
                             <td class="py-3.5 px-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
-                                        @if($product->primaryImage && Storage::disk('public')->exists($product->primaryImage->image))
-                                            <img src="{{ asset('storage/' . $product->primaryImage->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
-                                        @elseif($product->primaryImage)
-                                            <img src="{{ asset($product->primaryImage->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
+                                        @if($product->primaryImage && !empty($product->primaryImage->url))
+                                            <img src="{{ $product->primaryImage->url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                                        @elseif($product->images->isNotEmpty() && !empty($product->images->first()->url))
+                                            <img src="{{ $product->images->first()->url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
                                         @else
                                             <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                         @endif

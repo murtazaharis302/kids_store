@@ -257,8 +257,8 @@
                     <div class="py-4 flex items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
                             <div class="w-14 h-14 rounded-xl bg-slate-100 border border-slate-200 shrink-0 flex items-center justify-center overflow-hidden">
-                                @if($item->product && $item->product->primaryImage)
-                                    <img src="{{ asset('storage/' . $item->product->primaryImage->image) }}" alt="{{ $item->product_name }}" class="w-full h-full object-cover">
+                                @if($item->product && $item->product->primaryImage && !empty($item->product->primaryImage->url))
+                                    <img src="{{ $item->product->primaryImage->url }}" alt="{{ $item->product_name }}" class="w-full h-full object-cover">
                                 @else
                                     <span class="text-[10px] font-bold text-slate-400">AH Kids</span>
                                 @endif

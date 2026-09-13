@@ -111,6 +111,9 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">Shop by Category</h2>
                     <p class="text-sm text-slate-500 mt-1">Explore tailored collections for every age group</p>
                 </div>
+                <a href="{{ route('shop') }}" class="text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition">
+                    View All Categories &rarr;
+                </a>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -134,7 +137,7 @@
                         }
                     @endphp
 
-                    <a href="#" @click.prevent="" class="group relative bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col p-4 text-center">
+                    <a href="{{ route('shop', ['category' => $category->slug]) }}" class="group relative bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col p-4 text-center">
                         <div class="aspect-square w-full rounded-2xl bg-rose-50 overflow-hidden relative mb-4 flex items-center justify-center">
                             @if($hasCatImg)
                                 <img src="{{ $catImgUrl }}" alt="{{ $category->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
@@ -149,13 +152,67 @@
                             {{ $category->name }}
                         </h3>
                         <span class="text-xs text-slate-400 mt-1 font-medium group-hover:text-rose-500">
-                            Explore →
+                            {{ $category->products_count ?? 0 }} Products &rarr;
                         </span>
                     </a>
                 @endforeach
             </div>
         </section>
     @endif
+
+    <!-- DYNAMIC CATEGORY SHOWCASE & LIVE SHUFFLE SECTION -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
+            <div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold uppercase tracking-wider mb-2">
+                    ✨ Dynamic Catalog Explorer
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+                    Explore Our Dress Collection
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">Switch categories or shuffle to discover fresh outfit combinations!</p>
+            </div>
+
+            <!-- Shuffle Action Button -->
+            <button type="button" 
+                    wire:click="shuffleProducts" 
+                    class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-2xl shadow-md transition flex items-center justify-center gap-2 w-fit">
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <span>🔀 Shuffle Outfits</span>
+            </button>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none snap-x">
+            <button type="button" 
+                    wire:click="selectCategory('all')"
+                    class="snap-start shrink-0 px-5 py-2.5 rounded-2xl font-extrabold text-xs transition border {{ $selectedCategorySlug === 'all' ? 'bg-rose-600 text-white border-rose-600 shadow-md' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50' }}">
+                All Products
+            </button>
+            @foreach($categories as $catTab)
+                <button type="button" 
+                        wire:click="selectCategory('{{ $catTab->slug }}')"
+                        class="snap-start shrink-0 px-5 py-2.5 rounded-2xl font-extrabold text-xs transition border {{ $selectedCategorySlug === $catTab->slug ? 'bg-rose-600 text-white border-rose-600 shadow-md' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50' }}">
+                    {{ $catTab->name }} ({{ $catTab->products_count }})
+                </button>
+            @endforeach
+        </div>
+
+        <!-- Products Grid -->
+        @if($showcaseProducts->isNotEmpty())
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                @foreach($showcaseProducts as $product)
+                    <x-storefront.product-card :product="$product" />
+                @endforeach
+            </div>
+        @else
+            <x-storefront.empty-state 
+                title="No Products in this Category" 
+                description="Products for this category will be available soon." 
+                actionText="Explore All Outfits"
+                actionUrl="{{ route('shop') }}" />
+        @endif
+    </section>
 
     <!-- 3. NEW ARRIVALS -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -164,8 +221,8 @@
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">New Arrivals</h2>
                 <p class="text-sm text-slate-500 mt-1">Fresh styles for your little ones</p>
             </div>
-            <a href="#" @click.prevent="" class="text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition">
-                View All →
+            <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition">
+                View All &rarr;
             </a>
         </div>
 
@@ -180,7 +237,7 @@
                 title="No New Arrivals Yet" 
                 description="Our upcoming seasonal drops will be added soon. Check back shortly!" 
                 actionText="Explore Categories"
-                actionUrl="#" />
+                actionUrl="{{ route('shop') }}" />
         @endif
     </section>
 
@@ -224,7 +281,7 @@
             <!-- Scrollable Pill Grid -->
             <div class="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-none snap-x">
                 @foreach($ageGroups as $ageGroup)
-                    <a href="#" @click.prevent="" class="snap-start shrink-0 px-6 py-3.5 rounded-2xl bg-white border border-slate-200/80 hover:border-rose-300 hover:bg-rose-50/50 text-slate-700 hover:text-rose-700 font-bold text-sm transition-all shadow-2xs hover:shadow-xs flex items-center gap-2">
+                    <a href="{{ route('shop', ['age_group' => $ageGroup->slug]) }}" class="snap-start shrink-0 px-6 py-3.5 rounded-2xl bg-white border border-slate-200/80 hover:border-rose-300 hover:bg-rose-50/50 text-slate-700 hover:text-rose-700 font-bold text-sm transition-all shadow-2xs hover:shadow-xs flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-rose-400"></span>
                         {{ $ageGroup->name }}
                     </a>
@@ -241,8 +298,8 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">Special Offers & Sale</h2>
                     <p class="text-sm text-slate-500 mt-1">Great values on selected kids apparel</p>
                 </div>
-                <a href="#" @click.prevent="" class="text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition">
-                    View All Deals →
+                <a href="{{ route('shop', ['sale' => 1]) }}" class="text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition">
+                    View All Deals &rarr;
                 </a>
             </div>
 
@@ -313,7 +370,7 @@
                 Browse our complete collection of shirts, dresses, rompers, tops, and accessories.
             </p>
             <div class="pt-2">
-                <a href="#" @click.prevent="" class="inline-flex items-center gap-2 px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm rounded-2xl transition shadow-lg shadow-rose-500/25">
+                <a href="{{ route('shop') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm rounded-2xl transition shadow-lg shadow-rose-500/25">
                     Explore Full Catalog
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </a>

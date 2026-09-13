@@ -295,18 +295,14 @@
                                 $unitPrice = \App\Services\CartService::getEffectivePrice($variant, $product);
                                 $lineTotal = $unitPrice * $item->quantity;
 
-                                $imgPath = $product && $product->primaryImage ? $product->primaryImage->image : null;
                                 $imgUrl = '';
                                 $hasImg = false;
-                                if ($imgPath) {
-                                    if (\Illuminate\Support\Str::startsWith($imgPath, ['http://', 'https://'])) {
-                                        $imgUrl = $imgPath;
+                                if ($product) {
+                                    if ($product->primaryImage && !empty($product->primaryImage->url)) {
+                                        $imgUrl = $product->primaryImage->url;
                                         $hasImg = true;
-                                    } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($imgPath)) {
-                                        $imgUrl = asset('storage/' . $imgPath);
-                                        $hasImg = true;
-                                    } elseif (file_exists(public_path($imgPath))) {
-                                        $imgUrl = asset($imgPath);
+                                    } elseif ($product->images && $product->images->isNotEmpty() && !empty($product->images->first()->url)) {
+                                        $imgUrl = $product->images->first()->url;
                                         $hasImg = true;
                                     }
                                 }
