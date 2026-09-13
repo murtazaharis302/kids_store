@@ -33,6 +33,20 @@ Route::get('/cart', StorefrontCart::class)->name('cart.index');
 Route::get('/checkout', StorefrontCheckout::class)->name('checkout.index');
 Route::get('/orders/{order}', StorefrontOrderShow::class)->name('orders.show');
 
+// Dynamic Payment Proof File Serving Route (Bypasses cPanel symlink 403 Forbidden issues)
+Route::get('/orders/{order}/receipt-image', function (\App\Models\Order $order) {
+    if (!$order->payment || !$order->payment->payment_proof_image) {
+        abort(404, 'No payment proof screenshot found for this order.');
+    }
+
+    $filePath = storage_path('app/public/' . $order->payment->payment_proof_image);
+    if (!file_exists($filePath)) {
+        abort(404, 'File not found on server disk.');
+    }
+
+    return response()->file($filePath);
+})->name('orders.receipt-image');
+
 // Storage File Serving Route (Fallback for cPanel servers without symlink access)
 Route::get('/storage/{path}', function ($path) {
     $fullPath = storage_path('app/public/' . $path);

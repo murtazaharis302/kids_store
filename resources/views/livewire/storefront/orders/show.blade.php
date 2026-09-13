@@ -149,10 +149,10 @@
                                 <span class="text-[10px] font-bold text-slate-400 block mb-1">New Image Preview:</span>
                                 <img src="{{ $payment_proof_file->temporaryUrl() }}" alt="Receipt Preview" class="h-28 rounded-lg object-contain">
                             </div>
-                        @elseif($order->payment && $order->payment->payment_proof_image)
+                        @elseif($order->payment && $order->payment->payment_proof_image && file_exists(storage_path('app/public/' . $order->payment->payment_proof_image)))
                             <div class="mt-2 p-2 rounded-xl bg-white border border-slate-200 w-fit">
                                 <span class="text-[10px] font-bold text-emerald-600 block mb-1">✓ Currently Uploaded Receipt:</span>
-                                <img src="{{ asset('storage/' . $order->payment->payment_proof_image) }}" alt="Current Receipt" class="h-28 rounded-lg object-contain">
+                                <img src="{{ route('orders.receipt-image', $order->id) }}" alt="Current Receipt" class="h-28 rounded-lg object-contain">
                             </div>
                         @endif
                     </div>

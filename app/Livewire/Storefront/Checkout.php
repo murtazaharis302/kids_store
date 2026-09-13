@@ -58,6 +58,11 @@ class Checkout extends Component
             $user = auth()->user();
             $this->email = $user->email ?? '';
 
+            if (in_array($user->role, ['admin', 'staff'])) {
+                session()->flash('error', 'Admin/staff accounts cannot place customer storefront orders.');
+                return redirect()->route('cart.index');
+            }
+
             $savedAddresses = Address::where('user_id', $user->id)->get();
             if ($savedAddresses->isNotEmpty()) {
                 $defaultAddr = $savedAddresses->firstWhere('is_default', true) ?? $savedAddresses->first();
@@ -200,6 +205,11 @@ class Checkout extends Component
         $this->errorMessage = '';
 
         $user = auth()->check() ? auth()->user() : null;
+
+        if ($user && in_array($user->role, ['admin', 'staff'])) {
+            $this->errorMessage = 'Admin/staff accounts cannot place storefront orders.';
+            return;
+        }
 
         // Address Validation & Data Resolution
         $shippingData = [];

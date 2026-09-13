@@ -37,18 +37,18 @@ return [
 
     'payment' => [
         'jazzcash' => [
-            'title' => env('JAZZCASH_ACCOUNT_TITLE', 'AH Kids Store'),
-            'number' => env('JAZZCASH_ACCOUNT_NUMBER', '03001234567'),
+            'title' => env('JAZZCASH_ACCOUNT_TITLE', 'Al Hayat Kids'),
+            'number' => env('JAZZCASH_ACCOUNT_NUMBER', '03249171213'),
         ],
         'easypaisa' => [
-            'title' => env('EASYPAISA_ACCOUNT_TITLE', 'AH Kids Store'),
-            'number' => env('EASYPAISA_ACCOUNT_NUMBER', '03007654321'),
+            'title' => env('EASYPAISA_ACCOUNT_TITLE', 'Al Hayat Kids'),
+            'number' => env('EASYPAISA_ACCOUNT_NUMBER', '03249171213'),
         ],
         'bank' => [
             'bank_name' => env('BANK_NAME', 'Meezan Bank Limited'),
-            'title' => env('BANK_ACCOUNT_TITLE', 'AH Kids Store'),
-            'account_number' => env('BANK_ACCOUNT_NUMBER', '01020304050607'),
-            'iban' => env('BANK_IBAN', 'PK36MEZN0001020304050607'),
+            'title' => env('BANK_ACCOUNT_TITLE', 'Al Hayat Kids'),
+            'account_number' => env('BANK_ACCOUNT_NUMBER', '03249171213'),
+            'iban' => env('BANK_IBAN', 'PK36MEZN03249171213'),
         ],
         'stripe' => [
             'key' => env('STRIPE_KEY'),

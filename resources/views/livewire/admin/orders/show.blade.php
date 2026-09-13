@@ -199,10 +199,10 @@
                     <!-- Right: Screenshot Image Preview -->
                     <div class="space-y-2">
                         <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Customer Receipt Screenshot</span>
-                        @if($order->payment && $order->payment->payment_proof_image && \Illuminate\Support\Facades\Storage::disk('public')->exists($order->payment->payment_proof_image))
+                        @if($order->payment && $order->payment->payment_proof_image && file_exists(storage_path('app/public/' . $order->payment->payment_proof_image)))
                             <div class="relative group rounded-2xl border-2 border-slate-200 bg-slate-900 p-2 overflow-hidden shadow-xs cursor-pointer"
                                  @click="showModal = true">
-                                <img src="{{ asset('storage/' . $order->payment->payment_proof_image) }}" 
+                                <img src="{{ route('orders.receipt-image', $order->id) }}" 
                                      alt="Payment Proof Screenshot" 
                                      class="w-full h-48 object-contain rounded-xl bg-slate-950 transition group-hover:opacity-90">
                                 <div class="pt-2 flex items-center justify-center">
@@ -235,7 +235,7 @@
                 @endif
 
                 <!-- Lightbox Modal for Full Image Zoom (Opens right on this same page) -->
-                @if($order->payment && $order->payment->payment_proof_image && \Illuminate\Support\Facades\Storage::disk('public')->exists($order->payment->payment_proof_image))
+                @if($order->payment && $order->payment->payment_proof_image && file_exists(storage_path('app/public/' . $order->payment->payment_proof_image)))
                     <div x-show="showModal" 
                          x-cloak 
                          @keydown.escape.window="showModal = false"
@@ -246,7 +246,7 @@
                                 <button type="button" @click="showModal = false" class="text-slate-400 hover:text-white font-bold text-lg px-2">&times;</button>
                             </div>
                             <div class="max-h-[80vh] overflow-auto flex items-center justify-center p-2">
-                                <img src="{{ asset('storage/' . $order->payment->payment_proof_image) }}" alt="Receipt Screenshot Full" class="max-w-full max-h-[75vh] object-contain rounded-2xl">
+                                <img src="{{ route('orders.receipt-image', $order->id) }}" alt="Receipt Screenshot Full" class="max-w-full max-h-[75vh] object-contain rounded-2xl">
                             </div>
                         </div>
                     </div>
