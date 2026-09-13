@@ -198,9 +198,14 @@
                                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Paid
                                         </span>
                                         @break
+                                    @case('pending_verification')
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse"></span> Verification Pending
+                                        </span>
+                                        @break
                                     @case('pending')
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Pending
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pending
                                         </span>
                                         @break
                                     @case('failed')

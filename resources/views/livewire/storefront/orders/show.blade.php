@@ -31,18 +31,28 @@
                 <p class="text-xs text-slate-500 mt-0.5">Placed on {{ $order->created_at->format('F d, Y \a\t h:i A') }}</p>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center gap-3">
                 <div class="text-right">
                     <span class="text-[11px] font-bold text-slate-500 uppercase block">Order Status</span>
-                    <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-amber-50 text-amber-700 border border-amber-200 uppercase">
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase {{ $order->order_status === 'completed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-50 text-amber-700 border border-amber-200' }}">
                         {{ ucfirst($order->order_status) }}
                     </span>
                 </div>
                 <div class="text-right">
                     <span class="text-[11px] font-bold text-slate-500 uppercase block">Payment Status</span>
-                    <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200 uppercase">
-                        {{ ucfirst($order->payment_status) }} ({{ strtoupper($order->payment_method) }})
-                    </span>
+                    @if($order->payment_status === 'paid')
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500 text-white shadow-xs uppercase">
+                            ✓ Paid & Verified
+                        </span>
+                    @elseif($order->payment_status === 'pending_verification')
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-amber-400 text-amber-950 border border-amber-500 uppercase">
+                            ⏳ Verification Pending
+                        </span>
+                    @else
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200 uppercase">
+                            {{ ucfirst($order->payment_status) }} ({{ strtoupper($order->payment_method) }})
+                        </span>
+                    @endif
                 </div>
             </div>
         </div>
@@ -96,21 +106,56 @@
         <!-- Totals Summary & Address -->
         <div class="p-6 bg-slate-50/50 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             
-            <!-- Customer Shipping Info -->
-            <div class="space-y-2">
-                <h3 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider font-heading">
-                    Delivery Address
-                </h3>
-                @if($shippingAddress)
-                    <div class="text-xs text-slate-600 space-y-1 font-medium bg-white p-4 rounded-2xl border border-slate-200/80">
-                        <p class="font-bold text-slate-900 text-sm">{{ $shippingAddress->first_name }} {{ $shippingAddress->last_name }}</p>
-                        <p>{{ $shippingAddress->address_line_1 }}</p>
-                        @if($shippingAddress->address_line_2)<p>{{ $shippingAddress->address_line_2 }}</p>@endif
-                        <p>{{ $shippingAddress->city }}{{ $shippingAddress->state ? ', ' . $shippingAddress->state : '' }} {{ $shippingAddress->postal_code }}</p>
-                        <p class="font-mono pt-1 text-slate-500">Phone: {{ $shippingAddress->phone }}</p>
+            <!-- Customer Shipping Info & Payment Reference Card -->
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <h3 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider font-heading">
+                        Delivery Address
+                    </h3>
+                    @if($shippingAddress)
+                        <div class="text-xs text-slate-600 space-y-1 font-medium bg-white p-4 rounded-2xl border border-slate-200/80">
+                            <p class="font-bold text-slate-900 text-sm">{{ $shippingAddress->first_name }} {{ $shippingAddress->last_name }}</p>
+                            <p>{{ $shippingAddress->address_line_1 }}</p>
+                            @if($shippingAddress->address_line_2)<p>{{ $shippingAddress->address_line_2 }}</p>@endif
+                            <p>{{ $shippingAddress->city }}{{ $shippingAddress->state ? ', ' . $shippingAddress->state : '' }} {{ $shippingAddress->postal_code }}</p>
+                            <p class="font-mono pt-1 text-slate-500">Phone: {{ $shippingAddress->phone }}</p>
+                        </div>
+                    @else
+                        <p class="text-xs text-slate-500 font-medium">Standard Home Delivery across Pakistan</p>
+                    @endif
+                </div>
+
+                <!-- Payment Reference Record -->
+                @if($order->payment)
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/80 space-y-2 text-xs">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <span class="font-extrabold text-slate-900 uppercase font-heading text-[11px]">Payment Gateway Reference</span>
+                            <span class="font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded text-[11px] uppercase">
+                                {{ strtoupper($order->payment->method) }}
+                            </span>
+                        </div>
+
+                        @if($order->payment->reference_number)
+                            <div class="flex justify-between text-slate-600">
+                                <span>TRX ID / Reference:</span>
+                                <span class="font-mono font-extrabold text-slate-900">{{ $order->payment->reference_number }}</span>
+                            </div>
+                        @endif
+
+                        @if($order->payment->sender_name)
+                            <div class="flex justify-between text-slate-600">
+                                <span>Sender Name:</span>
+                                <span class="font-bold text-slate-900">{{ $order->payment->sender_name }}</span>
+                            </div>
+                        @endif
+
+                        <div class="flex justify-between text-slate-600">
+                            <span>Payment Status:</span>
+                            <span class="font-extrabold uppercase {{ $order->payment->status === 'paid' ? 'text-emerald-600' : 'text-amber-600' }}">
+                                {{ $order->payment->status === 'paid' ? 'Verified & Paid' : 'Verification Pending' }}
+                            </span>
+                        </div>
                     </div>
-                @else
-                    <p class="text-xs text-slate-500 font-medium">Standard Home Delivery across Pakistan</p>
                 @endif
             </div>
 

@@ -170,6 +170,7 @@
                         <select id="paymentStatus" wire:model="paymentStatus" 
                                 class="w-full px-3.5 py-2.5 rounded-xl text-xs border border-slate-200 bg-slate-50/50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition font-medium">
                             <option value="pending">Pending</option>
+                            <option value="pending_verification">Pending Verification</option>
                             <option value="paid">Paid</option>
                             <option value="failed">Failed</option>
                             <option value="refunded">Refunded</option>
@@ -179,16 +180,46 @@
                         @enderror
                     </div>
 
-                    <!-- Payment Method Info -->
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-1">
-                        <div class="flex justify-between">
+                    <!-- Payment Details & 1-Click Approve Box -->
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-2">
+                        <div class="flex justify-between items-center">
                             <span class="font-medium text-slate-500">Method:</span>
-                            <span class="font-bold text-slate-800 uppercase">{{ str_replace('_', ' ', $order->payment_method) }}</span>
+                            <span class="font-extrabold text-slate-900 uppercase font-mono">{{ str_replace('_', ' ', $order->payment_method) }}</span>
                         </div>
-                        @if($order->payment && $order->payment->transaction_id)
-                            <div class="flex justify-between">
-                                <span class="font-medium text-slate-500">Transaction ID:</span>
-                                <span class="font-mono text-[11px] text-slate-800">{{ $order->payment->transaction_id }}</span>
+
+                        @if($order->payment)
+                            @if($order->payment->reference_number)
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-slate-500">TRX Reference:</span>
+                                    <span class="font-mono font-extrabold text-rose-600 bg-rose-50 px-2 py-0.5 rounded text-[11px]">{{ $order->payment->reference_number }}</span>
+                                </div>
+                            @endif
+
+                            @if($order->payment->sender_name)
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-slate-500">Sender Name:</span>
+                                    <span class="font-bold text-slate-800">{{ $order->payment->sender_name }}</span>
+                                </div>
+                            @endif
+
+                            @if($order->payment->payment_notes)
+                                <div class="pt-1 text-[11px] text-slate-500 border-t border-slate-200/60">
+                                    <strong>Notes:</strong> {{ $order->payment->payment_notes }}
+                                </div>
+                            @endif
+                        @endif
+
+                        @if($order->payment_status !== 'paid')
+                            <button type="button" 
+                                    wire:click="verifyAndApprovePayment" 
+                                    wire:loading.attr="disabled"
+                                    class="w-full mt-2 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm transition flex items-center justify-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                <span>Verify & Mark as Paid</span>
+                            </button>
+                        @else
+                            <div class="p-2 rounded-lg bg-emerald-50 text-emerald-800 font-extrabold text-[11px] text-center border border-emerald-200">
+                                ✓ Payment Verified & Received
                             </div>
                         @endif
                     </div>

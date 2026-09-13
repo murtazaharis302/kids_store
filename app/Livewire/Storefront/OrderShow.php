@@ -18,7 +18,7 @@ class OrderShow extends Component
             }
         }
 
-        $this->order = $order->load(['items.product.primaryImage', 'user.addresses']);
+        $this->order = $order->load(['items.product.primaryImage', 'user.addresses', 'payment']);
     }
 
     public function render()

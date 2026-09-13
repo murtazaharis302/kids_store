@@ -202,23 +202,212 @@
                 </div>
 
                 <!-- Payment Method Architecture -->
-                <div class="bg-white rounded-3xl border border-slate-200/80 p-6 space-y-4 shadow-xs">
-                    <h2 class="text-lg font-extrabold text-slate-900 font-heading border-b border-slate-100 pb-3">
-                        Payment Method
-                    </h2>
+                <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 space-y-6 shadow-xs" x-data="{ copyText(text) { navigator.clipboard.writeText(text); alert('Copied: ' + text); } }">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div>
+                            <h2 class="text-lg font-extrabold text-slate-900 font-heading">
+                                Payment Method
+                            </h2>
+                            <p class="text-xs text-slate-500 mt-0.5">Choose your preferred advance payment option for instant order processing</p>
+                        </div>
+                        <span class="text-[11px] font-extrabold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-200 uppercase tracking-wider">
+                            ⚡ Real-Time Advance Payment
+                        </span>
+                    </div>
 
-                    <div class="space-y-3">
-                        <!-- Cash on Delivery (COD) -->
-                        <label class="p-4 rounded-2xl border border-rose-500 bg-rose-50/40 flex items-center justify-between cursor-pointer">
-                            <div class="flex items-center gap-3">
-                                <input type="radio" wire:model="payment_method" value="cod" class="text-rose-600 focus:ring-rose-500" checked>
-                                <div>
-                                    <span class="text-sm font-extrabold text-slate-900 font-heading">Cash on Delivery (COD)</span>
-                                    <p class="text-xs text-slate-500">Pay with cash when your parcel arrives at your doorstep across Pakistan.</p>
+                    <!-- Payment Option Selectors -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        @foreach($paymentMethods as $methodKey => $method)
+                            <label class="p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between space-y-2 {{ $payment_method === $methodKey ? 'border-rose-500 bg-rose-50/40 ring-2 ring-rose-500/20 shadow-xs' : 'border-slate-200 bg-white hover:border-slate-300' }}">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <input type="radio" 
+                                               wire:model.live="payment_method" 
+                                               value="{{ $methodKey }}" 
+                                               class="text-rose-600 focus:ring-rose-500">
+                                        <span class="text-sm font-extrabold text-slate-900 font-heading">
+                                            {{ $method['name'] }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-md inline-block w-fit">
+                                    {{ $method['badge'] }}
+                                </div>
+                            </label>
+                        @endforeach
+                    </div>
+
+                    <!-- Dynamic Account Credentials & Instructions Box -->
+                    <div class="pt-4 border-t border-slate-100 space-y-4">
+                        @if($payment_method === 'jazzcash' || $payment_method === 'easypaisa')
+                            @php $methodInfo = $paymentMethods[$payment_method]; @endphp
+                            <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white space-y-4 shadow-md">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-rose-400 uppercase tracking-wider font-mono">
+                                        {{ strtoupper($payment_method) }} ACCOUNT DETAILS
+                                    </span>
+                                    <span class="text-[10px] font-extrabold bg-rose-600 text-white px-2.5 py-0.5 rounded-full uppercase">
+                                        0% Commission Fee
+                                    </span>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                                    <div class="space-y-1">
+                                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Title</span>
+                                        <span class="text-sm font-extrabold font-heading text-white block">{{ $methodInfo['account_title'] }}</span>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Mobile Number</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-sm font-extrabold font-mono text-emerald-400">{{ $methodInfo['account_number'] }}</span>
+                                            <button type="button" @click="copyText('{{ $methodInfo['account_number'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2 py-0.5 rounded font-bold transition">
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-xs text-slate-300 border-t border-slate-700/80 pt-3">
+                                    💡 <strong>Instructions:</strong> {{ $methodInfo['instructions'] }}
+                                </p>
+                            </div>
+
+                            <!-- Manual TRX Input Form -->
+                            <div class="p-5 rounded-2xl bg-rose-50/50 border border-rose-200/80 space-y-4">
+                                <h3 class="text-xs font-extrabold text-slate-900 font-heading uppercase tracking-wider">
+                                    Submit Payment Confirmation Reference
+                                </h3>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="space-y-1 sm:col-span-2">
+                                        <label class="block text-xs font-bold text-slate-800">
+                                            Transaction Reference / TRX ID <span class="text-rose-500">*</span>
+                                        </label>
+                                        <input type="text" 
+                                               wire:model="reference_number"
+                                               placeholder="e.g. 012345678987" 
+                                               class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                        @error('reference_number') 
+                                            <span class="text-[11px] font-bold text-rose-600 block mt-1">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+
+                                    <div class="space-y-1">
+                                        <label class="block text-xs font-bold text-slate-800">
+                                            Sender Account Name (Optional)
+                                        </label>
+                                        <input type="text" 
+                                               wire:model="sender_name"
+                                               placeholder="Account Holder Name" 
+                                               class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                    </div>
+
+                                    <div class="space-y-1">
+                                        <label class="block text-xs font-bold text-slate-800">
+                                            Payment Notes (Optional)
+                                        </label>
+                                        <input type="text" 
+                                               wire:model="payment_notes"
+                                               placeholder="Any note..." 
+                                               class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                    </div>
                                 </div>
                             </div>
-                            <span class="text-xs font-extrabold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-lg">Available</span>
-                        </label>
+
+                        @elseif($payment_method === 'bank_transfer')
+                            @php $methodInfo = $paymentMethods['bank_transfer']; @endphp
+                            <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white space-y-4 shadow-md">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-rose-400 uppercase tracking-wider font-mono">
+                                        ONLINE BANKING (IBFT) DETAILS
+                                    </span>
+                                    <span class="text-[10px] font-extrabold bg-emerald-500 text-white px-2.5 py-0.5 rounded-full uppercase">
+                                        Direct Bank Deposit
+                                    </span>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 text-xs">
+                                    <div class="space-y-1">
+                                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Bank Name</span>
+                                        <span class="font-extrabold font-heading text-white block">{{ $methodInfo['bank_name'] }}</span>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Title</span>
+                                        <span class="font-extrabold font-heading text-white block">{{ $methodInfo['account_title'] }}</span>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Number</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-extrabold font-mono text-emerald-400">{{ $methodInfo['account_number'] }}</span>
+                                            <button type="button" @click="copyText('{{ $methodInfo['account_number'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2 py-0.5 rounded font-bold transition">Copy</button>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <span class="text-[10px] text-slate-400 font-bold uppercase block">IBAN Number</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-extrabold font-mono text-emerald-400 text-[11px] truncate">{{ $methodInfo['iban'] }}</span>
+                                            <button type="button" @click="copyText('{{ $methodInfo['iban'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2 py-0.5 rounded font-bold transition">Copy</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-xs text-slate-300 border-t border-slate-700/80 pt-3">
+                                    💡 <strong>Instructions:</strong> {{ $methodInfo['instructions'] }}
+                                </p>
+                            </div>
+
+                            <!-- Manual TRX Input Form -->
+                            <div class="p-5 rounded-2xl bg-rose-50/50 border border-rose-200/80 space-y-4">
+                                <h3 class="text-xs font-extrabold text-slate-900 font-heading uppercase tracking-wider">
+                                    Submit Bank Reference Details
+                                </h3>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="space-y-1 sm:col-span-2">
+                                        <label class="block text-xs font-bold text-slate-800">
+                                            Bank Reference / TRX Number <span class="text-rose-500">*</span>
+                                        </label>
+                                        <input type="text" 
+                                               wire:model="reference_number"
+                                               placeholder="e.g. FT260913123456" 
+                                               class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                        @error('reference_number') 
+                                            <span class="text-[11px] font-bold text-rose-600 block mt-1">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+
+                                    <div class="space-y-1 sm:col-span-2">
+                                        <label class="block text-xs font-bold text-slate-800">
+                                            Sender Account Title (Optional)
+                                        </label>
+                                        <input type="text" 
+                                               wire:model="sender_name"
+                                               placeholder="Your Name on Bank Account" 
+                                               class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                    </div>
+                                </div>
+                            </div>
+
+                        @elseif($payment_method === 'card')
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-rose-950 text-white space-y-3 shadow-md">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-rose-300 uppercase tracking-wider font-mono">
+                                        STRIPE CREDIT / DEBIT CARD PAYMENTS
+                                    </span>
+                                    <span class="text-[10px] font-extrabold bg-emerald-500 text-white px-2.5 py-0.5 rounded-full uppercase">
+                                        Real-Time Automated
+                                    </span>
+                                </div>
+                                <p class="text-xs text-slate-200">
+                                    Pay securely using Visa, Mastercard, or UnionPay. Your order payment status is verified automatically in real-time.
+                                </p>
+                            </div>
+                        @elseif($payment_method === 'cod')
+                            <div class="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-slate-700 text-xs space-y-1">
+                                <span class="font-extrabold text-slate-900">Cash on Delivery (COD)</span>
+                                <p>You will pay cash to the courier representative when your parcel is delivered to your address.</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

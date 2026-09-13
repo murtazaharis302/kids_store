@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Services\CartService;
+use App\Services\PaymentService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -39,7 +40,10 @@ class Checkout extends Component
     public $couponMessage = '';
     public $couponMessageType = 'success';
 
-    public $payment_method = 'cod';
+    public $payment_method = 'jazzcash';
+    public $reference_number = '';
+    public $sender_name = '';
+    public $payment_notes = '';
     public $customer_notes = '';
 
     public $errorMessage = '';
@@ -260,6 +264,16 @@ class Checkout extends Component
             }
         }
 
+        // Payment Method Reference Validation
+        if (in_array($this->payment_method, ['jazzcash', 'easypaisa', 'bank_transfer'])) {
+            $this->validate([
+                'reference_number' => 'required|string|min:4|max:100',
+            ], [
+                'reference_number.required' => 'Please enter the 12-digit Transaction Reference (TRX ID) from your payment receipt.',
+                'reference_number.min' => 'Please enter a valid Transaction Reference (TRX ID).',
+            ]);
+        }
+
         // Database Transaction for Stock Concurrency & Order Creation
         try {
             $order = DB::transaction(function () use ($user, $shippingData) {
@@ -355,8 +369,8 @@ class Checkout extends Component
                     'discount' => $discount,
                     'shipping_cost' => $shippingCost,
                     'total' => $total,
-                    'payment_method' => $this->payment_method ?: 'cod',
-                    'payment_status' => 'pending',
+                    'payment_method' => $this->payment_method ?: 'jazzcash',
+                    'payment_status' => in_array($this->payment_method, ['jazzcash', 'easypaisa', 'bank_transfer']) ? 'pending_verification' : 'pending',
                     'order_status' => 'pending',
                     'customer_notes' => $this->customer_notes,
                 ]);
@@ -386,14 +400,11 @@ class Checkout extends Component
                     $couponModel->increment('used_count');
                 }
 
-                // Create Payment placeholder record
-                Payment::create([
-                    'order_id' => $order->id,
-                    'transaction_id' => null,
-                    'method' => $this->payment_method ?: 'cod',
-                    'amount' => $total,
-                    'status' => 'pending',
-                    'paid_at' => null,
+                // Process Payment using PaymentService
+                PaymentService::processPayment($order, $this->payment_method, [
+                    'reference_number' => $this->reference_number,
+                    'sender_name' => $this->sender_name,
+                    'payment_notes' => $this->payment_notes,
                 ]);
 
                 // Clear customer's cart only after successful order creation
@@ -430,6 +441,7 @@ class Checkout extends Component
         $total = max(0.00, round($subtotal - $discount + $shippingCost, 2));
 
         $savedAddresses = auth()->check() ? Address::where('user_id', auth()->id())->get() : collect();
+        $paymentMethods = PaymentService::getAvailableMethods();
 
         return view('livewire.storefront.checkout', [
             'cart' => $cart,
@@ -439,6 +451,7 @@ class Checkout extends Component
             'shippingCost' => $shippingCost,
             'total' => $total,
             'savedAddresses' => $savedAddresses,
+            'paymentMethods' => $paymentMethods,
         ])->layout('components.layouts.storefront', [
             'title' => 'Checkout | AH Kids',
         ]);

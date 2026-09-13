@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Orders;
 
 use App\Models\Order;
+use App\Services\PaymentService;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -25,6 +26,7 @@ class Show extends Component
 
     public array $allowedPaymentStatuses = [
         'pending',
+        'pending_verification',
         'paid',
         'failed',
         'refunded',
@@ -83,6 +85,15 @@ class Show extends Component
         $this->order->refresh();
 
         session()->flash('message', "Order #{$this->order->order_number} status updated successfully.");
+    }
+
+    public function verifyAndApprovePayment()
+    {
+        PaymentService::markAsReceived($this->order, 'Verified & approved via Admin Panel');
+        $this->order->refresh();
+        $this->orderStatus = $this->order->order_status;
+        $this->paymentStatus = $this->order->payment_status;
+        session()->flash('message', "Payment for Order #{$this->order->order_number} verified & marked as Paid!");
     }
 
     public function render()

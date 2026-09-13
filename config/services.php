@@ -35,4 +35,27 @@ return [
         ],
     ],
 
+    'payment' => [
+        'jazzcash' => [
+            'title' => env('JAZZCASH_ACCOUNT_TITLE', 'AH Kids Store'),
+            'number' => env('JAZZCASH_ACCOUNT_NUMBER', '03001234567'),
+        ],
+        'easypaisa' => [
+            'title' => env('EASYPAISA_ACCOUNT_TITLE', 'AH Kids Store'),
+            'number' => env('EASYPAISA_ACCOUNT_NUMBER', '03007654321'),
+        ],
+        'bank' => [
+            'bank_name' => env('BANK_NAME', 'Meezan Bank Limited'),
+            'title' => env('BANK_ACCOUNT_TITLE', 'AH Kids Store'),
+            'account_number' => env('BANK_ACCOUNT_NUMBER', '01020304050607'),
+            'iban' => env('BANK_IBAN', 'PK36MEZN0001020304050607'),
+        ],
+        'stripe' => [
+            'key' => env('STRIPE_KEY'),
+            'secret' => env('STRIPE_SECRET'),
+            'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+            'currency' => env('STRIPE_CURRENCY', 'PKR'),
+        ],
+    ],
+
 ];
