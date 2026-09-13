@@ -202,6 +202,16 @@
                                 </div>
                             @endif
 
+                            @if($order->payment->payment_proof_image)
+                                <div class="pt-2 border-t border-slate-200/60 space-y-1">
+                                    <span class="font-bold text-slate-700 text-[11px] block uppercase">Customer Screenshot Proof:</span>
+                                    <a href="{{ asset('storage/' . $order->payment->payment_proof_image) }}" target="_blank" class="block group relative rounded-xl overflow-hidden border border-slate-200 bg-white p-1">
+                                        <img src="{{ asset('storage/' . $order->payment->payment_proof_image) }}" alt="Payment Receipt Screenshot" class="w-full h-32 object-contain rounded-lg">
+                                        <span class="text-[10px] font-bold text-rose-600 group-hover:underline text-center block mt-1">🔍 Click to View Full Size</span>
+                                    </a>
+                                </div>
+                            @endif
+
                             @if($order->payment->payment_notes)
                                 <div class="pt-1 text-[11px] text-slate-500 border-t border-slate-200/60">
                                     <strong>Notes:</strong> {{ $order->payment->payment_notes }}

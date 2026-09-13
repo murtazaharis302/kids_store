@@ -5,14 +5,18 @@ namespace App\Livewire\Storefront;
 use App\Models\Order;
 use App\Services\PaymentService;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class OrderShow extends Component
 {
+    use WithFileUploads;
+
     public Order $order;
 
     public $reference_number = '';
     public $sender_name = '';
     public $payment_notes = '';
+    public $payment_proof_file = null;
     public $flashMessage = '';
 
     public function mount(Order $order)
@@ -35,22 +39,33 @@ class OrderShow extends Component
 
     public function submitPaymentReference()
     {
-        $this->validate([
-            'reference_number' => 'required|string|min:4|max:100',
-        ], [
-            'reference_number.required' => 'Please enter your 12-digit Transaction Reference (TRX ID).',
-            'reference_number.min' => 'Please enter a valid Transaction Reference (TRX ID).',
-        ]);
+        $rules = [
+            'reference_number' => 'nullable|string|max:100',
+            'payment_proof_file' => 'nullable|image|max:10240', // Max 10MB image
+        ];
+
+        if (empty($this->reference_number) && !$this->payment_proof_file && !($this->order->payment && $this->order->payment->payment_proof_image)) {
+            $this->addError('reference_number', 'Please enter your 12-digit TRX ID or upload a payment screenshot receipt.');
+            return;
+        }
+
+        $this->validate($rules);
+
+        $proofImagePath = null;
+        if ($this->payment_proof_file) {
+            $proofImagePath = $this->payment_proof_file->store('payment_proofs', 'public');
+        }
 
         PaymentService::processPayment($this->order, $this->order->payment_method ?: 'jazzcash', [
-            'reference_number' => $this->reference_number,
+            'reference_number' => $this->reference_number ?: ($this->order->payment->reference_number ?? null),
             'sender_name' => $this->sender_name,
             'payment_notes' => $this->payment_notes,
+            'payment_proof_image' => $proofImagePath,
         ]);
 
         $this->order->refresh();
         $this->order->load(['payment']);
-        $this->flashMessage = 'Payment reference submitted successfully! Store admin will verify and approve your payment.';
+        $this->flashMessage = 'Payment receipt submitted successfully! Store admin will verify and confirm your order shortly.';
     }
 
     public function render()

@@ -110,33 +110,68 @@
                 </p>
             </div>
 
-            <!-- Interactive TRX ID Submission Form -->
-            <form wire:submit.prevent="submitPaymentReference" class="p-6 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-4">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-sm font-extrabold text-slate-900 font-heading uppercase tracking-wider">
-                        Submit Payment Receipt / TRX ID
-                    </h3>
-                    @if($order->payment && $order->payment->reference_number)
-                        <span class="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                            ✓ Reference Submitted
-                        </span>
-                    @endif
+            <!-- Interactive TRX ID & Screenshot Upload Form -->
+            <form wire:submit.prevent="submitPaymentReference" class="p-6 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-rose-200/80 pb-3">
+                    <div>
+                        <h3 class="text-sm font-extrabold text-slate-900 font-heading uppercase tracking-wider">
+                            Submit Payment Proof / Receipt
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Upload your payment screenshot or enter TRX ID below</p>
+                    </div>
+                    
+                    <!-- Direct WhatsApp Option -->
+                    <a href="https://wa.me/923295841610?text={{ urlencode('Hi AH Kids Store, I have made payment of Rs. ' . number_format($order->total, 2) . ' for Order #' . $order->order_number . '. Here is my payment receipt.') }}" 
+                       target="_blank"
+                       class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-xs transition w-fit">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.705 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Send Receipt on WhatsApp</span>
+                    </a>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Upload Screenshot Image File -->
                     <div class="space-y-1 sm:col-span-2">
                         <label class="block text-xs font-bold text-slate-800">
-                            Transaction Reference / TRX ID <span class="text-rose-500">*</span>
+                            Upload Payment Receipt / Screenshot Image (PNG, JPG)
+                        </label>
+                        <input type="file" 
+                               wire:model="payment_proof_file"
+                               accept="image/*"
+                               class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-extrabold file:bg-slate-900 file:text-white hover:file:bg-rose-600 file:cursor-pointer transition">
+                        @error('payment_proof_file') 
+                            <span class="text-[11px] font-bold text-rose-600 block mt-1">{{ $message }}</span> 
+                        @enderror
+
+                        <!-- Preview Image if newly uploaded or existing -->
+                        @if($payment_proof_file)
+                            <div class="mt-2 p-2 rounded-xl bg-white border border-slate-200 w-fit">
+                                <span class="text-[10px] font-bold text-slate-400 block mb-1">New Image Preview:</span>
+                                <img src="{{ $payment_proof_file->temporaryUrl() }}" alt="Receipt Preview" class="h-28 rounded-lg object-contain">
+                            </div>
+                        @elseif($order->payment && $order->payment->payment_proof_image)
+                            <div class="mt-2 p-2 rounded-xl bg-white border border-slate-200 w-fit">
+                                <span class="text-[10px] font-bold text-emerald-600 block mb-1">✓ Currently Uploaded Receipt:</span>
+                                <img src="{{ asset('storage/' . $order->payment->payment_proof_image) }}" alt="Current Receipt" class="h-28 rounded-lg object-contain">
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Transaction TRX ID -->
+                    <div class="space-y-1 sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-800">
+                            Transaction Reference / TRX ID
                         </label>
                         <input type="text" 
                                wire:model="reference_number"
                                placeholder="e.g. 012345678987" 
-                               class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-base font-mono font-extrabold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                               class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono font-extrabold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
                         @error('reference_number') 
                             <span class="text-[11px] font-bold text-rose-600 block mt-1">{{ $message }}</span> 
                         @enderror
                     </div>
 
+                    <!-- Sender Name -->
                     <div class="space-y-1">
                         <label class="block text-xs font-bold text-slate-800">
                             Sender Account Name (Optional)
@@ -147,6 +182,7 @@
                                class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
                     </div>
 
+                    <!-- Payment Notes -->
                     <div class="space-y-1">
                         <label class="block text-xs font-bold text-slate-800">
                             Payment Notes (Optional)
@@ -165,7 +201,7 @@
                         <span wire:loading.remove>Submit Payment Confirmation</span>
                         <span wire:loading class="flex items-center gap-2">
                             <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                            <span>Submitting Reference...</span>
+                            <span>Uploading & Submitting...</span>
                         </span>
                     </button>
                 </div>

@@ -42,6 +42,11 @@ class Checkout extends Component
 
     public $payment_method = 'jazzcash';
     public $reference_number = '';
+    public $Reference_number = '';
+    public $sender_name = '';
+    public $Sender_name = '';
+    public $payment_notes = '';
+    public $Payment_notes = '';
     public $customer_notes = '';
 
     public $errorMessage = '';

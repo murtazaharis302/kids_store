@@ -15,6 +15,7 @@ class Payment extends Model
         'reference_number',
         'sender_name',
         'payment_notes',
+        'payment_proof_image',
         'method',
         'amount',
         'status',
