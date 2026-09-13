@@ -33,6 +33,15 @@ Route::get('/cart', StorefrontCart::class)->name('cart.index');
 Route::get('/checkout', StorefrontCheckout::class)->name('checkout.index');
 Route::get('/orders/{order}', StorefrontOrderShow::class)->name('orders.show');
 
+// Storage File Serving Route (Fallback for cPanel servers without symlink access)
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
+    if (!file_exists($fullPath)) {
+        abort(404);
+    }
+    return response()->file($fullPath);
+})->where('path', '.*')->name('storage.file');
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

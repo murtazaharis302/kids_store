@@ -126,12 +126,135 @@
             <!-- Customer Notes (if present) -->
             @if($order->customer_notes)
                 <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
-                    <h2 class="font-bold text-slate-900 font-heading text-xs uppercase tracking-wider mb-2">Customer Notes</h2>
+                    <h2 class="font-bold text-slate-900 font-heading text-xs uppercase tracking-wider mb-2">Customer Order Notes</h2>
                     <p class="text-xs text-slate-600 italic bg-amber-50/50 p-3 rounded-xl border border-amber-200/60">
                         &ldquo;{{ $order->customer_notes }}&rdquo;
                     </p>
                 </div>
             @endif
+
+            <!-- Dedicated Payment Receipt & Proof Verification Card -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden p-6 space-y-5" x-data="{ showModal: false }">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="font-bold text-slate-900 font-heading text-sm uppercase tracking-wider">Payment & Receipt Verification</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Verify customer's advance payment reference and screenshot receipt</p>
+                    </div>
+                    @if($order->payment_status === 'paid')
+                        <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500 text-white shadow-xs uppercase">
+                            ✓ Paid & Verified
+                        </span>
+                    @elseif($order->payment_status === 'pending_verification')
+                        <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-400 text-amber-950 border border-amber-500 uppercase">
+                            ⏳ Verification Pending
+                        </span>
+                    @else
+                        <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200 uppercase">
+                            {{ ucfirst($order->payment_status) }}
+                        </span>
+                    @endif
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    <!-- Left: Reference Meta Details -->
+                    <div class="space-y-3 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-slate-500">Payment Gateway:</span>
+                            <span class="font-extrabold text-slate-900 font-mono text-xs uppercase bg-white px-2 py-0.5 rounded border border-slate-200">
+                                {{ str_replace('_', ' ', $order->payment_method) }}
+                            </span>
+                        </div>
+
+                        @if($order->payment)
+                            @if($order->payment->reference_number)
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-slate-500">TRX Reference ID:</span>
+                                    <span class="font-mono font-extrabold text-rose-600 bg-rose-50 px-2 py-0.5 rounded text-xs border border-rose-200">
+                                        {{ $order->payment->reference_number }}
+                                    </span>
+                                </div>
+                            @endif
+
+                            @if($order->payment->sender_name)
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-slate-500">Sender Account Name:</span>
+                                    <span class="font-bold text-slate-900">{{ $order->payment->sender_name }}</span>
+                                </div>
+                            @endif
+
+                            @if($order->payment->payment_notes)
+                                <div class="pt-2 border-t border-slate-200 text-slate-600">
+                                    <span class="font-bold text-slate-800 block mb-0.5">Payment Note:</span>
+                                    <p class="italic bg-white p-2 rounded border border-slate-200 text-[11px]">{{ $order->payment->payment_notes }}</p>
+                                </div>
+                            @endif
+                        @endif
+
+                        <div class="flex justify-between items-baseline pt-2 border-t border-slate-200 font-extrabold">
+                            <span class="text-slate-700">Total Order Amount:</span>
+                            <span class="text-rose-600 text-base font-heading">Rs. {{ number_format($order->total, 2) }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Screenshot Image Preview -->
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Customer Receipt Screenshot</span>
+                        @if($order->payment && $order->payment->payment_proof_image)
+                            <div class="relative group rounded-2xl border-2 border-slate-200 bg-slate-900 p-2 overflow-hidden shadow-xs">
+                                <img src="{{ url('/storage/' . $order->payment->payment_proof_image) }}" 
+                                     alt="Payment Proof Screenshot" 
+                                     class="w-full h-44 object-contain rounded-xl bg-slate-950 cursor-pointer"
+                                     @click="showModal = true">
+                                <div class="pt-2 flex items-center justify-between">
+                                    <button type="button" @click="showModal = true" class="text-xs text-rose-400 hover:text-white font-bold flex items-center gap-1 transition">
+                                        🔍 View Full Resolution
+                                    </button>
+                                    <a href="{{ url('/storage/' . $order->payment->payment_proof_image) }}" target="_blank" download class="text-[11px] text-slate-300 hover:text-white underline">
+                                        Download Image
+                                    </a>
+                                </div>
+                            </div>
+                        @else
+                            <div class="p-8 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 text-center space-y-2">
+                                <svg class="w-8 h-8 text-slate-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <p class="text-xs text-slate-500 font-medium">No screenshot uploaded yet for this payment reference.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- 1-Click Verification Button -->
+                @if($order->payment_status !== 'paid')
+                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                        <p class="text-xs text-slate-500 font-medium">Verify the payment in your bank/wallet app, then click approve:</p>
+                        <button type="button" 
+                                wire:click="verifyAndApprovePayment" 
+                                wire:loading.attr="disabled"
+                                class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span>Verify Payment & Mark as Paid</span>
+                        </button>
+                    </div>
+                @endif
+
+                <!-- Lightbox Modal for Full Image Zoom -->
+                @if($order->payment && $order->payment->payment_proof_image)
+                    <div x-show="showModal" 
+                         x-cloak 
+                         @keydown.escape.window="showModal = false"
+                         class="fixed inset-0 z-50 overflow-y-auto bg-slate-950/90 flex items-center justify-center p-4">
+                        <div class="relative max-w-4xl w-full bg-slate-900 rounded-3xl p-4 shadow-2xl border border-slate-800 space-y-3" @click.away="showModal = false">
+                            <div class="flex items-center justify-between text-white border-b border-slate-800 pb-3 px-2">
+                                <span class="font-extrabold text-sm font-heading">Payment Receipt Screenshot — Order #{{ $order->order_number }}</span>
+                                <button type="button" @click="showModal = false" class="text-slate-400 hover:text-white font-bold text-lg px-2">&times;</button>
+                            </div>
+                            <div class="max-h-[80vh] overflow-auto flex items-center justify-center p-2">
+                                <img src="{{ url('/storage/' . $order->payment->payment_proof_image) }}" alt="Receipt Screenshot Full" class="max-w-full max-h-[75vh] object-contain rounded-2xl">
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
 
         <!-- Sidebar Column (1 Col) -->
