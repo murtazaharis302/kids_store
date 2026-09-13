@@ -14,11 +14,164 @@
                     Thank You for Your Order!
                 </h1>
                 <p class="text-slate-300 text-xs sm:text-sm font-medium">
-                    We've received your order <span class="font-bold text-rose-300">#{{ $order->order_number }}</span> and are processing it for shipping.
+                    We've received your order <span class="font-bold text-rose-300">#{{ $order->order_number }}</span>.
+                    @if(in_array($order->payment_method, ['jazzcash', 'easypaisa', 'bank_transfer']) && $order->payment_status !== 'paid')
+                        Please complete your advance payment transfer below.
+                    @endif
                 </p>
             </div>
         </div>
     </div>
+
+    <!-- Flash Message Notification -->
+    @if($flashMessage)
+        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-bold flex items-center justify-between shadow-2xs">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>{{ $flashMessage }}</span>
+            </div>
+            <button type="button" wire:click="$set('flashMessage', '')" class="opacity-60 hover:opacity-100">&times;</button>
+        </div>
+    @endif
+
+    <!-- ADVANCE PAYMENT TRANSFER PORTAL (For JazzCash, EasyPaisa, Bank Transfer) -->
+    @if(in_array($order->payment_method, ['jazzcash', 'easypaisa', 'bank_transfer']) && isset($paymentMethods[$order->payment_method]))
+        @php $methodInfo = $paymentMethods[$order->payment_method]; @endphp
+        <div class="bg-white rounded-3xl border-2 border-rose-500/40 p-6 sm:p-8 space-y-6 shadow-lg" x-data="{ copyText(text) { navigator.clipboard.writeText(text); alert('Copied to clipboard: ' + text); } }">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
+                <div>
+                    <span class="text-xs font-bold text-rose-600 uppercase font-mono tracking-wider">STEP 2 OF 2: COMPLETE PAYMENT</span>
+                    <h2 class="text-xl font-extrabold text-slate-900 font-heading">
+                        Pay via {{ $methodInfo['name'] }}
+                    </h2>
+                </div>
+                <div class="bg-slate-900 text-white px-4 py-2 rounded-2xl text-right">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase block">Total Amount to Pay</span>
+                    <span class="text-lg font-extrabold text-emerald-400 font-heading">Rs. {{ number_format($order->total, 2) }}</span>
+                </div>
+            </div>
+
+            <!-- Transfer Credentials Card -->
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white space-y-4 shadow-md">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-rose-400 uppercase tracking-wider font-mono">
+                        OFFICIAL STORE RECEIVING ACCOUNT
+                    </span>
+                    <span class="text-[10px] font-extrabold bg-emerald-500 text-white px-2.5 py-0.5 rounded-full uppercase">
+                        0% Transfer Fee
+                    </span>
+                </div>
+
+                @if($order->payment_method === 'bank_transfer')
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 text-xs">
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Bank Name</span>
+                            <span class="font-extrabold font-heading text-white block">{{ $methodInfo['bank_name'] }}</span>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Title</span>
+                            <span class="font-extrabold font-heading text-white block">{{ $methodInfo['account_title'] }}</span>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Number</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-extrabold font-mono text-emerald-400 text-sm">{{ $methodInfo['account_number'] }}</span>
+                                <button type="button" @click="copyText('{{ $methodInfo['account_number'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded font-bold transition">Copy</button>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block">IBAN Number</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-extrabold font-mono text-emerald-400 text-xs truncate">{{ $methodInfo['iban'] }}</span>
+                                <button type="button" @click="copyText('{{ $methodInfo['iban'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded font-bold transition">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Title</span>
+                            <span class="text-sm font-extrabold font-heading text-white block">{{ $methodInfo['account_title'] }}</span>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Mobile Number</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-base font-extrabold font-mono text-emerald-400">{{ $methodInfo['account_number'] }}</span>
+                                <button type="button" @click="copyText('{{ $methodInfo['account_number'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded font-bold transition">
+                                    Copy Number
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <p class="text-xs text-slate-300 border-t border-slate-700/80 pt-3">
+                    💡 <strong>Instructions:</strong> Please transfer <strong>Rs. {{ number_format($order->total, 2) }}</strong> to the account details above via your JazzCash/EasyPaisa/Banking app. Once sent, paste your 12-digit TRX ID receipt below!
+                </p>
+            </div>
+
+            <!-- Interactive TRX ID Submission Form -->
+            <form wire:submit.prevent="submitPaymentReference" class="p-6 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-extrabold text-slate-900 font-heading uppercase tracking-wider">
+                        Submit Payment Receipt / TRX ID
+                    </h3>
+                    @if($order->payment && $order->payment->reference_number)
+                        <span class="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                            ✓ Reference Submitted
+                        </span>
+                    @endif
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1 sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-800">
+                            Transaction Reference / TRX ID <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" 
+                               wire:model="reference_number"
+                               placeholder="e.g. 012345678987" 
+                               class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-base font-mono font-extrabold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                        @error('reference_number') 
+                            <span class="text-[11px] font-bold text-rose-600 block mt-1">{{ $message }}</span> 
+                        @enderror
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-slate-800">
+                            Sender Account Name (Optional)
+                        </label>
+                        <input type="text" 
+                               wire:model="sender_name"
+                               placeholder="Your Account Holder Name" 
+                               class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-slate-800">
+                            Payment Notes (Optional)
+                        </label>
+                        <input type="text" 
+                               wire:model="payment_notes"
+                               placeholder="Additional note..." 
+                               class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" 
+                            wire:loading.attr="disabled"
+                            class="w-full sm:w-auto px-6 py-3 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-extrabold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                        <span wire:loading.remove>Submit Payment Confirmation</span>
+                        <span wire:loading class="flex items-center gap-2">
+                            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            <span>Submitting Reference...</span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    @endif
 
     <!-- Main Order Details Card -->
     <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden divide-y divide-slate-100">

@@ -41,9 +41,6 @@ class Checkout extends Component
     public $couponMessageType = 'success';
 
     public $payment_method = 'jazzcash';
-    public $reference_number = '';
-    public $sender_name = '';
-    public $payment_notes = '';
     public $customer_notes = '';
 
     public $errorMessage = '';
@@ -262,16 +259,6 @@ class Checkout extends Component
             if ($user && $this->save_address) {
                 Address::create(array_merge(['user_id' => $user->id], $shippingData));
             }
-        }
-
-        // Payment Method Reference Validation
-        if (in_array($this->payment_method, ['jazzcash', 'easypaisa', 'bank_transfer'])) {
-            $this->validate([
-                'reference_number' => 'required|string|min:4|max:100',
-            ], [
-                'reference_number.required' => 'Please enter the 12-digit Transaction Reference (TRX ID) from your payment receipt.',
-                'reference_number.min' => 'Please enter a valid Transaction Reference (TRX ID).',
-            ]);
         }
 
         // Database Transaction for Stock Concurrency & Order Creation
