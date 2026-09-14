@@ -258,8 +258,8 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-white font-heading">Free Delivery</h4>
-                        <p class="text-xs text-slate-400 mt-0.5">On orders over PKR 5,000 across Pakistan</p>
+                        <h4 class="text-sm font-bold text-white font-heading">Flat Rs. 200 Delivery</h4>
+                        <p class="text-xs text-slate-400 mt-0.5">Nationwide delivery across Pakistan</p>
                     </div>
                 </div>
 

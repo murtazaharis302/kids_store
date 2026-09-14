@@ -127,14 +127,16 @@ class ProductShow extends Component
 
     public function getAvailableStockProperty()
     {
+        $cart = \App\Services\CartService::getCart();
         $variant = $this->getSelectedVariantProperty();
         if ($variant) {
-            return (int) $variant->stock_quantity;
+            return \App\Services\CartService::getAvailableStock($variant, $this->product, $cart->id);
         }
         if ($this->product->variants->isNotEmpty()) {
-            return (int) $this->product->variants->max('stock_quantity');
+            $firstVariant = $this->product->variants->first();
+            return \App\Services\CartService::getAvailableStock($firstVariant, $this->product, $cart->id);
         }
-        return 50; // Fallback stock for simple products
+        return 50;
     }
 
     public function getPricingProperty()

@@ -100,6 +100,60 @@ class CartService
         return $regPrice;
     }
 
+    /**
+     * Get reserved quantity for a specific product & variant across active carts
+     * within the last 10 minutes (excluding a specific cart ID if provided).
+     */
+    public static function getReservedStock(?int $productId, ?int $variantId, ?int $excludeCartId = null): int
+    {
+        $cutoff = now()->subMinutes(10);
+
+        $query = CartItem::whereHas('cart', function ($q) use ($excludeCartId) {
+            if ($excludeCartId) {
+                $q->where('id', '!=', $excludeCartId);
+            }
+        })
+        ->where('updated_at', '>=', $cutoff);
+
+        if ($variantId) {
+            $query->where('variant_id', $variantId);
+        } else {
+            $query->where('product_id', $productId)->whereNull('variant_id');
+        }
+
+        return (int) $query->sum('quantity');
+    }
+
+    /**
+     * Get available stock considering 10-minute temporary reservations by other active carts.
+     */
+    public static function getAvailableStock(?ProductVariant $variant, Product $product, ?int $excludeCartId = null): int
+    {
+        $physicalStock = $variant ? (int) $variant->stock_quantity : 50;
+        $productId = $product->id;
+        $variantId = $variant ? $variant->id : null;
+
+        $reserved = static::getReservedStock($productId, $variantId, $excludeCartId);
+
+        return max(0, $physicalStock - $reserved);
+    }
+
+    /**
+     * Get remaining seconds on current user's 10-minute cart reservation window.
+     */
+    public static function getCartReservationRemainingSeconds(): int
+    {
+        $cart = static::getCart();
+        $latestItem = $cart->items()->orderBy('updated_at', 'desc')->first();
+        if (!$latestItem) {
+            return 0;
+        }
+
+        $elapsedSeconds = now()->diffInSeconds($latestItem->updated_at);
+        $totalReservationSeconds = 10 * 60; // 600 seconds
+        return max(0, $totalReservationSeconds - $elapsedSeconds);
+    }
+
     public static function addToCart(int $productId, ?int $variantId, int $quantity)
     {
         // 1. Freshly load Product and Variant from database
@@ -121,12 +175,12 @@ class CartService
             return ['success' => false, 'message' => 'Please select a valid variant combination.'];
         }
 
-        $stock = $variant ? $variant->stock_quantity : 0;
-        if ($stock <= 0) {
-            return ['success' => false, 'message' => 'Selected option is out of stock.'];
+        $cart = static::getCart();
+        $availableStock = static::getAvailableStock($variant, $product, $cart->id);
+        if ($availableStock <= 0) {
+            return ['success' => false, 'message' => 'Selected option is currently out of stock or reserved by another customer.'];
         }
 
-        $cart = static::getCart();
         $existingItem = $cart->items()
             ->where('product_id', $productId)
             ->where('variant_id', $variantId)
@@ -135,11 +189,10 @@ class CartService
         $existingQty = $existingItem ? $existingItem->quantity : 0;
         $newTotalQty = $existingQty + $quantity;
 
-        // Rule 2: If requested quantity > current database stock, REJECT the operation.
-        if ($newTotalQty > $stock) {
+        if ($newTotalQty > $availableStock) {
             return [
                 'success' => false,
-                'message' => "Only {$stock} items are currently available.",
+                'message' => "Only {$availableStock} items are currently available.",
             ];
         }
 
@@ -149,6 +202,7 @@ class CartService
             $existingItem->update([
                 'quantity' => $newTotalQty,
                 'price' => $effectivePrice,
+                'updated_at' => now(),
             ]);
         } else {
             $cart->items()->create([
@@ -156,12 +210,14 @@ class CartService
                 'variant_id' => $variantId,
                 'quantity' => $quantity,
                 'price' => $effectivePrice,
+                'updated_at' => now(),
             ]);
         }
+        $cart->touch();
 
         return [
             'success' => true,
-            'message' => 'Added to cart.',
+            'message' => 'Added to cart. Items reserved for 10 minutes.',
             'count' => static::getCartCount(),
         ];
     }
@@ -179,25 +235,27 @@ class CartService
             return ['success' => false, 'message' => 'Quantity must be at least 1.'];
         }
 
-        $stock = $item->variant ? $item->variant->stock_quantity : 0;
+        $availableStock = static::getAvailableStock($item->variant, $item->product, $cart->id);
 
-        if ($stock <= 0) {
+        if ($availableStock <= 0) {
             $item->delete();
             return ['success' => false, 'message' => 'Item is out of stock and was removed from cart.'];
         }
 
         // Clamp quantity if stock changed
-        $targetQty = min($quantity, $stock);
+        $targetQty = min($quantity, $availableStock);
         $price = static::getEffectivePrice($item->variant, $item->product);
 
         $item->update([
             'quantity' => $targetQty,
             'price' => $price,
+            'updated_at' => now(),
         ]);
+        $cart->touch();
 
         $message = ($targetQty < $quantity) 
             ? "Quantity adjusted to available stock ({$targetQty})." 
-            : 'Cart updated.';
+            : 'Cart updated. Reservation extended for 10 minutes.';
 
         return [
             'success' => true,
@@ -216,6 +274,7 @@ class CartService
         }
 
         $item->delete();
+        $cart->touch();
 
         return [
             'success' => true,

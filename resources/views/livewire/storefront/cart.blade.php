@@ -41,6 +41,47 @@
         </div>
     @endif
 
+    <!-- 10-Minute Stock Reservation Banner -->
+    @if($items->isNotEmpty())
+        @php
+            $remainingSeconds = \App\Services\CartService::getCartReservationRemainingSeconds();
+        @endphp
+        <div x-data="{
+                secondsLeft: {{ $remainingSeconds }},
+                timer: null,
+                formatTime(seconds) {
+                    const m = Math.floor(seconds / 60);
+                    const s = seconds % 60;
+                    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                }
+             }"
+             x-init="
+                timer = setInterval(() => {
+                    if (secondsLeft > 0) {
+                        secondsLeft--;
+                    } else {
+                        clearInterval(timer);
+                        $wire.$refresh();
+                    }
+                }, 1000);
+             "
+             class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-900 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+            <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+                    ⏱️
+                </span>
+                <div>
+                    <h4 class="text-xs sm:text-sm font-bold font-heading">Temporary Stock Reservation (10 Mins)</h4>
+                    <p class="text-[11px] sm:text-xs opacity-80">Items in your cart are temporarily reserved for 10 minutes. Complete order within time to secure stock!</p>
+                </div>
+            </div>
+            <div class="shrink-0 bg-white px-3.5 py-1.5 rounded-xl border border-amber-200 shadow-2xs text-center font-mono font-bold text-xs sm:text-sm text-amber-700">
+                <span x-text="secondsLeft > 0 ? formatTime(secondsLeft) : '00:00'"></span>
+                <span class="text-[10px] text-amber-600 font-sans block font-normal" x-text="secondsLeft > 0 ? 'Reserved' : 'Expired'"></span>
+            </div>
+        </div>
+    @endif
+
     @if($items->isEmpty())
         <!-- Empty Cart State -->
         <div class="bg-white rounded-3xl border border-slate-200/80 p-12 text-center space-y-6 shadow-xs max-w-lg mx-auto my-8">
