@@ -36,97 +36,76 @@
             100% { transform: translate3d(-50%, 0, 0); }
         }
         .top-announcement-bar {
-            background-color: #0f172a !important;
+            background-color: #881337 !important; /* Deep Brand Rose - Matches Al Hayat Kids Logo & Accent Theme */
             color: #ffffff !important;
-            border-bottom: 1px solid #1e293b !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .animate-top-ticker {
             display: flex;
             width: max-content;
-            animation: topBarMarquee 38s linear infinite;
+            animation: topBarMarquee 30s linear infinite;
         }
         .animate-top-ticker:hover {
             animation-play-state: paused;
         }
         .ticker-fade-left {
-            background: linear-gradient(to right, #0f172a 0%, rgba(15, 23, 42, 0) 100%);
+            background: linear-gradient(to right, #881337 0%, rgba(136, 19, 55, 0) 100%);
         }
         .ticker-fade-right {
-            background: linear-gradient(to left, #0f172a 0%, rgba(15, 23, 42, 0) 100%);
+            background: linear-gradient(to left, #881337 0%, rgba(136, 19, 55, 0) 100%);
         }
     </style>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col justify-between overflow-x-hidden" x-data="{ mobileMenuOpen: false }">
 
-    <!-- Top Brand Accent Line -->
-    <div style="height: 3px; background: linear-gradient(90deg, #e11d48 0%, #fbbf24 50%, #e11d48 100%);"></div>
-
-    <!-- Top Announcement Bar (Brand Matched Luxury Ticker) -->
-    <div class="top-announcement-bar text-xs sm:text-sm py-2.5 overflow-hidden relative select-none z-50">
+    <!-- Top Announcement Bar (Brand Matched Deep Rose Ticker) -->
+    <div class="top-announcement-bar text-xs sm:text-sm py-2.5 overflow-hidden relative select-none z-50 shadow-xs">
         <!-- Soft Fade overlays on edges -->
-        <div class="absolute left-0 top-0 bottom-0 w-10 sm:w-24 ticker-fade-left pointer-events-none z-10"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-10 sm:w-24 ticker-fade-right pointer-events-none z-10"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-10 sm:w-20 ticker-fade-left pointer-events-none z-10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-10 sm:w-20 ticker-fade-right pointer-events-none z-10"></div>
 
         <div class="animate-top-ticker flex items-center">
             <!-- Set 1 -->
-            <div class="flex items-center gap-12 sm:gap-16 px-6 shrink-0 tracking-wide font-medium">
+            <div class="flex items-center gap-12 sm:gap-16 px-6 shrink-0 tracking-wide font-semibold">
                 <span class="inline-flex items-center gap-2">
                     <span style="font-size: 1rem;">✨</span>
-                    <span style="color: #fb7185; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
-                    <span style="color: #64748b;">—</span>
-                    <span style="color: #ffffff; font-weight: 500;">Worldwide Shipping Available • Delivering Luxury Kidswear <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD 🌍</strong></span>
+                    <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
+                    <span style="color: rgba(255,255,255,0.6);">•</span>
+                    <span style="color: #ffffff; font-weight: 600;">Worldwide Shipping Available — Delivering Luxury Kidswear <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD 🌍</strong></span>
                 </span>
 
-                <span style="color: #f43f5e; opacity: 0.5; font-weight: 700;">✦</span>
+                <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
 
                 <span class="inline-flex items-center gap-2">
                     <span style="font-size: 1rem;">🛍️</span>
-                    <span style="color: #fb7185; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">LUXURY CHILDREN'S WEAR</span>
-                    <span style="color: #64748b;">—</span>
-                    <span style="color: #ffffff; font-weight: 500;">Premium Handcrafted Outfits for Newborns, Babies & Kids</span>
+                    <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
+                    <span style="color: rgba(255,255,255,0.6);">•</span>
+                    <span style="color: #ffffff; font-weight: 600;">Express Global Delivery & Safe Doorstep Shipping <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD ✈️</strong></span>
                 </span>
 
-                <span style="color: #f43f5e; opacity: 0.5; font-weight: 700;">✦</span>
-
-                <span class="inline-flex items-center gap-2">
-                    <span style="font-size: 1rem;">⚡</span>
-                    <span style="color: #fb7185; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">EXPRESS GLOBAL DELIVERY</span>
-                    <span style="color: #64748b;">—</span>
-                    <span style="color: #ffffff; font-weight: 500;">Fast, Safe & Trackable Doorstep Shipping Worldwide</span>
-                </span>
-
-                <span style="color: #f43f5e; opacity: 0.5; font-weight: 700;">✦</span>
+                <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
             </div>
 
-            <!-- Set 2 (Exact Duplicate for continuous smooth loop) -->
-            <div class="flex items-center gap-12 sm:gap-16 px-6 shrink-0 tracking-wide font-medium" aria-hidden="true">
+            <!-- Set 2 (Exact Duplicate for continuous seamless loop) -->
+            <div class="flex items-center gap-12 sm:gap-16 px-6 shrink-0 tracking-wide font-semibold" aria-hidden="true">
                 <span class="inline-flex items-center gap-2">
                     <span style="font-size: 1rem;">✨</span>
-                    <span style="color: #fb7185; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
-                    <span style="color: #64748b;">—</span>
-                    <span style="color: #ffffff; font-weight: 500;">Worldwide Shipping Available • Delivering Luxury Kidswear <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD 🌍</strong></span>
+                    <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
+                    <span style="color: rgba(255,255,255,0.6);">•</span>
+                    <span style="color: #ffffff; font-weight: 600;">Worldwide Shipping Available — Delivering Luxury Kidswear <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD 🌍</strong></span>
                 </span>
 
-                <span style="color: #f43f5e; opacity: 0.5; font-weight: 700;">✦</span>
+                <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
 
                 <span class="inline-flex items-center gap-2">
                     <span style="font-size: 1rem;">🛍️</span>
-                    <span style="color: #fb7185; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">LUXURY CHILDREN'S WEAR</span>
-                    <span style="color: #64748b;">—</span>
-                    <span style="color: #ffffff; font-weight: 500;">Premium Handcrafted Outfits for Newborns, Babies & Kids</span>
+                    <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
+                    <span style="color: rgba(255,255,255,0.6);">•</span>
+                    <span style="color: #ffffff; font-weight: 600;">Express Global Delivery & Safe Doorstep Shipping <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD ✈️</strong></span>
                 </span>
 
-                <span style="color: #f43f5e; opacity: 0.5; font-weight: 700;">✦</span>
-
-                <span class="inline-flex items-center gap-2">
-                    <span style="font-size: 1rem;">⚡</span>
-                    <span style="color: #fb7185; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">EXPRESS GLOBAL DELIVERY</span>
-                    <span style="color: #64748b;">—</span>
-                    <span style="color: #ffffff; font-weight: 500;">Fast, Safe & Trackable Doorstep Shipping Worldwide</span>
-                </span>
-
-                <span style="color: #f43f5e; opacity: 0.5; font-weight: 700;">✦</span>
+                <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
             </div>
         </div>
     </div>
