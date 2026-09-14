@@ -31,16 +31,66 @@
         h1, h2, h3, h4, h5, h6, .font-heading {
             font-family: 'Outfit', sans-serif;
         }
+        @keyframes topBarMarquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .animate-top-ticker {
+            display: flex;
+            width: max-content;
+            animation: topBarMarquee 32s linear infinite;
+        }
+        .animate-top-ticker:hover {
+            animation-play-state: paused;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col justify-between overflow-x-hidden" x-data="{ mobileMenuOpen: false }">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-slate-900 text-slate-200 text-xs font-semibold py-2.5 px-4 text-center border-b border-slate-800">
-        <div class="max-w-7xl mx-auto flex items-center justify-center gap-3">
-            <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Welcome to Al Hayat Kids Official Storefront</span>
-            <span class="hidden sm:inline text-slate-600">•</span>
-            <span class="hidden sm:inline text-slate-300 font-medium">Discover Premium Kidswear across Pakistan</span>
+    <!-- Top Announcement Bar (Moving Marquee Ticker) -->
+    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-slate-200 text-xs font-semibold py-2.5 border-b border-slate-800/80 overflow-hidden relative shadow-sm z-50">
+        <!-- Fade overlays on left and right for smooth gradient edge transition -->
+        <div class="absolute left-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none z-10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none z-10"></div>
+
+        <div class="animate-top-ticker flex items-center">
+            <!-- Set 1 -->
+            <div class="flex items-center gap-8 px-4 shrink-0">
+                <span class="inline-flex items-center gap-2 text-rose-300 font-bold bg-rose-950/70 px-2.5 py-0.5 rounded-full border border-rose-800/50 shadow-xs">
+                    <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+                    🌍 Worldwide Shipping Available
+                </span>
+                <span class="text-slate-200 font-medium">Delivering Luxury Kidswear <strong class="text-amber-300 font-bold">All Over The World</strong></span>
+                <span class="text-slate-600">✦</span>
+                <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Welcome to Al Hayat Kids Official Storefront
+                </span>
+                <span class="text-slate-600">✦</span>
+                <span class="text-slate-200 font-medium">✨ Premium Quality & Handcrafted Outfits for Newborns, Babies & Kids</span>
+                <span class="text-slate-600">✦</span>
+                <span class="text-sky-300 font-semibold">⚡ Fast Express Shipping & Global Customer Support</span>
+                <span class="text-slate-600">✦</span>
+            </div>
+
+            <!-- Set 2 (Duplicate for smooth 100% infinite marquee loop) -->
+            <div class="flex items-center gap-8 px-4 shrink-0" aria-hidden="true">
+                <span class="inline-flex items-center gap-2 text-rose-300 font-bold bg-rose-950/70 px-2.5 py-0.5 rounded-full border border-rose-800/50 shadow-xs">
+                    <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+                    🌍 Worldwide Shipping Available
+                </span>
+                <span class="text-slate-200 font-medium">Delivering Luxury Kidswear <strong class="text-amber-300 font-bold">All Over The World</strong></span>
+                <span class="text-slate-600">✦</span>
+                <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Welcome to Al Hayat Kids Official Storefront
+                </span>
+                <span class="text-slate-600">✦</span>
+                <span class="text-slate-200 font-medium">✨ Premium Quality & Handcrafted Outfits for Newborns, Babies & Kids</span>
+                <span class="text-slate-600">✦</span>
+                <span class="text-sky-300 font-semibold">⚡ Fast Express Shipping & Global Customer Support</span>
+                <span class="text-slate-600">✦</span>
+            </div>
         </div>
     </div>
 
@@ -258,7 +308,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-white font-heading">Flat Rs. 200 Delivery</h4>
+                        <h4 class="text-sm font-bold text-white font-heading">Flat Rs. 350 Delivery</h4>
                         <p class="text-xs text-slate-400 mt-0.5">Nationwide delivery across Pakistan</p>
                     </div>
                 </div>

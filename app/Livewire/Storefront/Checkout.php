@@ -346,7 +346,7 @@ class Checkout extends Component
                 }
 
                 // Shipping cost calculation
-                $shippingCost = 200.00; // Standard flat shipping cost
+                $shippingCost = 350.00; // Standard flat shipping cost
                 $total = max(0.00, round($subtotal - $discount + $shippingCost, 2));
 
                 // Unique Order Number Generation
@@ -430,7 +430,7 @@ class Checkout extends Component
         }
 
         $discount = $this->appliedCoupon ? (float) $this->appliedCoupon['discount'] : 0.0;
-        $shippingCost = 200.00;
+        $shippingCost = 350.00;
         $total = max(0.00, round($subtotal - $discount + $shippingCost, 2));
 
         $savedAddresses = auth()->check() ? Address::where('user_id', auth()->id())->get() : collect();
