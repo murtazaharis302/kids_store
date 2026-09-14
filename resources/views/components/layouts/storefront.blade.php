@@ -38,7 +38,7 @@
         .animate-top-ticker {
             display: flex;
             width: max-content;
-            animation: topBarMarquee 32s linear infinite;
+            animation: topBarMarquee 40s linear infinite;
         }
         .animate-top-ticker:hover {
             animation-play-state: paused;
@@ -47,49 +47,74 @@
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col justify-between overflow-x-hidden" x-data="{ mobileMenuOpen: false }">
 
-    <!-- Top Announcement Bar (Moving Marquee Ticker) -->
-    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-slate-200 text-xs font-semibold py-2.5 border-b border-slate-800/80 overflow-hidden relative shadow-sm z-50">
-        <!-- Fade overlays on left and right for smooth gradient edge transition -->
-        <div class="absolute left-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none z-10"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none z-10"></div>
+    <!-- Top Luxury Accent Line -->
+    <div class="h-0.5 bg-gradient-to-r from-rose-500 via-amber-400 to-rose-500"></div>
+
+    <!-- Top Announcement Bar (Ultra Clean Luxury Marquee Ticker) -->
+    <div class="bg-slate-950 text-white text-xs sm:text-sm py-2.5 border-b border-slate-800 overflow-hidden relative select-none z-50">
+        <!-- Soft Fade overlays on edges -->
+        <div class="absolute left-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none z-10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none z-10"></div>
 
         <div class="animate-top-ticker flex items-center">
             <!-- Set 1 -->
-            <div class="flex items-center gap-8 px-4 shrink-0">
-                <span class="inline-flex items-center gap-2 text-rose-300 font-bold bg-rose-950/70 px-2.5 py-0.5 rounded-full border border-rose-800/50 shadow-xs">
-                    <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
-                    🌍 Worldwide Shipping Available
+            <div class="flex items-center gap-16 sm:gap-24 px-8 shrink-0 tracking-wide font-medium">
+                <span class="inline-flex items-center gap-2">
+                    <span class="text-base">🌍</span>
+                    <span class="text-rose-400 font-bold uppercase tracking-wider">Worldwide Shipping</span>
+                    <span class="text-slate-500">—</span>
+                    <span class="text-slate-100">Delivering Luxury Kidswear <strong class="text-amber-300 font-bold">All Over The World</strong></span>
                 </span>
-                <span class="text-slate-200 font-medium">Delivering Luxury Kidswear <strong class="text-amber-300 font-bold">All Over The World</strong></span>
-                <span class="text-slate-600">✦</span>
-                <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Welcome to Al Hayat Kids Official Storefront
+
+                <span class="text-rose-500/60 font-bold">✦</span>
+
+                <span class="inline-flex items-center gap-2">
+                    <span class="text-base">✨</span>
+                    <span class="text-emerald-400 font-bold uppercase tracking-wider">Al Hayat Kids</span>
+                    <span class="text-slate-500">—</span>
+                    <span class="text-slate-100">Premium Handcrafted Outfits for Newborns, Babies & Kids</span>
                 </span>
-                <span class="text-slate-600">✦</span>
-                <span class="text-slate-200 font-medium">✨ Premium Quality & Handcrafted Outfits for Newborns, Babies & Kids</span>
-                <span class="text-slate-600">✦</span>
-                <span class="text-sky-300 font-semibold">⚡ Fast Express Shipping & Global Customer Support</span>
-                <span class="text-slate-600">✦</span>
+
+                <span class="text-rose-500/60 font-bold">✦</span>
+
+                <span class="inline-flex items-center gap-2">
+                    <span class="text-base">⚡</span>
+                    <span class="text-sky-400 font-bold uppercase tracking-wider">Global Express Delivery</span>
+                    <span class="text-slate-500">—</span>
+                    <span class="text-slate-100">Fast, Safe & Reliable Doorstep Delivery</span>
+                </span>
+
+                <span class="text-rose-500/60 font-bold">✦</span>
             </div>
 
-            <!-- Set 2 (Duplicate for smooth 100% infinite marquee loop) -->
-            <div class="flex items-center gap-8 px-4 shrink-0" aria-hidden="true">
-                <span class="inline-flex items-center gap-2 text-rose-300 font-bold bg-rose-950/70 px-2.5 py-0.5 rounded-full border border-rose-800/50 shadow-xs">
-                    <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
-                    🌍 Worldwide Shipping Available
+            <!-- Set 2 (Exact Duplicate for continuous smooth loop) -->
+            <div class="flex items-center gap-16 sm:gap-24 px-8 shrink-0 tracking-wide font-medium" aria-hidden="true">
+                <span class="inline-flex items-center gap-2">
+                    <span class="text-base">🌍</span>
+                    <span class="text-rose-400 font-bold uppercase tracking-wider">Worldwide Shipping</span>
+                    <span class="text-slate-500">—</span>
+                    <span class="text-slate-100">Delivering Luxury Kidswear <strong class="text-amber-300 font-bold">All Over The World</strong></span>
                 </span>
-                <span class="text-slate-200 font-medium">Delivering Luxury Kidswear <strong class="text-amber-300 font-bold">All Over The World</strong></span>
-                <span class="text-slate-600">✦</span>
-                <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Welcome to Al Hayat Kids Official Storefront
+
+                <span class="text-rose-500/60 font-bold">✦</span>
+
+                <span class="inline-flex items-center gap-2">
+                    <span class="text-base">✨</span>
+                    <span class="text-emerald-400 font-bold uppercase tracking-wider">Al Hayat Kids</span>
+                    <span class="text-slate-500">—</span>
+                    <span class="text-slate-100">Premium Handcrafted Outfits for Newborns, Babies & Kids</span>
                 </span>
-                <span class="text-slate-600">✦</span>
-                <span class="text-slate-200 font-medium">✨ Premium Quality & Handcrafted Outfits for Newborns, Babies & Kids</span>
-                <span class="text-slate-600">✦</span>
-                <span class="text-sky-300 font-semibold">⚡ Fast Express Shipping & Global Customer Support</span>
-                <span class="text-slate-600">✦</span>
+
+                <span class="text-rose-500/60 font-bold">✦</span>
+
+                <span class="inline-flex items-center gap-2">
+                    <span class="text-base">⚡</span>
+                    <span class="text-sky-400 font-bold uppercase tracking-wider">Global Express Delivery</span>
+                    <span class="text-slate-500">—</span>
+                    <span class="text-slate-100">Fast, Safe & Reliable Doorstep Delivery</span>
+                </span>
+
+                <span class="text-rose-500/60 font-bold">✦</span>
             </div>
         </div>
     </div>
