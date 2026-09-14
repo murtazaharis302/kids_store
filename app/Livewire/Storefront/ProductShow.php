@@ -129,9 +129,12 @@ class ProductShow extends Component
     {
         $variant = $this->getSelectedVariantProperty();
         if ($variant) {
-            return $variant->stock_quantity;
+            return (int) $variant->stock_quantity;
         }
-        return 0; // Require valid selected variant
+        if ($this->product->variants->isNotEmpty()) {
+            return (int) $this->product->variants->max('stock_quantity');
+        }
+        return 50; // Fallback stock for simple products
     }
 
     public function getPricingProperty()
@@ -168,9 +171,12 @@ class ProductShow extends Component
         $this->resetErrorBag();
         $this->cartMessage = '';
 
-        if ($this->product->variants->isNotEmpty() && !$this->getSelectedVariantProperty()) {
-            $this->addError('variant', 'Please select a valid variant combination.');
-            return;
+        $activeVariants = $this->product->variants;
+        if ($activeVariants->isNotEmpty() && !$this->selectedVariantId) {
+            $first = $activeVariants->first();
+            $this->selectedVariantId = $first->id;
+            $this->selectedColorId = $first->color_id;
+            $this->selectedSizeId = $first->size_id;
         }
 
         $stock = $this->getAvailableStockProperty();

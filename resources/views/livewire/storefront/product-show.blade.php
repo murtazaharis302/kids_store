@@ -150,12 +150,10 @@
                                 @foreach($availableColors as $col)
                                     @php
                                         $isSelected = $selectedColorId == $col->id;
-                                        $isValidForSize = empty($validColorIdsForSize) || in_array($col->id, $validColorIdsForSize);
                                     @endphp
                                     <button type="button" 
                                             wire:click="selectColor({{ $col->id }})" 
-                                            @if(!$isValidForSize) disabled @endif
-                                            class="px-3.5 py-2 rounded-xl border text-xs font-bold transition flex items-center gap-2 {{ $isSelected ? 'bg-slate-900 text-white border-slate-900 ring-2 ring-slate-900/20 shadow-xs' : ($isValidForSize ? 'bg-white border-slate-200 text-slate-800 hover:border-rose-400' : 'bg-slate-50 border-slate-200 text-slate-300 cursor-not-allowed line-through') }}">
+                                            class="px-3.5 py-2 rounded-xl border text-xs font-bold transition flex items-center gap-2 {{ $isSelected ? 'bg-slate-900 text-white border-slate-900 ring-2 ring-slate-900/20 shadow-xs' : 'bg-white border-slate-200 text-slate-800 hover:border-rose-400' }}">
                                         @if($col->hex_code)
                                             <span class="w-3 h-3 rounded-full border border-black/20" style="background-color: {{ $col->hex_code }}"></span>
                                         @endif
@@ -179,12 +177,10 @@
                                 @foreach($availableSizes as $sz)
                                     @php
                                         $isSelected = $selectedSizeId == $sz->id;
-                                        $isValidForColor = empty($validSizeIdsForColor) || in_array($sz->id, $validSizeIdsForColor);
                                     @endphp
                                     <button type="button" 
                                             wire:click="selectSize({{ $sz->id }})" 
-                                            @if(!$isValidForColor) disabled @endif
-                                            class="px-4 py-2.5 rounded-xl border text-xs font-bold transition {{ $isSelected ? 'bg-rose-600 text-white border-rose-600 ring-2 ring-rose-500/20 shadow-xs' : ($isValidForColor ? 'bg-white border-slate-200 text-slate-800 hover:border-rose-400' : 'bg-slate-50 border-slate-200 text-slate-300 cursor-not-allowed line-through') }}">
+                                            class="px-4 py-2.5 rounded-xl border text-xs font-bold transition {{ $isSelected ? 'bg-rose-600 text-white border-rose-600 ring-2 ring-rose-500/20 shadow-xs' : 'bg-white border-slate-200 text-slate-800 hover:border-rose-400' }}">
                                         {{ $sz->name }}
                                     </button>
                                 @endforeach

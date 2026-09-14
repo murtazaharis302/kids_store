@@ -115,24 +115,96 @@
             </div>
 
             <!-- Product Variants Matrix Card -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-6">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                     <div>
-                        <h2 class="text-base font-bold font-heading text-slate-900">Product Variants</h2>
-                        <p class="text-xs text-slate-500">Manage size and color stock levels.</p>
+                        <h2 class="text-base font-bold font-heading text-slate-900">Product Variants (Size & Color Matrix)</h2>
+                        <p class="text-xs text-slate-500">Manage size and color combinations, prices, stock, and published status.</p>
                     </div>
-                    <button type="button" wire:click="addVariant" class="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold transition border border-rose-200/60">
-                        + Add Variant
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button type="button" wire:click="generateVariantSKUs" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition">
+                            ⚡ Auto-Fill SKUs
+                        </button>
+                        <button type="button" wire:click="addVariant" class="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold transition border border-rose-200/60">
+                            + Single Row
+                        </button>
+                    </div>
                 </div>
 
+                @if(session('variant_error'))
+                    <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs font-bold text-amber-800">
+                        {{ session('variant_error') }}
+                    </div>
+                @endif
+
+                <!-- Bulk Generator Section -->
+                <div x-data="{ open: false }" class="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-3">
+                    <button type="button" @click="open = !open" class="w-full flex items-center justify-between text-xs font-bold text-slate-800 font-heading">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                            <span>1-Click Bulk Matrix Generator</span>
+                        </span>
+                        <span class="text-rose-600 font-semibold" x-text="open ? 'Hide Matrix Generator' : '+ Open Matrix Generator'"></span>
+                    </button>
+
+                    <div x-show="open" x-transition class="space-y-4 pt-3 border-t border-slate-200/80">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Sizes -->
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Select Sizes</label>
+                                <div class="max-h-32 overflow-y-auto p-2 bg-white rounded-lg border border-slate-200 grid grid-cols-2 gap-1.5">
+                                    @foreach($sizes as $sz)
+                                        <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
+                                            <input type="checkbox" value="{{ $sz->id }}" wire:model="bulkSizes" class="w-3.5 h-3.5 rounded text-rose-600">
+                                            <span>{{ $sz->name }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Colors -->
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Select Colors</label>
+                                <div class="max-h-32 overflow-y-auto p-2 bg-white rounded-lg border border-slate-200 grid grid-cols-2 gap-1.5">
+                                    @foreach($colors as $cl)
+                                        <label class="flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
+                                            <input type="checkbox" value="{{ $cl->id }}" wire:model="bulkColors" class="w-3.5 h-3.5 rounded text-rose-600">
+                                            <span>{{ $cl->name }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Bulk Variant Price (PKR)</label>
+                                <input type="number" step="0.01" wire:model="bulkPrice" placeholder="Default: Base Price" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Bulk Sale Price (PKR)</label>
+                                <input type="number" step="0.01" wire:model="bulkSalePrice" placeholder="Optional" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Bulk Initial Stock</label>
+                                <input type="number" wire:model="bulkStock" placeholder="10" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold">
+                            </div>
+                        </div>
+
+                        <button type="button" wire:click="generateBulkVariants" class="w-full py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                            ✨ Add All Generated Variant Combinations
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Variant Rows List -->
                 <div class="space-y-3">
                     @foreach($variants as $index => $variant)
-                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 grid grid-cols-1 sm:grid-cols-6 gap-3 items-center">
-                            <!-- Size -->
-                            <div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                            <!-- Size (2 cols) -->
+                            <div class="sm:col-span-2">
                                 <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Size</label>
-                                <select wire:model="variants.{{ $index }}.size_id" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs">
+                                <select wire:model="variants.{{ $index }}.size_id" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-medium">
                                     <option value="">No Size</option>
                                     @foreach($sizes as $sz)
                                         <option value="{{ $sz->id }}">{{ $sz->name }}</option>
@@ -140,10 +212,10 @@
                                 </select>
                             </div>
 
-                            <!-- Color -->
-                            <div>
+                            <!-- Color (2 cols) -->
+                            <div class="sm:col-span-2">
                                 <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Color</label>
-                                <select wire:model="variants.{{ $index }}.color_id" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs">
+                                <select wire:model="variants.{{ $index }}.color_id" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-medium">
                                     <option value="">No Color</option>
                                     @foreach($colors as $cl)
                                         <option value="{{ $cl->id }}">{{ $cl->name }}</option>
@@ -151,21 +223,30 @@
                                 </select>
                             </div>
 
-                            <!-- SKU -->
-                            <div class="sm:col-span-2">
-                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Variant SKU *</label>
-                                <input type="text" wire:model="variants.{{ $index }}.sku" placeholder="SKU" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs">
+                            <!-- Variant SKU (3 cols) -->
+                            <div class="sm:col-span-3">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Variant SKU</label>
+                                <input type="text" wire:model="variants.{{ $index }}.sku" placeholder="Auto-generated" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-mono">
                                 @error("variants.{$index}.sku") <span class="text-rose-500 text-[10px] block">{{ $message }}</span> @enderror
                             </div>
 
-                            <!-- Stock -->
-                            <div>
-                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Stock *</label>
-                                <input type="number" wire:model="variants.{{ $index }}.stock_quantity" min="0" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold">
+                            <!-- Price (2 cols) -->
+                            <div class="sm:col-span-2">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Price (PKR)</label>
+                                <input type="number" step="0.01" wire:model="variants.{{ $index }}.price" placeholder="Base Price" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold">
                             </div>
 
-                            <!-- Actions -->
-                            <div class="flex items-center justify-end pt-3 sm:pt-0">
+                            <!-- Stock (2 cols) -->
+                            <div class="sm:col-span-2">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Stock Qty *</label>
+                                <input type="number" wire:model="variants.{{ $index }}.stock_quantity" min="0" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-900">
+                            </div>
+
+                            <!-- Actions & Status Toggle (1 col) -->
+                            <div class="sm:col-span-1 flex items-center justify-end gap-2 pt-2 sm:pt-0">
+                                <label class="inline-flex items-center cursor-pointer" title="Publish/Active Status">
+                                    <input type="checkbox" wire:model="variants.{{ $index }}.status" class="w-4 h-4 rounded text-rose-600 focus:ring-rose-500 border-slate-300">
+                                </label>
                                 <button type="button" wire:click="removeVariant({{ $index }})" class="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 transition" title="Remove Variant">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 </button>
