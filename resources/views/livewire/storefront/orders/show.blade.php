@@ -1,7 +1,7 @@
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
     
     <!-- Success Banner -->
-    <div class="bg-gradient-to-r from-slate-900 to-rose-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+    <div class="bg-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-md border border-slate-800 relative overflow-hidden">
         <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
             <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center font-bold text-2xl shrink-0 shadow-lg shadow-emerald-500/20">
                 ✓
@@ -16,7 +16,7 @@
                 <p class="text-slate-300 text-xs sm:text-sm font-medium">
                     We've received your order <span class="font-bold text-rose-300">#{{ $order->order_number }}</span>.
                     @if(in_array($order->payment_method, ['jazzcash', 'easypaisa', 'bank_transfer']) && $order->payment_status !== 'paid')
-                        Please complete your advance payment transfer below.
+                        Please complete your payment transfer below using any of our receiving accounts.
                     @endif
                 </p>
             </div>
@@ -34,10 +34,10 @@
         </div>
     @endif
 
-    <!-- ADVANCE PAYMENT TRANSFER PORTAL (For JazzCash, EasyPaisa, Bank Transfer) -->
+    <!-- ADVANCE PAYMENT TRANSFER PORTAL (For Askari Bank, EasyPaisa, JazzCash) -->
     @if(in_array($order->payment_method, ['jazzcash', 'easypaisa', 'bank_transfer']) && isset($paymentMethods[$order->payment_method]))
         @php $methodInfo = $paymentMethods[$order->payment_method]; @endphp
-        <div class="bg-white rounded-3xl border-2 border-rose-500/40 p-6 sm:p-8 space-y-6 shadow-lg" x-data="{ copyText(text) { navigator.clipboard.writeText(text); alert('Copied to clipboard: ' + text); } }">
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-sm" x-data="{ copyText(text) { navigator.clipboard.writeText(text); alert('Copied to clipboard: ' + text); } }">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
                 <div>
                     <span class="text-xs font-bold text-rose-600 uppercase font-mono tracking-wider">STEP 2 OF 2: COMPLETE PAYMENT</span>
@@ -45,83 +45,114 @@
                         Pay via {{ $methodInfo['name'] }}
                     </h2>
                 </div>
-                <div class="bg-slate-900 text-white px-4 py-2 rounded-2xl text-right">
+                <div class="bg-slate-900 text-white px-4 py-2 rounded-2xl text-right shrink-0">
                     <span class="text-[10px] text-slate-400 font-bold uppercase block">Total Amount to Pay</span>
                     <span class="text-lg font-extrabold text-emerald-400 font-heading">Rs. {{ number_format($order->total, 2) }}</span>
                 </div>
             </div>
 
-            <!-- Transfer Credentials Card -->
-            <div class="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white space-y-4 shadow-md">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-rose-400 uppercase tracking-wider font-mono">
-                        OFFICIAL STORE RECEIVING ACCOUNT
-                    </span>
+            <!-- Official Receiving Accounts Display Card -->
+            <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-5 shadow-sm">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+                            OFFICIAL STORE RECEIVING ACCOUNTS
+                        </span>
+                    </div>
                     <span class="text-[10px] font-extrabold bg-emerald-500 text-white px-2.5 py-0.5 rounded-full uppercase">
                         0% Transfer Fee
                     </span>
                 </div>
 
-                @if($order->payment_method === 'bank_transfer')
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 text-xs">
-                        <div class="space-y-1">
-                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Bank Name</span>
-                            <span class="font-extrabold font-heading text-white block">{{ $methodInfo['bank_name'] }}</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- 1. Askari Commercial Bank Card -->
+                    <div class="p-4 rounded-xl bg-slate-800/90 border border-slate-700/80 space-y-2 relative group hover:border-emerald-500/50 transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider font-mono">Bank Account</span>
+                            <span class="text-[10px] font-bold bg-slate-700 text-slate-300 px-2 py-0.5 rounded">Askari Bank</span>
                         </div>
-                        <div class="space-y-1">
-                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Title</span>
-                            <span class="font-extrabold font-heading text-white block">{{ $methodInfo['account_title'] }}</span>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-medium">Bank Name</span>
+                            <span class="text-xs font-extrabold text-white block">Askari Commercial Bank</span>
                         </div>
-                        <div class="space-y-1">
-                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Number</span>
-                            <div class="flex items-center gap-2">
-                                <span class="font-extrabold font-mono text-emerald-400 text-sm">{{ $methodInfo['account_number'] }}</span>
-                                <button type="button" @click="copyText('{{ $methodInfo['account_number'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded font-bold transition">Copy</button>
-                            </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-medium">Account Title</span>
+                            <span class="text-xs font-extrabold text-emerald-300 block">Al hayat Garments</span>
                         </div>
-                        <div class="space-y-1">
-                            <span class="text-[10px] text-slate-400 font-bold uppercase block">IBAN Number</span>
-                            <div class="flex items-center gap-2">
-                                <span class="font-extrabold font-mono text-emerald-400 text-xs truncate">{{ $methodInfo['iban'] }}</span>
-                                <button type="button" @click="copyText('{{ $methodInfo['iban'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded font-bold transition">Copy</button>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                        <div class="space-y-1">
-                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Title</span>
-                            <span class="text-sm font-extrabold font-heading text-white block">{{ $methodInfo['account_title'] }}</span>
-                        </div>
-                        <div class="space-y-1">
-                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Account Mobile Number</span>
-                            <div class="flex items-center gap-2">
-                                <span class="text-base font-extrabold font-mono text-emerald-400">{{ $methodInfo['account_number'] }}</span>
-                                <button type="button" @click="copyText('{{ $methodInfo['account_number'] }}')" class="text-[10px] bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded font-bold transition">
-                                    Copy Number
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-medium">Account Number</span>
+                            <div class="flex items-center justify-between gap-1 pt-0.5">
+                                <span class="text-xs font-extrabold font-mono text-white">09450200002583</span>
+                                <button type="button" @click="copyText('09450200002583')" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded-md font-bold transition">
+                                    Copy
                                 </button>
                             </div>
                         </div>
                     </div>
-                @endif
 
-                <p class="text-xs text-slate-300 border-t border-slate-700/80 pt-3">
-                    💡 <strong>Instructions:</strong> Please transfer <strong>Rs. {{ number_format($order->total, 2) }}</strong> to the account details above via your JazzCash/EasyPaisa/Banking app. Once sent, paste your 12-digit TRX ID receipt below!
-                </p>
+                    <!-- 2. EasyPaisa Card -->
+                    <div class="p-4 rounded-xl bg-slate-800/90 border border-slate-700/80 space-y-2 relative group hover:border-emerald-500/50 transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider font-mono">EasyPaisa Wallet</span>
+                            <span class="text-[10px] font-bold bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">EasyPaisa</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-medium">Account Title</span>
+                            <span class="text-xs font-extrabold text-emerald-300 block">Khizer hayat</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-medium">Mobile / Account No</span>
+                            <div class="flex items-center justify-between gap-1 pt-0.5">
+                                <span class="text-xs font-extrabold font-mono text-white">03150132001</span>
+                                <button type="button" @click="copyText('03150132001')" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded-md font-bold transition">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. JazzCash Card -->
+                    <div class="p-4 rounded-xl bg-slate-800/90 border border-slate-700/80 space-y-2 relative group hover:border-emerald-500/50 transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-extrabold text-rose-400 uppercase tracking-wider font-mono">JazzCash Wallet</span>
+                            <span class="text-[10px] font-bold bg-rose-950 text-rose-300 px-2 py-0.5 rounded">JazzCash</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-medium">Account Title</span>
+                            <span class="text-xs font-extrabold text-emerald-300 block">Khizer hayat</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-medium">Mobile / Account No</span>
+                            <div class="flex items-center justify-between gap-1 pt-0.5">
+                                <span class="text-xs font-extrabold font-mono text-white">03249171213</span>
+                                <button type="button" @click="copyText('03249171213')" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded-md font-bold transition">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-300 border-t border-slate-800 pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <p class="leading-relaxed">
+                        💡 <strong>Instructions:</strong> Please transfer <strong>Rs. {{ number_format($order->total, 2) }}</strong> to any of the official account details above via your Banking, EasyPaisa, or JazzCash app. Once sent, paste your TRX ID / Receipt screenshot below!
+                    </p>
+                </div>
             </div>
 
-            <!-- Interactive TRX ID & Screenshot Upload Form -->
-            <form wire:submit.prevent="submitPaymentReference" class="p-6 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-5">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-rose-200/80 pb-3">
+            <!-- TRX ID & Screenshot Upload Form -->
+            <form wire:submit.prevent="submitPaymentReference" class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                     <div>
                         <h3 class="text-sm font-extrabold text-slate-900 font-heading uppercase tracking-wider">
                             Submit Payment Proof / Receipt
                         </h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Upload your payment screenshot or enter TRX ID below</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Upload your payment screenshot or enter your TRX ID below</p>
                     </div>
                     
                     <!-- Direct WhatsApp Option -->
-                    <a href="https://wa.me/923295841610?text={{ urlencode('Hi AH Kids Store, I have made payment of Rs. ' . number_format($order->total, 2) . ' for Order #' . $order->order_number . '. Here is my payment receipt.') }}" 
+                    <a href="https://wa.me/923249171213?text={{ urlencode('Hi Al Hayat Kids, I have transferred payment of Rs. ' . number_format($order->total, 2) . ' for Order #' . $order->order_number . '. Here is my receipt screenshot.') }}" 
                        target="_blank"
                        class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-xs transition w-fit">
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.705 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
