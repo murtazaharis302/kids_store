@@ -72,44 +72,101 @@
 
             <!-- Existing Image Gallery & Upload Card -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-                <h2 class="text-base font-bold font-heading text-slate-900 border-b border-slate-100 pb-3">Existing Image Gallery</h2>
-
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    @forelse($existingImages as $img)
-                        <div class="relative group rounded-xl border border-slate-200 overflow-hidden bg-slate-50 p-1">
-                            <div class="w-full h-24 rounded-lg overflow-hidden">
-                                @if(!empty($img->url))
-                                    <img src="{{ $img->url }}" class="w-full h-full object-cover">
-                                @else
-                                    <svg class="w-6 h-6 text-slate-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                @endif
-                            </div>
-                            <div class="mt-1 flex items-center justify-between px-1">
-                                @if($img->is_primary)
-                                    <span class="text-[9px] font-bold uppercase bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">Primary</span>
-                                @else
-                                    <button type="button" wire:click="setPrimaryImage({{ $img->id }})" class="text-[9px] font-semibold text-slate-500 hover:text-slate-900">Make Primary</button>
-                                @endif
-
-                                <button type="button" wire:click="deleteImage({{ $img->id }})" class="text-[9px] font-bold text-rose-600 hover:text-rose-800">Delete</button>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-span-full py-4 text-center text-xs text-slate-400">No images uploaded for this product yet.</div>
-                    @endforelse
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h2 class="text-base font-bold font-heading text-slate-900">Product Media & Gallery</h2>
+                    <span class="text-[11px] text-slate-400 font-medium">Supports PNG, JPG, WEBP, HEIC up to 20MB</span>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-100">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Upload New Primary Image</label>
-                        <input type="file" wire:model="primaryImage" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-700">
-                        @error('primaryImage') <span class="text-rose-500 text-[11px] mt-1 block">{{ $message }}</span> @enderror
+                <!-- Existing Saved Gallery -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-700">Currently Saved Images</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        @forelse($existingImages as $img)
+                            <div class="relative group rounded-xl border border-slate-200 overflow-hidden bg-slate-50 p-1 shadow-xs">
+                                <div class="w-full h-24 rounded-lg overflow-hidden bg-white">
+                                    @if(!empty($img->url))
+                                        <img src="{{ $img->url }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center text-slate-300">
+                                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="mt-1 flex items-center justify-between px-1">
+                                    @if($img->is_primary)
+                                        <span class="text-[9px] font-bold uppercase bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">Primary</span>
+                                    @else
+                                        <button type="button" wire:click="setPrimaryImage({{ $img->id }})" class="text-[9px] font-semibold text-slate-600 hover:text-rose-600 transition">Set Primary</button>
+                                    @endif
+
+                                    <button type="button" wire:click="deleteImage({{ $img->id }})" wire:confirm="Are you sure you want to delete this image?" class="text-[9px] font-bold text-rose-600 hover:text-rose-800 transition">Delete</button>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-span-full py-4 text-center text-xs text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                                No images uploaded for this product yet. Upload cover and gallery images below!
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <!-- New Uploads Section -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
+                    <!-- Upload New Primary Image -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-slate-700">Upload New Primary Cover Image</label>
+                        <input type="file" wire:model="primaryImage" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer">
+                        
+                        <!-- Uploading Indicator -->
+                        <div wire:loading wire:target="primaryImage" class="text-xs font-bold text-rose-600 flex items-center gap-2 pt-1">
+                            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            <span>Uploading primary image...</span>
+                        </div>
+
+                        @error('primaryImage') 
+                            <span class="text-rose-500 text-xs font-bold mt-1 block">{{ $message }}</span> 
+                        @enderror
+
+                        @if ($primaryImage)
+                            <div class="mt-2 relative w-28 h-28 rounded-xl border border-slate-200 overflow-hidden shadow-xs group">
+                                <img src="{{ $primaryImage->temporaryUrl() }}" class="w-full h-full object-cover">
+                                <button type="button" wire:click="removePrimaryImage" class="absolute top-1 right-1 bg-rose-600 text-white rounded-full p-1 text-xs font-bold opacity-90 hover:opacity-100 transition shadow-xs" title="Remove image">
+                                    &times;
+                                </button>
+                            </div>
+                        @endif
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Add Gallery Images</label>
-                        <input type="file" wire:model="additionalImages" multiple accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700">
-                        @error('additionalImages.*') <span class="text-rose-500 text-[11px] mt-1 block">{{ $message }}</span> @enderror
+                    <!-- Add Gallery Images -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-slate-700">Add Gallery Images</label>
+                        <input type="file" wire:model="additionalImages" multiple accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer">
+                        
+                        <!-- Uploading Indicator -->
+                        <div wire:loading wire:target="additionalImages" class="text-xs font-bold text-rose-600 flex items-center gap-2 pt-1">
+                            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            <span>Uploading gallery images...</span>
+                        </div>
+
+                        @error('additionalImages') 
+                            <span class="text-rose-500 text-xs font-bold mt-1 block">{{ $message }}</span> 
+                        @enderror
+                        @error('additionalImages.*') 
+                            <span class="text-rose-500 text-xs font-bold mt-1 block">{{ $message }}</span> 
+                        @enderror
+
+                        @if ($additionalImages && count($additionalImages) > 0)
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                @foreach($additionalImages as $idx => $img)
+                                    <div class="relative w-20 h-20 rounded-xl border border-slate-200 overflow-hidden shadow-xs group">
+                                        <img src="{{ $img->temporaryUrl() }}" class="w-full h-full object-cover">
+                                        <button type="button" wire:click="removeNewAdditionalImage({{ $idx }})" class="absolute top-1 right-1 bg-rose-600 text-white rounded-full p-1 text-xs font-bold opacity-90 hover:opacity-100 transition shadow-xs" title="Remove image">
+                                            &times;
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

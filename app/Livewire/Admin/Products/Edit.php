@@ -237,6 +237,19 @@ class Edit extends Component
         $this->existingImages = $this->product->images()->orderBy('sort_order')->get();
     }
 
+    public function removePrimaryImage()
+    {
+        $this->primaryImage = null;
+    }
+
+    public function removeNewAdditionalImage($index)
+    {
+        if (isset($this->additionalImages[$index])) {
+            unset($this->additionalImages[$index]);
+            $this->additionalImages = array_values($this->additionalImages);
+        }
+    }
+
     protected function rules()
     {
         return [
@@ -257,8 +270,9 @@ class Edit extends Component
             'selectedAgeGroups.*' => 'exists:age_groups,id',
             'selectedCollections' => 'array',
             'selectedCollections.*' => 'exists:collections,id',
-            'primaryImage' => 'nullable|image|max:2048',
-            'additionalImages.*' => 'nullable|image|max:2048',
+            'primaryImage' => 'nullable|file|mimes:png,jpg,jpeg,webp,gif,svg,heic,heif,jfif,avif|max:20480', // 20MB max
+            'additionalImages' => 'nullable|array',
+            'additionalImages.*' => 'nullable|file|mimes:png,jpg,jpeg,webp,gif,svg,heic,heif,jfif,avif|max:20480',
             'variants' => 'array',
             'variants.*.id' => 'nullable',
             'variants.*.size_id' => 'nullable',
