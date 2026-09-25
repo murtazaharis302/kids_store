@@ -587,6 +587,9 @@
         </div>
     </footer>
 
+    <!-- Cart Drawer Component -->
+    <livewire:storefront.cart-drawer />
+
     @livewireScripts
 </body>
 </html>

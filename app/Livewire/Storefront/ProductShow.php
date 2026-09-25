@@ -197,6 +197,7 @@ class ProductShow extends Component
         if ($result['success']) {
             $this->cartMessage = $result['message'];
             $this->dispatch('cart-updated');
+            $this->dispatch('open-cart-drawer');
         } else {
             $this->addError('quantity', $result['message']);
         }
