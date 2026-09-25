@@ -104,12 +104,39 @@ class Shop extends Component
             }
         }
 
-        // Age Group Filter
+        // Age Group Filter (matches AgeGroup model relations & Variant Sizes flexibly)
         if (!empty($this->age_group)) {
-            $ageSlugOrId = $this->age_group;
-            $query->whereHas('ageGroups', function ($q) use ($ageSlugOrId) {
-                $q->where('slug', $ageSlugOrId)
-                    ->orWhere('age_groups.id', $ageSlugOrId);
+            $ageVal = strtolower(trim($this->age_group));
+            
+            // Build search variations (e.g. "0-3-months" -> ["0-3-months", "0-3", "0 to 3", "0-3m", "0-3 months"])
+            $keywords = [$ageVal];
+            if (preg_match('/(\d+)[\s_\-]*to[\s_\-]*(\d+)/i', $ageVal, $m) || preg_match('/(\d+)[\s_\-]+(\d+)/i', $ageVal, $m)) {
+                $n1 = $m[1];
+                $n2 = $m[2];
+                $keywords[] = "{$n1}-{$n2}";
+                $keywords[] = "{$n1} to {$n2}";
+                $keywords[] = "{$n1}-{$n2}m";
+                $keywords[] = "{$n1}-{$n2}y";
+                $keywords[] = "{$n1}-{$n2} months";
+                $keywords[] = "{$n1}-{$n2} years";
+            }
+
+            $query->where(function ($q) use ($ageVal, $keywords) {
+                $q->whereHas('ageGroups', function ($agq) use ($ageVal, $keywords) {
+                    $agq->where('slug', $ageVal)
+                        ->orWhere('age_groups.id', $ageVal);
+                    foreach ($keywords as $kw) {
+                        $agq->orWhere('slug', 'like', "%{$kw}%")
+                            ->orWhere('name', 'like', "%{$kw}%");
+                    }
+                })->orWhereHas('variants', function ($vq) use ($keywords) {
+                    $vq->where('status', true)
+                        ->whereHas('size', function ($sq) use ($keywords) {
+                            foreach ($keywords as $kw) {
+                                $sq->orWhere('name', 'like', "%{$kw}%");
+                            }
+                        });
+                });
             });
         }
 

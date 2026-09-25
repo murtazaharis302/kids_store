@@ -206,13 +206,120 @@
             <!-- Desktop Category Navigation Bar -->
             @php
                 $navCategories = \App\Models\Category::whereNull('parent_id')->where('status', true)->orderBy('sort_order')->get();
+                $deskAgeAdded = false;
             @endphp
             <nav class="hidden md:flex items-center justify-center py-3 border-t border-slate-100 text-sm font-bold text-slate-700 tracking-wide gap-8">
                 <a href="{{ route('shop') }}" class="hover:text-rose-600 transition">Shop All</a>
                 <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="hover:text-rose-600 transition">New Arrivals</a>
                 @foreach($navCategories as $navCat)
                     <a href="{{ route('shop', ['category' => $navCat->slug]) }}" class="hover:text-rose-600 transition">{{ $navCat->name }}</a>
+                    @if(strtolower(trim($navCat->name)) === 'newborn')
+                        @php $deskAgeAdded = true; @endphp
+                        <!-- Shop by Age Dropdown Menu -->
+                        <div class="relative inline-block text-left" x-data="{ open: false }" @mouseleave="open = false">
+                            <button @click="open = !open" @mouseenter="open = true" class="flex items-center gap-1 hover:text-rose-600 transition focus:outline-none cursor-pointer py-1">
+                                <span>Shop by Age</span>
+                                <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Popup Menu -->
+                            <div x-show="open" 
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                                 x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                                 class="absolute left-1/2 -translate-x-1/2 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-3 z-50 overflow-hidden divide-y divide-slate-100/60"
+                                 style="display: none;"
+                                 @click.away="open = false">
+                                
+                                <div class="px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-rose-600 bg-rose-50/60 flex items-center justify-between">
+                                    <span class="flex items-center gap-1.5">👶 Select Age Group</span>
+                                </div>
+
+                                <div class="py-1">
+                                    <a href="{{ route('shop', ['age_group' => '0-3-months']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>0 to 3 Months</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Infant</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '3-6-months']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>3 to 6 Months</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Infant</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '6-9-months']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>6 to 9 Months</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Baby</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '9-12-months']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>9 to 12 Months</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Baby</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '1-2-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>1 to 2 Years</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Toddler</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '3-4-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>3 to 4 Years</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Kids</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '5-6-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>5 to 6 Years</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Kids</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '7-8-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>7 to 8 Years</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Kids</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '9-12-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>9 to 12 Years</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Junior</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endforeach
+
+                @if(!$deskAgeAdded)
+                    <!-- Fallback Shop by Age Dropdown if Newborn is not present in navCategories loop -->
+                    <div class="relative inline-block text-left" x-data="{ open: false }" @mouseleave="open = false">
+                        <button @click="open = !open" @mouseenter="open = true" class="flex items-center gap-1 hover:text-rose-600 transition focus:outline-none cursor-pointer py-1">
+                            <span>Shop by Age</span>
+                            <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                             x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                             class="absolute left-1/2 -translate-x-1/2 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-3 z-50 overflow-hidden divide-y divide-slate-100/60"
+                             style="display: none;"
+                             @click.away="open = false">
+                            <div class="px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-rose-600 bg-rose-50/60 flex items-center justify-between">
+                                <span class="flex items-center gap-1.5">👶 Select Age Group</span>
+                            </div>
+                            <div class="py-1">
+                                <a href="{{ route('shop', ['age_group' => '0-3-months']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>0 to 3 Months</span><span class="text-[10px] text-slate-400 font-normal">Infant</span></a>
+                                <a href="{{ route('shop', ['age_group' => '3-6-months']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>3 to 6 Months</span><span class="text-[10px] text-slate-400 font-normal">Infant</span></a>
+                                <a href="{{ route('shop', ['age_group' => '6-9-months']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>6 to 9 Months</span><span class="text-[10px] text-slate-400 font-normal">Baby</span></a>
+                                <a href="{{ route('shop', ['age_group' => '9-12-months']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>9 to 12 Months</span><span class="text-[10px] text-slate-400 font-normal">Baby</span></a>
+                                <a href="{{ route('shop', ['age_group' => '1-2-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>1 to 2 Years</span><span class="text-[10px] text-slate-400 font-normal">Toddler</span></a>
+                                <a href="{{ route('shop', ['age_group' => '3-4-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>3 to 4 Years</span><span class="text-[10px] text-slate-400 font-normal">Kids</span></a>
+                                <a href="{{ route('shop', ['age_group' => '5-6-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>5 to 6 Years</span><span class="text-[10px] text-slate-400 font-normal">Kids</span></a>
+                                <a href="{{ route('shop', ['age_group' => '7-8-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>7 to 8 Years</span><span class="text-[10px] text-slate-400 font-normal">Kids</span></a>
+                                <a href="{{ route('shop', ['age_group' => '9-12-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>9 to 12 Years</span><span class="text-[10px] text-slate-400 font-normal">Junior</span></a>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <a href="{{ route('shop', ['sale' => 1]) }}" class="text-rose-600 font-extrabold hover:text-rose-700 transition">Sale</a>
             </nav>
         </div>
@@ -265,9 +372,50 @@
                     <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 pt-2">Categories</div>
                     <a href="{{ route('shop') }}" class="py-1.5 hover:text-rose-600 transition">Shop All</a>
                     <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="py-1.5 hover:text-rose-600 transition">New Arrivals</a>
+                    @php $mobileAgeAdded = false; @endphp
                     @foreach($navCategories as $navCat)
                         <a href="{{ route('shop', ['category' => $navCat->slug]) }}" class="py-1.5 hover:text-rose-600 transition">{{ $navCat->name }}</a>
+                        @if(strtolower(trim($navCat->name)) === 'newborn')
+                            @php $mobileAgeAdded = true; @endphp
+                            <div x-data="{ ageOpen: false }" class="border-y border-slate-100 py-1 my-1">
+                                <button @click="ageOpen = !ageOpen" class="flex items-center justify-between w-full py-1.5 text-slate-800 font-bold hover:text-rose-600 transition">
+                                    <span>Shop by Age</span>
+                                    <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': ageOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                                <div x-show="ageOpen" class="pl-3 py-1 space-y-1.5 border-l-2 border-rose-400 ml-1 mt-1" style="display: none;">
+                                    <a href="{{ route('shop', ['age_group' => '0-3-months']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">0 to 3 Months</a>
+                                    <a href="{{ route('shop', ['age_group' => '3-6-months']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">3 to 6 Months</a>
+                                    <a href="{{ route('shop', ['age_group' => '6-9-months']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">6 to 9 Months</a>
+                                    <a href="{{ route('shop', ['age_group' => '9-12-months']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">9 to 12 Months</a>
+                                    <a href="{{ route('shop', ['age_group' => '1-2-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">1 to 2 Years</a>
+                                    <a href="{{ route('shop', ['age_group' => '3-4-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">3 to 4 Years</a>
+                                    <a href="{{ route('shop', ['age_group' => '5-6-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">5 to 6 Years</a>
+                                    <a href="{{ route('shop', ['age_group' => '7-8-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">7 to 8 Years</a>
+                                    <a href="{{ route('shop', ['age_group' => '9-12-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">9 to 12 Years</a>
+                                </div>
+                            </div>
+                        @endif
                     @endforeach
+
+                    @if(!$mobileAgeAdded)
+                        <div x-data="{ ageOpen: false }" class="border-y border-slate-100 py-1 my-1">
+                            <button @click="ageOpen = !ageOpen" class="flex items-center justify-between w-full py-1.5 text-slate-800 font-bold hover:text-rose-600 transition">
+                                <span>Shop by Age</span>
+                                <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': ageOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            <div x-show="ageOpen" class="pl-3 py-1 space-y-1.5 border-l-2 border-rose-400 ml-1 mt-1" style="display: none;">
+                                <a href="{{ route('shop', ['age_group' => '0-3-months']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">0 to 3 Months</a>
+                                <a href="{{ route('shop', ['age_group' => '3-6-months']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">3 to 6 Months</a>
+                                <a href="{{ route('shop', ['age_group' => '6-9-months']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">6 to 9 Months</a>
+                                <a href="{{ route('shop', ['age_group' => '9-12-months']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">9 to 12 Months</a>
+                                <a href="{{ route('shop', ['age_group' => '1-2-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">1 to 2 Years</a>
+                                <a href="{{ route('shop', ['age_group' => '3-4-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">3 to 4 Years</a>
+                                <a href="{{ route('shop', ['age_group' => '5-6-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">5 to 6 Years</a>
+                                <a href="{{ route('shop', ['age_group' => '7-8-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">7 to 8 Years</a>
+                                <a href="{{ route('shop', ['age_group' => '9-12-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">9 to 12 Years</a>
+                            </div>
+                        </div>
+                    @endif
                     <a href="{{ route('shop', ['sale' => 1]) }}" class="py-1.5 text-rose-600 font-extrabold hover:text-rose-700 transition">Sale</a>
                 </nav>
             </div>
