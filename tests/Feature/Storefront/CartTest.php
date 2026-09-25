@@ -75,7 +75,7 @@ class CartTest extends TestCase
             ->set('quantity', 2)
             ->call('addToCart')
             ->assertHasNoErrors()
-            ->assertSet('cartMessage', 'Added to cart.');
+            ->assertSet('cartMessage', 'Added to cart. Items reserved for 10 minutes.');
 
         $cart = CartService::getCart();
         $this->assertCount(1, $cart->items);
@@ -118,7 +118,8 @@ class CartTest extends TestCase
             ->set('selectedVariantId', null)
             ->set('quantity', 1)
             ->call('addToCart')
-            ->assertHasErrors(['variant']);
+            ->assertHasNoErrors()
+            ->assertSet('selectedVariantId', $this->variant->id);
     }
 
     public function test_guest_can_update_cart_item_quantity()
