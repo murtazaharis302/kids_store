@@ -18,13 +18,17 @@
     $hasSale = !is_null($salePrice) && $salePrice < $regularPrice;
 @endphp
 
-<div class="group relative bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col h-full overflow-hidden">
+<div class="group relative bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col h-full overflow-hidden cursor-pointer">
+    
+    <!-- Full Card Clickable Overlay -->
+    <a href="{{ route('products.show', $product->slug) }}" class="absolute inset-0 z-0" aria-label="View {{ $product->name }}"></a>
+
     <!-- Image Container -->
-    <div class="relative aspect-square w-full bg-slate-100 overflow-hidden flex items-center justify-center">
+    <div class="relative aspect-square w-full bg-slate-100 overflow-hidden flex items-center justify-center pointer-events-none">
         @if($hasValidImage)
             <img src="{{ $imageUrl }}" 
                  alt="{{ $primaryImg->alt_text ?? $product->name }}" 
-                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 loading="lazy">
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
         @else
             <div class="flex flex-col items-center justify-center p-6 text-slate-400 text-center">
                 <svg class="w-12 h-12 stroke-current opacity-40 mb-2" fill="none" viewBox="0 0 24 24">
@@ -35,7 +39,7 @@
         @endif
 
         <!-- Badges Layer -->
-        <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+        <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
             @if($hasSale)
                 <span class="px-2.5 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
                     Sale
@@ -50,7 +54,7 @@
         </div>
 
         <!-- Wishlist Placeholder UI -->
-        <div class="absolute top-3 right-3 z-10">
+        <div class="absolute top-3 right-3 z-10 pointer-events-auto">
             <button type="button" 
                     @click.prevent="" 
                     title="Wishlist feature coming soon"
@@ -63,7 +67,7 @@
     </div>
 
     <!-- Product Info -->
-    <div class="p-4 flex flex-col flex-1 justify-between gap-3">
+    <div class="p-4 flex flex-col flex-1 justify-between gap-3 relative z-10 pointer-events-none">
         <div class="space-y-1">
             @if($product->category)
                 <p class="text-[11px] font-semibold text-rose-600 uppercase tracking-wider">
@@ -71,24 +75,22 @@
                 </p>
             @endif
 
-            <h3 class="text-sm font-bold text-slate-800 line-clamp-2 group-hover:text-rose-600 transition-colors leading-snug">
-                <a href="{{ route('products.show', $product->slug) }}">
-                    {{ $product->name }}
-                </a>
+            <h3 class="text-sm font-bold text-slate-800 line-clamp-2 group-hover:text-rose-600 transition-colors leading-snug font-heading">
+                {{ $product->name }}
             </h3>
         </div>
 
         <!-- Pricing -->
         <div class="pt-2 border-t border-slate-100 flex items-baseline gap-2">
             @if($hasSale)
-                <span class="text-base font-extrabold text-rose-600">
+                <span class="text-base font-extrabold text-rose-600 font-heading">
                     Rs. {{ number_format($salePrice, 2) }}
                 </span>
                 <span class="text-xs text-slate-400 line-through">
                     Rs. {{ number_format($regularPrice, 2) }}
                 </span>
             @else
-                <span class="text-base font-extrabold text-slate-900">
+                <span class="text-base font-extrabold text-slate-900 font-heading">
                     Rs. {{ number_format($regularPrice, 2) }}
                 </span>
             @endif
