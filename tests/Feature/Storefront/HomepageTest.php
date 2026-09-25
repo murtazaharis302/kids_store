@@ -111,15 +111,16 @@ test('featured collection renders when available', function () {
 });
 
 test('age groups are loaded dynamically', function () {
-    $ageGroup = AgeGroup::create([
-        'name' => '8-9 Years Custom',
-        'slug' => '8-9-years-custom',
+    $ageGroup = AgeGroup::firstOrCreate([
+        'slug' => '9-10-years',
+    ], [
+        'name' => '9 to 10 Years',
         'status' => true,
-        'sort_order' => 99,
+        'sort_order' => 10,
     ]);
 
     $this->get('/')
-        ->assertSee('8-9 Years Custom');
+        ->assertSee('9 to 10 Years');
 });
 
 test('sale products render when available with correct sale pricing', function () {
