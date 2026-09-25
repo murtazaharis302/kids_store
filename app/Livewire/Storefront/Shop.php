@@ -261,9 +261,31 @@ class Shop extends Component
             ->orderBy('sort_order')
             ->get();
 
-        $ageGroups = AgeGroup::where('status', true)
-            ->orderBy('sort_order')
-            ->get();
+        $targetAgeSlugs = [
+            'newborn' => 'Newborn',
+            '0-3-months' => '0 to 3 Months',
+            '3-6-months' => '3 to 6 Months',
+            '6-9-months' => '6 to 9 Months',
+            '9-12-months' => '9 to 12 Months',
+            '1-2-years' => '1 to 2 Years',
+            '3-4-years' => '3 to 4 Years',
+            '5-6-years' => '5 to 6 Years',
+            '7-8-years' => '7 to 8 Years',
+            '9-12-years' => '9 to 12 Years',
+        ];
+
+        $dbAgeGroups = AgeGroup::where('status', true)->get()->keyBy('slug');
+
+        $ageGroups = collect($targetAgeSlugs)->map(function ($name, $slug) use ($dbAgeGroups) {
+            if (isset($dbAgeGroups[$slug])) {
+                return $dbAgeGroups[$slug];
+            }
+            return new AgeGroup([
+                'name' => $name,
+                'slug' => $slug,
+                'status' => true,
+            ]);
+        })->values();
 
         $sizes = Size::where('status', true)
             ->orderBy('sort_order')
