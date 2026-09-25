@@ -107,7 +107,11 @@ class Home extends Component
                 'slug' => $slug,
                 'status' => true,
             ]);
-        })->values();
+        });
+
+        // Append any custom active age groups from DB that are not in targetAgeSlugs
+        $extraAgeGroups = $dbAgeGroups->reject(fn($item, $key) => array_key_exists($key, $targetAgeSlugs))->values();
+        $ageGroups = $ageGroups->concat($extraAgeGroups)->values();
 
         // 6. Sale Products (shuffled)
         $saleProducts = Product::with(['primaryImage', 'images', 'category'])

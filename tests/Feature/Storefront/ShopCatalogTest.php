@@ -130,12 +130,14 @@ test('category filter works', function () {
 
 test('age group filter works', function () {
     $category = getTestShopCategory();
-    $ageGroup = AgeGroup::create([
-        'name' => '3-6 Months',
-        'slug' => '3-6-months',
-        'status' => true,
-        'sort_order' => 2,
-    ]);
+    $ageGroup = AgeGroup::firstOrCreate(
+        ['slug' => '3-6-months'],
+        [
+            'name' => '3-6 Months',
+            'status' => true,
+            'sort_order' => 2,
+        ]
+    );
 
     $p1 = Product::create([
         'category_id' => $category->id,
