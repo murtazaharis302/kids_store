@@ -72,16 +72,16 @@
                     <span style="font-size: 1rem;">✨</span>
                     <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
                     <span style="color: rgba(255,255,255,0.6);">•</span>
-                    <span style="color: #ffffff; font-weight: 600;">Worldwide Shipping Available — Delivering Luxury Kidswear <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD 🌍</strong></span>
+                    <span style="color: #ffffff; font-weight: 600;">Rs 350 Delivery Across Pakistan — Pay in advance & send us screenshot on WhatsApp <strong style="color: #fde047; font-weight: 800;">0324-9171213</strong> to confirm your order <strong style="color: #fde047; font-weight: 800;">(COD not available) 🚚</strong></span>
                 </span>
 
                 <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
 
                 <span class="inline-flex items-center gap-2">
-                    <span style="font-size: 1rem;">🛍️</span>
+                    <span style="font-size: 1rem;">📲</span>
                     <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
                     <span style="color: rgba(255,255,255,0.6);">•</span>
-                    <span style="color: #ffffff; font-weight: 600;">Express Global Delivery & Safe Doorstep Shipping <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD ✈️</strong></span>
+                    <span style="color: #ffffff; font-weight: 600;">Pay in advance & send screenshot on WhatsApp <strong style="color: #fde047; font-weight: 800;">0324-9171213</strong> — Rs 350 Delivery Across Pakistan <strong style="color: #fde047; font-weight: 800;">(COD not available) 💬</strong></span>
                 </span>
 
                 <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
@@ -93,16 +93,16 @@
                     <span style="font-size: 1rem;">✨</span>
                     <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
                     <span style="color: rgba(255,255,255,0.6);">•</span>
-                    <span style="color: #ffffff; font-weight: 600;">Worldwide Shipping Available — Delivering Luxury Kidswear <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD 🌍</strong></span>
+                    <span style="color: #ffffff; font-weight: 600;">Rs 350 Delivery Across Pakistan — Pay in advance & send us screenshot on WhatsApp <strong style="color: #fde047; font-weight: 800;">0324-9171213</strong> to confirm your order <strong style="color: #fde047; font-weight: 800;">(COD not available) 🚚</strong></span>
                 </span>
 
                 <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
 
                 <span class="inline-flex items-center gap-2">
-                    <span style="font-size: 1rem;">🛍️</span>
+                    <span style="font-size: 1rem;">📲</span>
                     <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
                     <span style="color: rgba(255,255,255,0.6);">•</span>
-                    <span style="color: #ffffff; font-weight: 600;">Express Global Delivery & Safe Doorstep Shipping <strong style="color: #fde047; font-weight: 800;">ALL OVER THE WORLD ✈️</strong></span>
+                    <span style="color: #ffffff; font-weight: 600;">Pay in advance & send screenshot on WhatsApp <strong style="color: #fde047; font-weight: 800;">0324-9171213</strong> — Rs 350 Delivery Across Pakistan <strong style="color: #fde047; font-weight: 800;">(COD not available) 💬</strong></span>
                 </span>
 
                 <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
