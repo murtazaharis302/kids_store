@@ -36,7 +36,7 @@
             100% { transform: translate3d(-50%, 0, 0); }
         }
         .top-announcement-bar {
-            background-color: #881337 !important; /* Deep Brand Rose - Matches Al Hayat Kids Logo & Accent Theme */
+            background-color: #000000 !important; /* Sleek Black */
             color: #ffffff !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -44,22 +44,22 @@
         .animate-top-ticker {
             display: flex;
             width: max-content;
-            animation: topBarMarquee 30s linear infinite;
+            animation: topBarMarquee 42s linear infinite;
         }
         .animate-top-ticker:hover {
             animation-play-state: paused;
         }
         .ticker-fade-left {
-            background: linear-gradient(to right, #881337 0%, rgba(136, 19, 55, 0) 100%);
+            background: linear-gradient(to right, #000000 0%, rgba(0, 0, 0, 0) 100%);
         }
         .ticker-fade-right {
-            background: linear-gradient(to left, #881337 0%, rgba(136, 19, 55, 0) 100%);
+            background: linear-gradient(to left, #000000 0%, rgba(0, 0, 0, 0) 100%);
         }
     </style>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col justify-between overflow-x-hidden" x-data="{ mobileMenuOpen: false }">
 
-    <!-- Top Announcement Bar (Brand Matched Deep Rose Ticker) -->
+    <!-- Top Announcement Bar (Sleek Black Ticker) -->
     <div class="top-announcement-bar text-xs sm:text-sm py-2.5 overflow-hidden relative select-none z-50 shadow-xs">
         <!-- Soft Fade overlays on edges -->
         <div class="absolute left-0 top-0 bottom-0 w-10 sm:w-20 ticker-fade-left pointer-events-none z-10"></div>
@@ -67,45 +67,45 @@
 
         <div class="animate-top-ticker flex items-center">
             <!-- Set 1 -->
-            <div class="flex items-center gap-12 sm:gap-16 px-6 shrink-0 tracking-wide font-semibold">
+            <div class="flex items-center gap-12 sm:gap-16 px-6 shrink-0 tracking-wide font-semibold text-white">
                 <span class="inline-flex items-center gap-2">
                     <span style="font-size: 1rem;">✨</span>
                     <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
-                    <span style="color: rgba(255,255,255,0.6);">•</span>
-                    <span style="color: #ffffff; font-weight: 600;">Rs 350 Delivery Across Pakistan — Pay in advance & send us screenshot on WhatsApp <strong style="color: #fde047; font-weight: 800;">0324-9171213</strong> to confirm your order <strong style="color: #fde047; font-weight: 800;">(COD not available) 🚚</strong></span>
+                    <span style="color: #ffffff;">•</span>
+                    <span style="color: #ffffff; font-weight: 600;">Rs 350 Delivery Across Pakistan — Pay in advance & send us screenshot on WhatsApp <strong style="color: #ffffff; font-weight: 800;">0324-9171213</strong> to confirm your order <strong style="color: #ffffff; font-weight: 800;">(COD not available) 🚚</strong></span>
                 </span>
 
-                <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
+                <span style="color: #ffffff; font-weight: 800;">✦</span>
 
                 <span class="inline-flex items-center gap-2">
                     <span style="font-size: 1rem;">📲</span>
                     <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
-                    <span style="color: rgba(255,255,255,0.6);">•</span>
-                    <span style="color: #ffffff; font-weight: 600;">Pay in advance & send screenshot on WhatsApp <strong style="color: #fde047; font-weight: 800;">0324-9171213</strong> — Rs 350 Delivery Across Pakistan <strong style="color: #fde047; font-weight: 800;">(COD not available) 💬</strong></span>
+                    <span style="color: #ffffff;">•</span>
+                    <span style="color: #ffffff; font-weight: 600;">Pay in advance & send screenshot on WhatsApp <strong style="color: #ffffff; font-weight: 800;">0324-9171213</strong> — Rs 350 Delivery Across Pakistan <strong style="color: #ffffff; font-weight: 800;">(COD not available) 💬</strong></span>
                 </span>
 
-                <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
+                <span style="color: #ffffff; font-weight: 800;">✦</span>
             </div>
 
             <!-- Set 2 (Exact Duplicate for continuous seamless loop) -->
-            <div class="flex items-center gap-12 sm:gap-16 px-6 shrink-0 tracking-wide font-semibold" aria-hidden="true">
+            <div class="flex items-center gap-12 sm:gap-16 px-6 shrink-0 tracking-wide font-semibold text-white" aria-hidden="true">
                 <span class="inline-flex items-center gap-2">
                     <span style="font-size: 1rem;">✨</span>
                     <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
-                    <span style="color: rgba(255,255,255,0.6);">•</span>
-                    <span style="color: #ffffff; font-weight: 600;">Rs 350 Delivery Across Pakistan — Pay in advance & send us screenshot on WhatsApp <strong style="color: #fde047; font-weight: 800;">0324-9171213</strong> to confirm your order <strong style="color: #fde047; font-weight: 800;">(COD not available) 🚚</strong></span>
+                    <span style="color: #ffffff;">•</span>
+                    <span style="color: #ffffff; font-weight: 600;">Rs 350 Delivery Across Pakistan — Pay in advance & send us screenshot on WhatsApp <strong style="color: #ffffff; font-weight: 800;">0324-9171213</strong> to confirm your order <strong style="color: #ffffff; font-weight: 800;">(COD not available) 🚚</strong></span>
                 </span>
 
-                <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
+                <span style="color: #ffffff; font-weight: 800;">✦</span>
 
                 <span class="inline-flex items-center gap-2">
                     <span style="font-size: 1rem;">📲</span>
                     <span style="background: rgba(255,255,255,0.22); color: #ffffff; padding: 2.5px 12px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.04em;">WELCOME TO AL HAYAT KIDS</span>
-                    <span style="color: rgba(255,255,255,0.6);">•</span>
-                    <span style="color: #ffffff; font-weight: 600;">Pay in advance & send screenshot on WhatsApp <strong style="color: #fde047; font-weight: 800;">0324-9171213</strong> — Rs 350 Delivery Across Pakistan <strong style="color: #fde047; font-weight: 800;">(COD not available) 💬</strong></span>
+                    <span style="color: #ffffff;">•</span>
+                    <span style="color: #ffffff; font-weight: 600;">Pay in advance & send screenshot on WhatsApp <strong style="color: #ffffff; font-weight: 800;">0324-9171213</strong> — Rs 350 Delivery Across Pakistan <strong style="color: #ffffff; font-weight: 800;">(COD not available) 💬</strong></span>
                 </span>
 
-                <span style="color: rgba(255,255,255,0.5); font-weight: 800;">✦</span>
+                <span style="color: #ffffff; font-weight: 800;">✦</span>
             </div>
         </div>
     </div>
