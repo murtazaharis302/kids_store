@@ -49,30 +49,6 @@
                 </button>
             </div>
 
-            <!-- Free Shipping Progress Bar Banner -->
-            @if($count > 0)
-                <div class="bg-slate-50 border-b border-slate-100 px-5 py-3 shrink-0">
-                    @if($qualifiesForFreeShipping)
-                        <div class="flex items-center gap-2 text-xs font-bold text-emerald-700 mb-1.5">
-                            <span class="text-sm">🎉</span>
-                            <span>You qualify for <strong>FREE shipping!</strong></span>
-                        </div>
-                    @else
-                        <div class="flex items-center justify-between text-xs font-medium text-slate-600 mb-1.5">
-                            <span>Add <strong class="text-slate-900 font-bold">Rs. {{ number_format($freeShippingThreshold - $subtotal, 2) }}</strong> more for <strong class="text-rose-600 font-bold">Free Shipping</strong>!</span>
-                            <span class="font-bold text-slate-500">{{ $freeShippingProgress }}%</span>
-                        </div>
-                    @endif
-
-                    <div class="w-full h-2.5 bg-slate-200/80 rounded-full overflow-hidden relative shadow-inner">
-                        <div class="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-emerald-500 to-teal-400 relative"
-                             style="width: {{ $freeShippingProgress }}%;">
-                            <span class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 text-xs">🚚</span>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <!-- Flash Notifications -->
             @if($flashMessage)
                 <div class="px-5 py-2.5 text-xs font-bold {{ $flashMessageType === 'error' ? 'bg-rose-50 text-rose-700 border-b border-rose-100' : 'bg-emerald-50 text-emerald-700 border-b border-emerald-100' }} flex items-center justify-between">
@@ -105,13 +81,34 @@
                         @php
                             $product = $item->product;
                             $variant = $item->variant;
-                            $primaryImg = $product->primaryImage ? asset('storage/' . $product->primaryImage->image) : ($product->images->first() ? asset('storage/' . $product->images->first()->image) : asset('images/logo.png'));
+                            
+                            $imgObj = $product->primaryImage ?: ($product->images ? $product->images->first() : null);
+                            $imageUrl = '';
+                            if ($imgObj && !empty($imgObj->url)) {
+                                $imageUrl = $imgObj->url;
+                            } elseif ($imgObj && !empty($imgObj->image)) {
+                                $imageUrl = \App\Models\ProductImage::getImageUrl($imgObj->image);
+                            }
+                            $hasValidImage = !empty($imageUrl);
                         @endphp
                         <div class="py-4 first:pt-0 flex items-start gap-4 group">
                             
-                            <!-- Thumbnail Image -->
-                            <a href="{{ route('products.show', $product->slug) }}" @click="isOpen = false" class="shrink-0 w-20 h-24 sm:w-22 sm:h-26 rounded-xl overflow-hidden bg-slate-100 border border-slate-200/80 shadow-2xs group-hover:border-rose-300 transition">
-                                <img src="{{ $primaryImg }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <!-- Thumbnail Image with Fail-Proof Fallback -->
+                            <a href="{{ route('products.show', $product->slug) }}" 
+                               @click="isOpen = false" 
+                               class="shrink-0 w-20 h-24 sm:w-22 sm:h-26 rounded-xl overflow-hidden bg-slate-100 border border-slate-200/80 shadow-2xs group-hover:border-rose-300 transition relative flex items-center justify-center">
+                                @if($hasValidImage)
+                                    <img src="{{ $imageUrl }}" 
+                                         alt="{{ $product->name }}" 
+                                         onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';"
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                @endif
+                                <div class="flex flex-col items-center justify-center p-2 text-slate-400 text-center w-full h-full bg-slate-100 {{ $hasValidImage ? 'hidden' : '' }}">
+                                    <svg class="w-7 h-7 stroke-current opacity-40 mb-1" fill="none" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span class="text-[9px] font-extrabold text-slate-400 leading-tight uppercase font-heading">AH Kids</span>
+                                </div>
                             </a>
 
                             <!-- Item Details -->
@@ -196,51 +193,6 @@
 
                         </div>
                     @endforeach
-
-                    <!-- Feature Action Icons Bar (Awaisia Store Tabs) -->
-                    <div class="border-t border-slate-100 pt-4 mt-2">
-                        <div class="grid grid-cols-3 gap-2 text-center text-xs">
-                            <button type="button" 
-                                    wire:click="toggleTab('note')" 
-                                    class="p-2.5 rounded-xl border {{ $activeTab === 'note' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100' }} font-bold transition flex flex-col items-center gap-1">
-                                <span class="text-base">📋</span>
-                                <span class="text-[10px] uppercase font-bold tracking-wider">Note</span>
-                            </button>
-                            <button type="button" 
-                                    wire:click="toggleTab('shipping')" 
-                                    class="p-2.5 rounded-xl border {{ $activeTab === 'shipping' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100' }} font-bold transition flex flex-col items-center gap-1">
-                                <span class="text-base">🚚</span>
-                                <span class="text-[10px] uppercase font-bold tracking-wider">Shipping</span>
-                            </button>
-                            <button type="button" 
-                                    wire:click="toggleTab('coupon')" 
-                                    class="p-2.5 rounded-xl border {{ $activeTab === 'coupon' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100' }} font-bold transition flex flex-col items-center gap-1">
-                                <span class="text-base">🏷️</span>
-                                <span class="text-[10px] uppercase font-bold tracking-wider">Coupon</span>
-                            </button>
-                        </div>
-
-                        <!-- Active Drawer Sub-Section -->
-                        @if($activeTab === 'note')
-                            <div class="mt-3 p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-700">Special Instructions / Order Notes</label>
-                                <textarea wire:model="cartNote" rows="2" placeholder="Write any specific sizing or gift instructions..." class="w-full p-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500"></textarea>
-                            </div>
-                        @elseif($activeTab === 'shipping')
-                            <div class="mt-3 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
-                                <div class="font-bold text-slate-800">🚚 Shipping & Delivery Rates</div>
-                                <p class="text-slate-600 leading-normal text-[11px]">Rs 350 Flat Delivery across Pakistan. Advance payment confirmation required via WhatsApp (0324-9171213).</p>
-                            </div>
-                        @elseif($activeTab === 'coupon')
-                            <div class="mt-3 p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-700">Have a Promo / Discount Code?</label>
-                                <div class="flex gap-2">
-                                    <input type="text" wire:model="couponCode" placeholder="Enter coupon code..." class="flex-1 px-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 uppercase">
-                                    <a href="{{ route('checkout.index') }}" @click="isOpen = false" class="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-black transition">Apply</a>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
                 @endif
             </div>
 
@@ -269,7 +221,7 @@
                         Tax included and shipping calculated at checkout
                     </p>
 
-                    <!-- Checkout & View Cart Buttons (Exact Awaisia Style) -->
+                    <!-- Checkout & View Cart Buttons -->
                     <div class="space-y-2 pt-1">
                         <a href="{{ route('checkout.index') }}" 
                            @click="isOpen = false" 

@@ -10,23 +10,11 @@ class CartDrawer extends Component
 {
     public $flashMessage = '';
     public $flashMessageType = 'success'; // 'success' or 'error'
-    public $activeTab = null; // 'note', 'shipping', 'coupon' or null
-    public $cartNote = '';
-    public $couponCode = '';
 
     #[On('cart-updated')]
     public function refreshCart()
     {
         // Re-renders the component on cart-updated
-    }
-
-    public function toggleTab($tab)
-    {
-        if ($this->activeTab === $tab) {
-            $this->activeTab = null;
-        } else {
-            $this->activeTab = $tab;
-        }
     }
 
     public function updateQuantity($itemId, $quantity)
@@ -109,11 +97,7 @@ class CartDrawer extends Component
             $count += $item->quantity;
         }
 
-        $freeShippingThreshold = 3500.0;
-        $freeShippingProgress = min(100, round(($subtotal / $freeShippingThreshold) * 100));
-        $qualifiesForFreeShipping = $subtotal >= $freeShippingThreshold;
-
-        $shippingFee = $count > 0 ? ($qualifiesForFreeShipping ? 0.0 : 350.0) : 0.0;
+        $shippingFee = $count > 0 ? 350.0 : 0.0;
         $total = $subtotal + $shippingFee;
 
         return view('livewire.storefront.cart-drawer', [
@@ -123,9 +107,6 @@ class CartDrawer extends Component
             'subtotal' => $subtotal,
             'shippingFee' => $shippingFee,
             'total' => $total,
-            'freeShippingThreshold' => $freeShippingThreshold,
-            'freeShippingProgress' => $freeShippingProgress,
-            'qualifiesForFreeShipping' => $qualifiesForFreeShipping,
         ]);
     }
 }
