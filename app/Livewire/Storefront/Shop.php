@@ -240,9 +240,11 @@ class Shop extends Component
 
         // Sorting
         switch ($this->sort) {
+            case 'price_low':
             case 'price_low_high':
                 $query->orderByRaw('CASE WHEN sale_price IS NOT NULL AND sale_price < price THEN sale_price ELSE price END ASC');
                 break;
+            case 'price_high':
             case 'price_high_low':
                 $query->orderByRaw('CASE WHEN sale_price IS NOT NULL AND sale_price < price THEN sale_price ELSE price END DESC');
                 break;
