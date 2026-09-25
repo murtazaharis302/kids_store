@@ -25,10 +25,8 @@ test('guest can access homepage', function () {
 
 test('homepage renders ah kids branding and title tag', function () {
     $this->get('/')
-        ->assertSee('AH Kids')
-        ->assertSee('Premium Children')
-        ->assertSee('AH Kids Official Storefront')
-        ->assertSee('Made for Little Moments');
+        ->assertSee('Al Hayat Kids')
+        ->assertSee('Al Hayat Kids Official Storefront');
 });
 
 test('hero section renders with ctas', function () {
@@ -189,7 +187,7 @@ test('missing product images do not crash', function () {
 
     $this->get('/')
         ->assertSee('No Image Product')
-        ->assertSee('AH Kids Collection');
+        ->assertSee('Al Hayat Kids');
 });
 
 test('authenticated customer can access homepage', function () {
