@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\Size;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,6 +14,7 @@ class Shop extends Component
 {
     use WithPagination;
 
+    // Query parameters reflected in URL
     public $search = '';
     public $category = '';
     public $age_group = '';
@@ -22,9 +22,9 @@ class Shop extends Component
     public $color = '';
     public $sale = false;
     public $new_arrival = false;
+    public $sort = 'featured';
     public $min_price = '';
     public $max_price = '';
-    public $sort = 'featured';
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -34,49 +34,72 @@ class Shop extends Component
         'color' => ['except' => ''],
         'sale' => ['except' => false],
         'new_arrival' => ['except' => false],
+        'sort' => ['except' => 'featured'],
         'min_price' => ['except' => ''],
         'max_price' => ['except' => ''],
-        'sort' => ['except' => 'featured'],
     ];
 
-    public function updated($property)
+    public function updatingSearch()
     {
-        if (in_array($property, ['search', 'category', 'age_group', 'size', 'color', 'sale', 'new_arrival', 'min_price', 'max_price', 'sort'])) {
-            $this->resetPage();
-        }
+        $this->resetPage();
+    }
+
+    public function updatingCategory()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingAgeGroup()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSize()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingColor()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSale()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingNewArrival()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSort()
+    {
+        $this->resetPage();
     }
 
     public function clearFilters()
     {
-        $this->reset([
-            'search',
-            'category',
-            'age_group',
-            'size',
-            'color',
-            'sale',
-            'new_arrival',
-            'min_price',
-            'max_price',
-            'sort',
-        ]);
+        $this->reset(['search', 'category', 'age_group', 'size', 'color', 'sale', 'new_arrival', 'sort', 'min_price', 'max_price']);
         $this->resetPage();
     }
 
-    public function removeFilter($key)
+    public function removeFilter($filterName)
     {
-        if ($key === 'sale' || $key === 'new_arrival') {
-            $this->$key = false;
-        } else {
-            $this->$key = '';
+        if (property_exists($this, $filterName)) {
+            if (is_bool($this->$filterName)) {
+                $this->$filterName = false;
+            } else {
+                $this->$filterName = '';
+            }
+            $this->resetPage();
         }
-        $this->resetPage();
     }
 
     public function render()
     {
-        // Query active products only
-        $query = Product::with(['primaryImage', 'category', 'variants.size', 'variants.color'])
+        $query = Product::with(['primaryImage', 'images', 'category', 'variants.size', 'variants.color'])
             ->where('status', true);
 
         // Search (Name, SKU, Description, or Variant SKU)
@@ -108,7 +131,6 @@ class Shop extends Component
         if (!empty($this->age_group)) {
             $ageVal = strtolower(trim($this->age_group));
             
-            // Build search variations (e.g. "0-3-months" -> ["0-3-months", "0-3", "0 to 3", "0-3m", "0-3 months"])
             $keywords = [$ageVal];
             if (preg_match('/(\d+)[\s_\-]*to[\s_\-]*(\d+)/i', $ageVal, $m) || preg_match('/(\d+)[\s_\-]+(\d+)/i', $ageVal, $m)) {
                 $n1 = $m[1];
@@ -140,35 +162,34 @@ class Shop extends Component
             });
         }
 
-        // Size Filter (via product_variants)
+        // Size Filter via Variants
         if (!empty($this->size)) {
-            $sizeVal = $this->size;
+            $sizeVal = strtolower(trim($this->size));
             $query->whereHas('variants', function ($q) use ($sizeVal) {
                 $q->where('status', true)
-                    ->where(function ($sq) use ($sizeVal) {
-                        $sq->where('size_id', $sizeVal)
-                            ->orWhereHas('size', function ($ssq) use ($sizeVal) {
-                                $ssq->where('name', $sizeVal);
-                            });
+                    ->whereHas('size', function ($sq) use ($sizeVal) {
+                        $sq->where('slug', $sizeVal)
+                            ->orWhere('code', $sizeVal)
+                            ->orWhere('id', $sizeVal)
+                            ->orWhere('name', 'like', "%{$sizeVal}%");
                     });
             });
         }
 
-        // Color Filter (via product_variants)
+        // Color Filter via Variants
         if (!empty($this->color)) {
-            $colorVal = $this->color;
+            $colorVal = strtolower(trim($this->color));
             $query->whereHas('variants', function ($q) use ($colorVal) {
                 $q->where('status', true)
-                    ->where(function ($cq) use ($colorVal) {
-                        $cq->where('color_id', $colorVal)
-                            ->orWhereHas('color', function ($ccq) use ($colorVal) {
-                                $ccq->where('name', $colorVal);
-                            });
+                    ->whereHas('color', function ($cq) use ($colorVal) {
+                        $cq->where('slug', $colorVal)
+                            ->orWhere('id', $colorVal)
+                            ->orWhere('name', 'like', "%{$colorVal}%");
                     });
             });
         }
 
-        // Sale Filter (sale_price < price AND is_sale/sale_price set)
+        // Sale Filter
         if ($this->sale) {
             $query->where(function ($q) {
                 $q->where('is_sale', true)
@@ -184,56 +205,48 @@ class Shop extends Component
             $query->where('new_arrival', true);
         }
 
-        // Effective Price Filtering (Using pure Eloquent boolean logic)
+        // Price Filter (Min / Max)
         if ($this->min_price !== '' && is_numeric($this->min_price)) {
-            $min = (float) $this->min_price;
-            $query->where(function ($q) use ($min) {
-                // Effective price is sale_price if sale_price is valid and < price
-                $q->where(function ($sub) use ($min) {
+            $minP = (float) $this->min_price;
+            $query->where(function ($q) use ($minP) {
+                $q->where(function ($sub) use ($minP) {
                     $sub->whereNotNull('sale_price')
                         ->whereColumn('sale_price', '<', 'price')
-                        ->where('sale_price', '>=', $min);
-                })
-                // Otherwise effective price is regular price
-                ->orWhere(function ($sub) use ($min) {
-                    $sub->where(function ($nullCheck) {
-                        $nullCheck->whereNull('sale_price')
+                        ->where('sale_price', '>=', $minP);
+                })->orWhere(function ($sub) use ($minP) {
+                    $sub->where(function ($s2) {
+                        $s2->whereNull('sale_price')
                             ->orWhereColumn('sale_price', '>=', 'price');
-                    })
-                    ->where('price', '>=', $min);
+                    })->where('price', '>=', $minP);
                 });
             });
         }
 
         if ($this->max_price !== '' && is_numeric($this->max_price)) {
-            $max = (float) $this->max_price;
-            $query->where(function ($q) use ($max) {
-                // Effective price is sale_price if sale_price is valid and < price
-                $q->where(function ($sub) use ($max) {
+            $maxP = (float) $this->max_price;
+            $query->where(function ($q) use ($maxP) {
+                $q->where(function ($sub) use ($maxP) {
                     $sub->whereNotNull('sale_price')
                         ->whereColumn('sale_price', '<', 'price')
-                        ->where('sale_price', '<=', $max);
-                })
-                // Otherwise effective price is regular price
-                ->orWhere(function ($sub) use ($max) {
-                    $sub->where(function ($nullCheck) {
-                        $nullCheck->whereNull('sale_price')
+                        ->where('sale_price', '<=', $maxP);
+                })->orWhere(function ($sub) use ($maxP) {
+                    $sub->where(function ($s2) {
+                        $s2->whereNull('sale_price')
                             ->orWhereColumn('sale_price', '>=', 'price');
-                    })
-                    ->where('price', '<=', $max);
+                    })->where('price', '<=', $maxP);
                 });
             });
         }
 
         // Sorting
-        $effectivePriceSql = 'CASE WHEN sale_price IS NOT NULL AND sale_price < price THEN sale_price ELSE price END';
         switch ($this->sort) {
-            case 'price_low':
-                $query->orderByRaw("{$effectivePriceSql} ASC");
+            case 'price_low_high':
+                $query->orderByRaw('CASE WHEN sale_price IS NOT NULL AND sale_price < price THEN sale_price ELSE price END ASC');
                 break;
-            case 'price_high':
-                $query->orderByRaw("{$effectivePriceSql} DESC");
+            case 'price_high_low':
+                $query->orderByRaw('CASE WHEN sale_price IS NOT NULL AND sale_price < price THEN sale_price ELSE price END DESC');
                 break;
+            case 'latest':
             case 'newest':
                 $query->orderBy('created_at', 'desc');
                 break;
@@ -261,6 +274,7 @@ class Shop extends Component
             ->orderBy('sort_order')
             ->get();
 
+        // Strict 11 Target Age Groups
         $targetAgeSlugs = [
             'newborn' => 'Newborn',
             '0-3-months' => '0 to 3 Months',
@@ -271,7 +285,8 @@ class Shop extends Component
             '3-4-years' => '3 to 4 Years',
             '5-6-years' => '5 to 6 Years',
             '7-8-years' => '7 to 8 Years',
-            '9-12-years' => '9 to 12 Years',
+            '9-10-years' => '9 to 10 Years',
+            '11-12-years' => '11 to 12 Years',
         ];
 
         $dbAgeGroups = AgeGroup::where('status', true)->get()->keyBy('slug');
@@ -285,11 +300,7 @@ class Shop extends Component
                 'slug' => $slug,
                 'status' => true,
             ]);
-        });
-
-        // Append any custom active age groups from DB that are not in targetAgeSlugs
-        $extraAgeGroups = $dbAgeGroups->reject(fn($item, $key) => array_key_exists($key, $targetAgeSlugs))->values();
-        $ageGroups = $ageGroups->concat($extraAgeGroups)->values();
+        })->values();
 
         $sizes = Size::where('status', true)
             ->orderBy('sort_order')

@@ -273,8 +273,12 @@
                                         <span>7 to 8 Years</span>
                                         <span class="text-[10px] text-slate-400 font-normal">Kids</span>
                                     </a>
-                                    <a href="{{ route('shop', ['age_group' => '9-12-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
-                                        <span>9 to 12 Years</span>
+                                    <a href="{{ route('shop', ['age_group' => '9-10-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>9 to 10 Years</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">Junior</span>
+                                    </a>
+                                    <a href="{{ route('shop', ['age_group' => '11-12-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition">
+                                        <span>11 to 12 Years</span>
                                         <span class="text-[10px] text-slate-400 font-normal">Junior</span>
                                     </a>
                                 </div>
@@ -314,7 +318,8 @@
                                 <a href="{{ route('shop', ['age_group' => '3-4-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>3 to 4 Years</span><span class="text-[10px] text-slate-400 font-normal">Kids</span></a>
                                 <a href="{{ route('shop', ['age_group' => '5-6-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>5 to 6 Years</span><span class="text-[10px] text-slate-400 font-normal">Kids</span></a>
                                 <a href="{{ route('shop', ['age_group' => '7-8-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>7 to 8 Years</span><span class="text-[10px] text-slate-400 font-normal">Kids</span></a>
-                                <a href="{{ route('shop', ['age_group' => '9-12-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>9 to 12 Years</span><span class="text-[10px] text-slate-400 font-normal">Junior</span></a>
+                                <a href="{{ route('shop', ['age_group' => '9-10-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>9 to 10 Years</span><span class="text-[10px] text-slate-400 font-normal">Junior</span></a>
+                                <a href="{{ route('shop', ['age_group' => '11-12-years']) }}" class="flex items-center justify-between px-4 py-2 text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-600 transition"><span>11 to 12 Years</span><span class="text-[10px] text-slate-400 font-normal">Junior</span></a>
                             </div>
                         </div>
                     </div>
@@ -391,7 +396,8 @@
                                     <a href="{{ route('shop', ['age_group' => '3-4-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">3 to 4 Years</a>
                                     <a href="{{ route('shop', ['age_group' => '5-6-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">5 to 6 Years</a>
                                     <a href="{{ route('shop', ['age_group' => '7-8-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">7 to 8 Years</a>
-                                    <a href="{{ route('shop', ['age_group' => '9-12-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">9 to 12 Years</a>
+                                    <a href="{{ route('shop', ['age_group' => '9-10-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">9 to 10 Years</a>
+                                    <a href="{{ route('shop', ['age_group' => '11-12-years']) }}" class="block py-1 text-xs font-semibold text-slate-600 hover:text-rose-600">11 to 12 Years</a>
                                 </div>
                             </div>
                         @endif

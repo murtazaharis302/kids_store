@@ -82,7 +82,7 @@ class Home extends Component
             ->where('status', true)
             ->first();
 
-        // 5. Age Groups (Strict Sequence)
+        // 5. Age Groups (Strict Sequence & Clean Exclusion of Unwanted DB Rows)
         $targetAgeSlugs = [
             'newborn' => 'Newborn',
             '0-3-months' => '0 to 3 Months',
@@ -93,7 +93,8 @@ class Home extends Component
             '3-4-years' => '3 to 4 Years',
             '5-6-years' => '5 to 6 Years',
             '7-8-years' => '7 to 8 Years',
-            '9-12-years' => '9 to 12 Years',
+            '9-10-years' => '9 to 10 Years',
+            '11-12-years' => '11 to 12 Years',
         ];
 
         $dbAgeGroups = AgeGroup::where('status', true)->get()->keyBy('slug');
@@ -107,11 +108,7 @@ class Home extends Component
                 'slug' => $slug,
                 'status' => true,
             ]);
-        });
-
-        // Append any custom active age groups from DB that are not in targetAgeSlugs
-        $extraAgeGroups = $dbAgeGroups->reject(fn($item, $key) => array_key_exists($key, $targetAgeSlugs))->values();
-        $ageGroups = $ageGroups->concat($extraAgeGroups)->values();
+        })->values();
 
         // 6. Sale Products (shuffled)
         $saleProducts = Product::with(['primaryImage', 'images', 'category'])

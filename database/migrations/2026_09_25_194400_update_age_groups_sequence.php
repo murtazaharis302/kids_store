@@ -17,17 +17,18 @@ return new class extends Migration
             ['name' => '3 to 4 Years', 'slug' => '3-4-years', 'sort_order' => 7],
             ['name' => '5 to 6 Years', 'slug' => '5-6-years', 'sort_order' => 8],
             ['name' => '7 to 8 Years', 'slug' => '7-8-years', 'sort_order' => 9],
-            ['name' => '9 to 12 Years', 'slug' => '9-12-years', 'sort_order' => 10],
+            ['name' => '9 to 10 Years', 'slug' => '9-10-years', 'sort_order' => 10],
+            ['name' => '11 to 12 Years', 'slug' => '11-12-years', 'sort_order' => 11],
         ];
 
         $validSlugs = array_column($ageGroups, 'slug');
 
-        // Deactivate any old or non-standard age groups (e.g. 12-18-months, 18-24-months, 2-3-years)
+        // Deactivate any old or non-standard age groups (e.g. 9-12-years, 12-18-months, 18-24-months, 2-3-years, 4-5-years)
         DB::table('age_groups')
             ->whereNotIn('slug', $validSlugs)
             ->update(['status' => 0]);
 
-        // Insert or update the 10 target age groups in exact order
+        // Insert or update the 11 target age groups in exact order
         foreach ($ageGroups as $group) {
             $exists = DB::table('age_groups')->where('slug', $group['slug'])->first();
             if ($exists) {
@@ -54,6 +55,5 @@ return new class extends Migration
 
     public function down()
     {
-        // Revert status if needed
     }
 };

@@ -19,12 +19,13 @@ class EnsureAgeGroupsSeeder extends Seeder
             ['name' => '3 to 4 Years', 'slug' => '3-4-years', 'sort' => 7],
             ['name' => '5 to 6 Years', 'slug' => '5-6-years', 'sort' => 8],
             ['name' => '7 to 8 Years', 'slug' => '7-8-years', 'sort' => 9],
-            ['name' => '9 to 12 Years', 'slug' => '9-12-years', 'sort' => 10],
+            ['name' => '9 to 10 Years', 'slug' => '9-10-years', 'sort' => 10],
+            ['name' => '11 to 12 Years', 'slug' => '11-12-years', 'sort' => 11],
         ];
 
         $validSlugs = collect($ageGroups)->pluck('slug')->toArray();
 
-        // Deactivate old/unwanted age groups (e.g. 12-18-months, 18-24-months, 2-3-years)
+        // Deactivate old/unwanted age groups (e.g. 9-12-years, 12-18-months, 18-24-months, 2-3-years, 4-5-years)
         AgeGroup::whereNotIn('slug', $validSlugs)->update(['status' => false]);
 
         foreach ($ageGroups as $group) {
