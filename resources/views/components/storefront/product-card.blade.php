@@ -37,6 +37,7 @@
         @if($hasValidImage)
             <img src="{{ $imageUrl }}"
                  alt="{{ $primaryImg->alt_text ?? $product->name }}"
+                 onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=600&h=800&q=80';"
                  style="width:100%;height:100%;object-fit:cover;transition:transform 0.55s ease;display:block;"
                  class="product-card-img"
                  loading="lazy">

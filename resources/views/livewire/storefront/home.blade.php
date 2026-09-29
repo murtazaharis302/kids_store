@@ -16,28 +16,36 @@
         @php
         $slides = [
             [
-                'image' => '/images/user_pic_1.jpg',
-                'title' => 'CRAFTED FOR LITTLE MOMENTS',
-                'type'  => 'NEW SEASON COLLECTION',
-                'url'   => route('shop', ['new_arrival' => 1]),
+                'image'    => asset('images/user_pic_1.jpg'),
+                'alt_img'  => '/images/user_pic_1.jpg',
+                'fallback' => 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=80',
+                'title'    => 'CRAFTED FOR LITTLE MOMENTS',
+                'type'     => 'NEW SEASON COLLECTION',
+                'url'      => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image' => '/images/user_pic_2.jpg',
-                'title' => 'GARDEN PARTY',
-                'type'  => 'GIRLS COLLECTION',
-                'url'   => route('shop', ['category' => 'girls']),
+                'image'    => asset('images/user_pic_2.jpg'),
+                'alt_img'  => '/images/user_pic_2.jpg',
+                'fallback' => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1600&q=80',
+                'title'    => 'GARDEN PARTY',
+                'type'     => 'GIRLS COLLECTION',
+                'url'      => route('shop', ['category' => 'girls']),
             ],
             [
-                'image' => '/images/user_pic_3.jpg',
-                'title' => 'FESTIVE GLOW',
-                'type'  => 'EID COLLECTION',
-                'url'   => route('shop', ['new_arrival' => 1]),
+                'image'    => asset('images/user_pic_3.jpg'),
+                'alt_img'  => '/images/user_pic_3.jpg',
+                'fallback' => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=1600&q=80',
+                'title'    => 'FESTIVE GLOW',
+                'type'     => 'EID COLLECTION',
+                'url'      => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image' => '/images/user_pic_4.png',
-                'title' => 'GENTLE FROM DAY ONE',
-                'type'  => 'NEWBORN & BABY',
-                'url'   => route('shop', ['category' => 'newborn']),
+                'image'    => asset('images/user_pic_4.png'),
+                'alt_img'  => '/images/user_pic_4.png',
+                'fallback' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
+                'title'    => 'GENTLE FROM DAY ONE',
+                'type'     => 'NEWBORN & BABY',
+                'url'      => route('shop', ['category' => 'newborn']),
             ],
         ];
         @endphp
@@ -45,9 +53,10 @@
         @foreach($slides as $i => $slide)
         <div style="min-width:100%;height:100%;position:relative;flex-shrink:0;">
 
-            {{-- Full-bleed image — clean, no heavy dark overlay --}}
+            {{-- Full-bleed image with fail-safe fallback --}}
             <img src="{{ $slide['image'] }}"
                  alt="{{ $slide['title'] }}"
+                 onerror="if(this.src!=='{{ $slide['alt_img'] }}'){this.src='{{ $slide['alt_img'] }}';}else{this.src='{{ $slide['fallback'] }}';}"
                  style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;"
                  loading="{{ $i === 0 ? 'eager' : 'lazy' }}">
 
@@ -198,32 +207,40 @@
             @php
             $cols = [
                 [
-                    'image' => '/images/user_pic_2.jpg',
-                    'label' => 'Girls',
-                    'title' => 'Garden Party',
-                    'sub'   => 'Embroidered & Floral',
-                    'url'   => route('shop', ['category' => 'girls']),
+                    'image'    => asset('images/user_pic_2.jpg'),
+                    'alt_img'  => '/images/user_pic_2.jpg',
+                    'fallback' => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=600&h=800&q=80',
+                    'label'    => 'Girls',
+                    'title'    => 'Garden Party',
+                    'sub'      => 'Embroidered & Floral',
+                    'url'      => route('shop', ['category' => 'girls']),
                 ],
                 [
-                    'image' => '/images/user_pic_1.jpg',
-                    'label' => 'Boys',
-                    'title' => 'Little Gentlemen',
-                    'sub'   => 'Classic & Contemporary',
-                    'url'   => route('shop', ['category' => 'boys']),
+                    'image'    => asset('images/user_pic_1.jpg'),
+                    'alt_img'  => '/images/user_pic_1.jpg',
+                    'fallback' => 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?auto=format&fit=crop&w=600&h=800&q=80',
+                    'label'    => 'Boys',
+                    'title'    => 'Little Gentlemen',
+                    'sub'      => 'Classic & Contemporary',
+                    'url'      => route('shop', ['category' => 'boys']),
                 ],
                 [
-                    'image' => '/images/user_pic_4.png',
-                    'label' => 'Newborn',
-                    'title' => 'First Days',
-                    'sub'   => 'Soft & Gentle Fabrics',
-                    'url'   => route('shop', ['category' => 'newborn']),
+                    'image'    => asset('images/user_pic_4.png'),
+                    'alt_img'  => '/images/user_pic_4.png',
+                    'fallback' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=600&h=800&q=80',
+                    'label'    => 'Newborn',
+                    'title'    => 'First Days',
+                    'sub'      => 'Soft & Gentle Fabrics',
+                    'url'      => route('shop', ['category' => 'newborn']),
                 ],
                 [
-                    'image' => '/images/user_pic_3.jpg',
-                    'label' => 'Eid Collection',
-                    'title' => 'Festive Glow',
-                    'sub'   => 'Gold Embroidery Sets',
-                    'url'   => route('shop', ['new_arrival' => 1]),
+                    'image'    => asset('images/user_pic_3.jpg'),
+                    'alt_img'  => '/images/user_pic_3.jpg',
+                    'fallback' => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=600&h=800&q=80',
+                    'label'    => 'Eid Collection',
+                    'title'    => 'Festive Glow',
+                    'sub'      => 'Gold Embroidery Sets',
+                    'url'      => route('shop', ['new_arrival' => 1]),
                 ],
             ];
             @endphp
@@ -234,6 +251,7 @@
                class="col-tile">
                 <img src="{{ $col['image'] }}"
                      alt="{{ $col['title'] }}"
+                     onerror="if(this.src!=='{{ $col['alt_img'] }}'){this.src='{{ $col['alt_img'] }}';}else{this.src='{{ $col['fallback'] }}';}"
                      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94);"
                      class="col-tile-img" loading="lazy">
                 <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,0.75) 0%,rgba(10,10,10,0.15) 45%,transparent 70%);"></div>
