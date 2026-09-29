@@ -362,6 +362,9 @@
 
         /* ── Smooth page wrapper ── */
         main { flex: 1; }
+
+        /* ── Alpine.js x-cloak: hide elements until Alpine initializes ── */
+        [x-cloak] { display: none !important; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen" x-data="{ mobileMenuOpen: false }">
