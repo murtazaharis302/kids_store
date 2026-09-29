@@ -1,35 +1,32 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-    <!-- Breadcrumbs -->
-    <nav class="flex text-xs text-slate-400 font-medium space-x-2">
-        <a href="{{ route('home') }}" class="hover:text-rose-600 transition">Home</a>
-        <span>/</span>
-        <a href="{{ route('cart.index') }}" class="hover:text-rose-600 transition">Shopping Cart</a>
-        <span>/</span>
-        <span class="text-slate-700 font-semibold">Checkout</span>
+<div style="max-width:1200px;margin:0 auto;padding:32px 24px 80px;" class="checkout-page-container">
+
+    {{-- ── Breadcrumbs ── --}}
+    <nav style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;color:#999;letter-spacing:0.04em;margin-bottom:28px;">
+        <a href="{{ route('home') }}" style="color:#999;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='#999'">Home</a>
+        <span>›</span>
+        <a href="{{ route('cart.index') }}" style="color:#999;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='#999'">Shopping Bag</a>
+        <span>›</span>
+        <span style="color:#0D0D0D;font-weight:600;">Checkout</span>
     </nav>
 
-    <!-- Page Header -->
-    <div class="border-b border-slate-200/80 pb-5">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading tracking-tight">
-            Checkout & Shipping
+    {{-- ── Page Header ── --}}
+    <div style="margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #E8E3DC;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C9A96E;margin:0 0 4px;">Al Hayat Kids</p>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,36px);font-weight:600;color:#0D0D0D;margin:0;line-height:1.1;">
+            Checkout &amp; Shipping
         </h1>
-        <p class="text-xs sm:text-sm text-slate-500 mt-1">Complete your delivery address and order details</p>
+        <p style="font-size:12px;color:#888;margin:6px 0 0;">Enter your shipping details and choose payment method to complete your order.</p>
     </div>
 
-    <!-- Error Alert Notification -->
+    {{-- Error Alert --}}
     @if($errorMessage)
-        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm font-bold flex items-center justify-between shadow-2xs">
-            <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span>{{ $errorMessage }}</span>
-            </div>
-            <button type="button" wire:click="$set('errorMessage', '')" class="opacity-60 hover:opacity-100">&times;</button>
+        <div style="padding:14px 20px;margin-bottom:24px;background:#FFF5F5;border:1px solid #FED7D7;color:#C53030;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between;">
+            <span>{{ $errorMessage }}</span>
+            <button type="button" wire:click="$set('errorMessage', '')" style="background:none;border:none;cursor:pointer;color:#888;">&times;</button>
         </div>
     @endif
 
-    <!-- 10-Minute Stock Reservation Banner -->
+    {{-- Stock Reservation Banner --}}
     @if($items->isNotEmpty())
         @php
             $remainingSeconds = \App\Services\CartService::getCartReservationRemainingSeconds();
@@ -53,74 +50,63 @@
                     }
                 }, 1000);
              "
-             class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-900 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
-            <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-                    ⏱️
-                </span>
+             style="padding:14px 20px;background:#F7F4EF;border:1px solid #E8E3DC;margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span style="font-size:16px;">⏱️</span>
                 <div>
-                    <h4 class="text-xs sm:text-sm font-bold font-heading">Stock Reservation Active (10 Mins)</h4>
-                    <p class="text-[11px] sm:text-xs opacity-80">Items in your checkout are reserved for 10 minutes. Complete order now to lock in your items!</p>
+                    <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#0D0D0D;">Stock Reservation Active (10 Mins)</div>
+                    <div style="font-size:11px;color:#666;margin-top:2px;">Your items are reserved for 10 minutes. Complete order now to lock in stock!</div>
                 </div>
             </div>
-            <div class="shrink-0 bg-white px-3.5 py-1.5 rounded-xl border border-amber-200 shadow-2xs text-center font-mono font-bold text-xs sm:text-sm text-amber-700">
+            <div style="background:#FFFFFF;padding:6px 14px;border:1px solid #E8E3DC;font-family:monospace;font-size:13px;font-weight:700;color:#C9A96E;letter-spacing:0.1em;">
                 <span x-text="secondsLeft > 0 ? formatTime(secondsLeft) : '00:00'"></span>
-                <span class="text-[10px] text-amber-600 font-sans block font-normal" x-text="secondsLeft > 0 ? 'Remaining' : 'Expired'"></span>
             </div>
         </div>
     @endif
 
     <form wire:submit.prevent="placeOrder">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- LEFT COLUMN: Shipping & Address (8 Cols) -->
-            <div class="lg:col-span-8 space-y-8">
-                
-                <!-- Saved Addresses Section -->
+        <div class="checkout-grid-wrap">
+
+            {{-- ══ LEFT COLUMN: Shipping & Address ══ --}}
+            <div style="display:flex;flex-direction:column;gap:28px;">
+
+                {{-- Saved Addresses Section --}}
                 @if($savedAddresses->isNotEmpty())
-                    <div class="bg-white rounded-3xl border border-slate-200/80 p-6 space-y-4 shadow-xs">
-                        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                            <h2 class="text-base font-extrabold text-slate-900 font-heading">
+                    <div style="padding:24px;background:#FFFFFF;border:1px solid #E8E3DC;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #E8E3DC;">
+                            <h2 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#0D0D0D;margin:0;">
                                 Saved Shipping Addresses
                             </h2>
-                            <button type="button" 
+                            <button type="button"
                                     wire:click="switchToNewAddress"
-                                    class="text-xs font-bold text-rose-600 hover:text-rose-700 transition">
+                                    style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:600;color:#C9A96E;letter-spacing:0.06em;">
                                 + Add New Address
                             </button>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;" class="saved-addrs-grid">
                             @foreach($savedAddresses as $addr)
                                 <div wire:click="selectSavedAddress({{ $addr->id }})"
-                                     class="cursor-pointer p-4 rounded-2xl border transition-all duration-200 relative flex flex-col justify-between space-y-3 {{ !$useNewAddress && $selectedAddressId == $addr->id ? 'border-rose-500 bg-rose-50/40 ring-2 ring-rose-500/20 shadow-xs' : 'border-slate-200 bg-white hover:border-slate-300' }}">
-                                    <div class="space-y-1">
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-sm font-extrabold text-slate-900 font-heading">
-                                                {{ $addr->first_name }} {{ $addr->last_name }}
-                                            </span>
+                                     style="cursor:pointer;padding:16px;background:{{ !$useNewAddress && $selectedAddressId == $addr->id ? '#F7F4EF' : '#FFFFFF' }};border:2px solid {{ !$useNewAddress && $selectedAddressId == $addr->id ? '#0D0D0D' : '#E8E3DC' }};display:flex;flex-direction:column;justify-content:space-between;gap:10px;">
+                                    <div>
+                                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                                            <span style="font-size:13px;font-weight:700;color:#0D0D0D;">{{ $addr->first_name }} {{ $addr->last_name }}</span>
                                             @if($addr->is_default)
-                                                <span class="text-[10px] font-extrabold bg-slate-900 text-white px-2 py-0.5 rounded-md uppercase">Default</span>
+                                                <span style="font-size:9px;font-weight:700;background:#0D0D0D;color:#FFFFFF;padding:2px 6px;">DEFAULT</span>
                                             @endif
                                         </div>
-                                        <p class="text-xs text-slate-600 font-medium leading-relaxed">
-                                            {{ $addr->address_line_1 }}
-                                            @if($addr->address_line_2), {{ $addr->address_line_2 }} @endif
+                                        <p style="font-size:12px;color:#555;margin:0 0 4px;line-height:1.5;">
+                                            {{ $addr->address_line_1 }}{{ $addr->address_line_2 ? ', ' . $addr->address_line_2 : '' }}
                                         </p>
-                                        <p class="text-xs text-slate-500">
+                                        <p style="font-size:11px;color:#888;margin:0;">
                                             {{ $addr->city }}{{ $addr->state ? ', ' . $addr->state : '' }} {{ $addr->postal_code }}
                                         </p>
-                                        <p class="text-xs text-slate-500 font-mono">
-                                            Phone: {{ $addr->phone }}
+                                        <p style="font-size:11px;color:#888;margin:2px 0 0;font-family:monospace;">
+                                            {{ $addr->phone }}
                                         </p>
                                     </div>
-                                    <div class="flex items-center gap-2 pt-2 border-t border-slate-100 text-xs font-bold {{ !$useNewAddress && $selectedAddressId == $addr->id ? 'text-rose-600' : 'text-slate-400' }}">
-                                        <span class="w-3 h-3 rounded-full border border-current flex items-center justify-center">
-                                            @if(!$useNewAddress && $selectedAddressId == $addr->id)
-                                                <span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
-                                            @endif
-                                        </span>
-                                        <span>{{ !$useNewAddress && $selectedAddressId == $addr->id ? 'Selected' : 'Use this address' }}</span>
+                                    <div style="font-size:11px;font-weight:700;color:{{ !$useNewAddress && $selectedAddressId == $addr->id ? '#0D0D0D' : '#999' }};border-top:1px solid #E8E3DC;padding-top:8px;">
+                                        {{ !$useNewAddress && $selectedAddressId == $addr->id ? '✓ Selected Address' : 'Use this address' }}
                                     </div>
                                 </div>
                             @endforeach
@@ -128,322 +114,394 @@
                     </div>
                 @endif
 
-                <!-- Shipping Address Form (New Address / Edit) -->
-                <div x-data="{ open: @entangle('useNewAddress') }" 
+                {{-- Shipping Information Form --}}
+                <div x-data="{ open: @entangle('useNewAddress') }"
                      x-show="open || {{ $savedAddresses->isEmpty() ? 'true' : 'false' }}"
-                     class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 space-y-6 shadow-xs">
-                    
-                    <h2 class="text-lg font-extrabold text-slate-900 font-heading border-b border-slate-100 pb-3">
-                        Shipping Information
+                     style="padding:28px;background:#FFFFFF;border:1px solid #E8E3DC;display:flex;flex-direction:column;gap:20px;">
+
+                    <h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0D0D0D;margin:0;padding-bottom:12px;border-bottom:1px solid #E8E3DC;">
+                        Shipping Details
                     </h2>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Email Address -->
-                        <div class="space-y-1 sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Email Address <span class="text-rose-500">*</span></label>
-                            <input type="email" 
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;" class="checkout-form-grid">
+                        
+                        {{-- Email --}}
+                        <div style="grid-column:span 2;" class="form-col-full">
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                Email Address <span style="color:#C9A96E;">*</span>
+                            </label>
+                            <input type="email"
                                    wire:model="email"
-                                   placeholder="your.email@example.com" 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
-                            @error('email') <span class="text-[11px] font-bold text-rose-500">{{ $message }}</span> @enderror
+                                   placeholder="your.email@example.com"
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
+                            @error('email') <span style="font-size:11px;font-weight:600;color:#E53E3E;margin-top:4px;display:block;">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- First Name -->
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">First Name <span class="text-rose-500">*</span></label>
-                            <input type="text" 
+                        {{-- First Name --}}
+                        <div>
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                First Name <span style="color:#C9A96E;">*</span>
+                            </label>
+                            <input type="text"
                                    wire:model="first_name"
-                                   placeholder="First Name" 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
-                            @error('first_name') <span class="text-[11px] font-bold text-rose-500">{{ $message }}</span> @enderror
+                                   placeholder="First Name"
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
+                            @error('first_name') <span style="font-size:11px;font-weight:600;color:#E53E3E;margin-top:4px;display:block;">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Last Name -->
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">Last Name</label>
-                            <input type="text" 
+                        {{-- Last Name --}}
+                        <div>
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                Last Name
+                            </label>
+                            <input type="text"
                                    wire:model="last_name"
-                                   placeholder="Last Name" 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                   placeholder="Last Name"
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
                         </div>
 
-                        <!-- Phone -->
-                        <div class="space-y-1 sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Phone Number <span class="text-rose-500">*</span></label>
-                            <input type="text" 
+                        {{-- Phone --}}
+                        <div style="grid-column:span 2;" class="form-col-full">
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                Phone Number (WhatsApp preferred) <span style="color:#C9A96E;">*</span>
+                            </label>
+                            <input type="text"
                                    wire:model="phone"
-                                   placeholder="03001234567" 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
-                            @error('phone') <span class="text-[11px] font-bold text-rose-500">{{ $message }}</span> @enderror
+                                   placeholder="03249171213"
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
+                            @error('phone') <span style="font-size:11px;font-weight:600;color:#E53E3E;margin-top:4px;display:block;">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Address Line 1 -->
-                        <div class="space-y-1 sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Street Address <span class="text-rose-500">*</span></label>
-                            <input type="text" 
+                        {{-- Address Line 1 --}}
+                        <div style="grid-column:span 2;" class="form-col-full">
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                Street Address <span style="color:#C9A96E;">*</span>
+                            </label>
+                            <input type="text"
                                    wire:model="address_line_1"
-                                   placeholder="House/Apartment number, street name" 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
-                            @error('address_line_1') <span class="text-[11px] font-bold text-rose-500">{{ $message }}</span> @enderror
+                                   placeholder="House / Apartment number, street name"
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
+                            @error('address_line_1') <span style="font-size:11px;font-weight:600;color:#E53E3E;margin-top:4px;display:block;">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Address Line 2 -->
-                        <div class="space-y-1 sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Apartment, Suite, Landmark (Optional)</label>
-                            <input type="text" 
+                        {{-- Address Line 2 --}}
+                        <div style="grid-column:span 2;" class="form-col-full">
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                Apartment, Suite, Landmark (Optional)
+                            </label>
+                            <input type="text"
                                    wire:model="address_line_2"
-                                   placeholder="Near main plaza, etc." 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                   placeholder="Near main plaza, sector..."
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
                         </div>
 
-                        <!-- City -->
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">City <span class="text-rose-500">*</span></label>
-                            <input type="text" 
+                        {{-- City --}}
+                        <div>
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                City <span style="color:#C9A96E;">*</span>
+                            </label>
+                            <input type="text"
                                    wire:model="city"
-                                   placeholder="Lahore, Karachi, Islamabad..." 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
-                            @error('city') <span class="text-[11px] font-bold text-rose-500">{{ $message }}</span> @enderror
+                                   placeholder="Lahore, Karachi, Islamabad..."
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
+                            @error('city') <span style="font-size:11px;font-weight:600;color:#E53E3E;margin-top:4px;display:block;">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- State -->
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">State / Province</label>
-                            <input type="text" 
+                        {{-- State --}}
+                        <div>
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                State / Province
+                            </label>
+                            <input type="text"
                                    wire:model="state"
-                                   placeholder="Punjab, Sindh, etc." 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                   placeholder="Punjab, Sindh, etc."
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
                         </div>
 
-                        <!-- Postal Code -->
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">Postal Code</label>
-                            <input type="text" 
+                        {{-- Postal Code --}}
+                        <div>
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                Postal Code
+                            </label>
+                            <input type="text"
                                    wire:model="postal_code"
-                                   placeholder="54000" 
-                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition">
+                                   placeholder="54000"
+                                   style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                                   onfocus="this.style.borderColor='#0D0D0D'"
+                                   onblur="this.style.borderColor='#E8E3DC'">
                         </div>
 
-                        <!-- Country -->
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">Country <span class="text-rose-500">*</span></label>
-                            <input type="text" 
+                        {{-- Country --}}
+                        <div>
+                            <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:6px;">
+                                Country
+                            </label>
+                            <input type="text"
                                    wire:model="country"
                                    readonly
-                                   class="w-full px-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 cursor-not-allowed">
+                                   style="width:100%;padding:12px 14px;background:#EDE9E1;border:1px solid #E8E3DC;font-size:13px;color:#666;cursor:not-allowed;">
                         </div>
+
                     </div>
 
-                    <div class="pt-2">
-                        <label class="inline-flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" wire:model="save_address" class="rounded border-slate-300 text-rose-600 focus:ring-rose-500">
-                            <span class="text-xs font-bold text-slate-700">Save this address to my account for future orders</span>
+                    <div style="padding-top:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:#0D0D0D;font-weight:500;">
+                            <input type="checkbox" wire:model="save_address" style="width:15px;height:15px;accent-color:#0D0D0D;">
+                            <span>Save this address to my account for future orders</span>
                         </label>
                     </div>
                 </div>
 
-                <!-- Payment Method Selection -->
-                <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 space-y-6 shadow-xs">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                {{-- Payment Method Selection --}}
+                <div style="padding:28px;background:#FFFFFF;border:1px solid #E8E3DC;display:flex;flex-direction:column;gap:20px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid #E8E3DC;flex-wrap:wrap;gap:8px;">
                         <div>
-                            <h2 class="text-lg font-extrabold text-slate-900 font-heading">
-                                Select Payment Method
+                            <h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0D0D0D;margin:0;">
+                                Payment Method
                             </h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Choose how you'd like to pay for your order</p>
+                            <p style="font-size:12px;color:#888;margin:2px 0 0;">Choose how you would like to pay for your order</p>
                         </div>
-                        <span class="text-[11px] font-extrabold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-200 uppercase tracking-wider">
-                            🔒 100% Secure Payment
+                        <span style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#C9A96E;background:#F7F4EF;padding:4px 10px;border:1px solid #E8E3DC;">
+                            🔒 100% SECURE CHECKOUT
                         </span>
                     </div>
 
-                    <!-- Payment Option Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;" class="payment-methods-grid">
                         @foreach($paymentMethods as $methodKey => $method)
-                            <label class="p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between space-y-2 {{ $payment_method === $methodKey ? 'border-rose-500 bg-rose-50/40 ring-2 ring-rose-500/20 shadow-xs' : 'border-slate-200 bg-white hover:border-slate-300' }}">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex items-center gap-3">
-                                        <input type="radio" 
-                                               wire:model.live="payment_method" 
-                                               value="{{ $methodKey }}" 
-                                               class="text-rose-600 focus:ring-rose-500">
-                                        <span class="text-sm font-extrabold text-slate-900 font-heading">
-                                            {{ $method['name'] }}
-                                        </span>
-                                    </div>
+                            @php $isMethodSelected = $payment_method === $methodKey; @endphp
+                            <label style="padding:16px;background:{{ $isMethodSelected ? '#F7F4EF' : '#FFFFFF' }};border:2px solid {{ $isMethodSelected ? '#0D0D0D' : '#E8E3DC' }};cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:10px;transition:all 0.2s;">
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <input type="radio"
+                                           wire:model.live="payment_method"
+                                           value="{{ $methodKey }}"
+                                           style="accent-color:#0D0D0D;width:16px;height:16px;">
+                                    <span style="font-size:13px;font-weight:700;color:#0D0D0D;">{{ $method['name'] }}</span>
                                 </div>
-                                <div class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-md inline-block w-fit">
+                                <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C9A96E;background:#FFFFFF;padding:3px 8px;border:1px solid #E8E3DC;width:fit-content;">
                                     {{ $method['badge'] }}
-                                </div>
+                                </span>
                             </label>
                         @endforeach
                     </div>
 
-                    <!-- Selected Gateway Short Notice -->
-                    <div class="pt-3">
+                    {{-- Selected Method Notice --}}
+                    <div>
                         @if(in_array($payment_method, ['jazzcash', 'easypaisa', 'bank_transfer']))
-                            <div class="p-4 rounded-2xl bg-slate-900 text-white text-xs space-y-1 shadow-md">
-                                <div class="flex items-center gap-2 font-bold text-rose-300">
-                                    <span>⚡ Advance Digital Payment</span>
-                                </div>
-                                <p class="text-slate-300 leading-relaxed">
-                                    After clicking <strong>Place Order & Proceed to Payment</strong> below, you will get our official receiving account details and can easily submit your TRX ID payment receipt.
+                            <div style="padding:16px;background:#0D0D0D;color:#FFFFFF;font-size:12px;line-height:1.7;">
+                                <div style="color:#C9A96E;font-weight:700;margin-bottom:4px;letter-spacing:0.06em;text-transform:uppercase;">⚡ Advance Digital Payment</div>
+                                <p style="color:rgba(255,255,255,0.7);margin:0;">
+                                    After clicking <strong>Place Order</strong> below, you will receive our official receiving account details and TRX ID submission form.
                                 </p>
                             </div>
                         @elseif($payment_method === 'card')
-                            <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-rose-950 text-white text-xs space-y-1 shadow-md">
-                                <div class="flex items-center gap-2 font-bold text-emerald-400">
-                                    <span>💳 Stripe Instant Card Gateway</span>
-                                </div>
-                                <p class="text-slate-300 leading-relaxed">
-                                    Pay instantly using your Visa, Mastercard, or UnionPay debit/credit card. Payment is verified in real-time.
+                            <div style="padding:16px;background:#0D0D0D;color:#FFFFFF;font-size:12px;line-height:1.7;">
+                                <div style="color:#C9A96E;font-weight:700;margin-bottom:4px;letter-spacing:0.06em;text-transform:uppercase;">💳 Instant Debit/Credit Card</div>
+                                <p style="color:rgba(255,255,255,0.7);margin:0;">
+                                    Pay securely using your Visa, Mastercard, or UnionPay debit/credit card with instant automated verification.
                                 </p>
                             </div>
                         @elseif($payment_method === 'cod')
-                            <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-1">
-                                <span class="font-extrabold">Cash on Delivery (COD)</span>
-                                <p class="text-amber-800">You will pay cash directly to the courier representative upon receiving your parcel.</p>
+                            <div style="padding:16px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:12px;color:#0D0D0D;line-height:1.7;">
+                                <div style="font-weight:700;margin-bottom:2px;letter-spacing:0.06em;text-transform:uppercase;">Cash on Delivery (COD)</div>
+                                <p style="color:#666;margin:0;">Pay cash directly to the courier agent upon receiving your package.</p>
                             </div>
                         @endif
                     </div>
                 </div>
 
-                <!-- Customer Notes -->
-                <div class="bg-white rounded-3xl border border-slate-200/80 p-6 space-y-3 shadow-xs">
-                    <h2 class="text-sm font-extrabold text-slate-900 font-heading">
+                {{-- Order Notes --}}
+                <div style="padding:24px;background:#FFFFFF;border:1px solid #E8E3DC;">
+                    <h2 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#0D0D0D;margin:0 0 12px;">
                         Order Notes (Optional)
                     </h2>
-                    <textarea wire:model="customer_notes" 
-                              rows="3" 
-                              placeholder="Any special instructions for delivery or packaging..."
-                              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition"></textarea>
+                    <textarea wire:model="customer_notes"
+                              rows="3"
+                              placeholder="Any special instructions for delivery or gift packaging..."
+                              style="width:100%;padding:12px 14px;background:#F7F4EF;border:1px solid #E8E3DC;font-size:13px;color:#0D0D0D;outline:none;transition:border-color 0.2s;"
+                              onfocus="this.style.borderColor='#0D0D0D'"
+                              onblur="this.style.borderColor='#E8E3DC'"></textarea>
                 </div>
 
             </div>
 
-            <!-- RIGHT COLUMN: Order Summary & Placement (4 Cols) -->
-            <div class="lg:col-span-4 space-y-6">
-                <div class="bg-white rounded-3xl border border-slate-200/80 p-6 space-y-6 shadow-xs sticky top-24">
-                    <h2 class="text-lg font-extrabold text-slate-900 font-heading border-b border-slate-100 pb-4">
-                        Order Summary
-                    </h2>
+            {{-- ══ RIGHT COLUMN: Order Summary ══ --}}
+            <div style="padding:28px;background:#F7F4EF;border:1px solid #E8E3DC;position:sticky;top:24px;" class="checkout-summary-box">
+                <h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0D0D0D;margin:0 0 20px;padding-bottom:12px;border-bottom:1px solid #E8E3DC;">
+                    Order Summary
+                </h2>
 
-                    <!-- Items List -->
-                    <div class="space-y-4 max-h-64 overflow-y-auto pr-1">
-                        @foreach($items as $item)
-                            @php
-                                $product = $item->product;
-                                $variant = $item->variant;
-                                $unitPrice = \App\Services\CartService::getEffectivePrice($variant, $product);
-                                $lineTotal = $unitPrice * $item->quantity;
+                {{-- Items List --}}
+                <div style="display:flex;flex-direction:column;gap:14px;max-height:280px;overflow-y:auto;padding-right:4px;margin-bottom:20px;">
+                    @foreach($items as $item)
+                        @php
+                            $product = $item->product;
+                            $variant = $item->variant;
+                            $unitPrice = \App\Services\CartService::getEffectivePrice($variant, $product);
+                            $lineTotal = $unitPrice * $item->quantity;
 
-                                $imgUrl = '';
-                                $hasImg = false;
-                                if ($product) {
-                                    if ($product->primaryImage && !empty($product->primaryImage->url)) {
-                                        $imgUrl = $product->primaryImage->url;
-                                        $hasImg = true;
-                                    } elseif ($product->images && $product->images->isNotEmpty() && !empty($product->images->first()->url)) {
-                                        $imgUrl = $product->images->first()->url;
-                                        $hasImg = true;
-                                    }
+                            $imgUrl = '';
+                            $hasImg = false;
+                            if ($product) {
+                                if ($product->primaryImage && !empty($product->primaryImage->url)) {
+                                    $imgUrl = $product->primaryImage->url;
+                                    $hasImg = true;
+                                } elseif ($product->images && $product->images->isNotEmpty() && !empty($product->images->first()->url)) {
+                                    $imgUrl = $product->images->first()->url;
+                                    $hasImg = true;
                                 }
-                            @endphp
+                            }
+                        @endphp
 
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
-                                    @if($hasImg)
-                                        <img src="{{ $imgUrl }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
-                                    @else
-                                        <span class="text-[9px] font-bold text-slate-400">AH Kids</span>
-                                    @endif
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="text-xs font-bold text-slate-900 truncate font-heading">{{ $product ? $product->name : 'Item' }}</h4>
-                                    <div class="text-[11px] text-slate-500">
-                                        Qty: {{ $item->quantity }}
-                                        @if($variant && $variant->size) • {{ $variant->size->name }} @endif
-                                        @if($variant && $variant->color) • {{ $variant->color->name }} @endif
-                                    </div>
-                                </div>
-                                <div class="text-xs font-extrabold text-slate-900 font-heading">
-                                    Rs. {{ number_format($lineTotal, 2) }}
+                        <div style="display:flex;align-items:center;gap:12px;padding-bottom:10px;border-bottom:1px solid #E8E3DC;">
+                            <div style="width:48px;height:60px;background:#FFFFFF;border:1px solid #E8E3DC;overflow:hidden;flex-shrink:0;">
+                                @if($hasImg)
+                                    <img src="{{ $imgUrl }}" alt="{{ $product->name }}" style="width:100%;height:100%;object-fit:cover;display:block;">
+                                @else
+                                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#C9A96E;font-size:9px;">AH Kids</div>
+                                @endif
+                            </div>
+                            <div style="flex:1;min-width:0;">
+                                <h4 style="font-size:12px;font-weight:600;color:#0D0D0D;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    {{ $product ? $product->name : 'Item' }}
+                                </h4>
+                                <div style="font-size:10px;color:#888;margin-top:2px;">
+                                    Qty: {{ $item->quantity }}
+                                    @if($variant && $variant->size) • {{ $variant->size->name }} @endif
+                                    @if($variant && $variant->color) • {{ $variant->color->name }} @endif
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Coupon Code Input -->
-                    <div class="pt-4 border-t border-slate-100 space-y-2">
-                        <label class="block text-xs font-bold text-slate-700">Have a Promo Coupon?</label>
-                        @if($appliedCoupon)
-                            <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs font-bold text-emerald-800">
-                                <span>Coupon '{{ $appliedCoupon['code'] }}' Applied</span>
-                                <button type="button" wire:click="removeCoupon" class="text-rose-600 hover:underline">Remove</button>
+                            <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:#0D0D0D;">
+                                Rs. {{ number_format($lineTotal, 0) }}
                             </div>
-                        @else
-                            <div class="flex items-center gap-2">
-                                <input type="text" 
-                                       wire:model="coupon_code"
-                                       placeholder="Enter coupon code"
-                                       class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold uppercase focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500">
-                                <button type="button" 
-                                        wire:click="applyCoupon"
-                                        class="px-4 py-2 bg-slate-900 hover:bg-rose-600 text-white font-bold text-xs rounded-xl transition shrink-0">
-                                    Apply
-                                </button>
-                            </div>
-                        @endif
-
-                        @if($couponMessage)
-                            <p class="text-[11px] font-bold {{ $couponMessageType === 'success' ? 'text-emerald-600' : 'text-rose-600' }}">
-                                {{ $couponMessage }}
-                            </p>
-                        @endif
-                    </div>
-
-                    <!-- Totals Breakdown -->
-                    <div class="space-y-2.5 text-xs pt-4 border-t border-slate-100">
-                        <div class="flex justify-between text-slate-600 font-medium">
-                            <span>Subtotal</span>
-                            <span class="font-bold text-slate-900 font-heading">Rs. {{ number_format($subtotal, 2) }}</span>
                         </div>
+                    @endforeach
+                </div>
 
-                        @if($discount > 0)
-                            <div class="flex justify-between text-emerald-600 font-bold">
-                                <span>Discount</span>
-                                <span>- Rs. {{ number_format($discount, 2) }}</span>
-                            </div>
-                        @endif
-
-                        <div class="flex justify-between text-slate-600 font-medium">
-                            <span>Shipping (Standard)</span>
-                            <span class="font-bold text-slate-900 font-heading">Rs. {{ number_format($shippingCost, 2) }}</span>
+                {{-- Promo Coupon --}}
+                <div style="padding-top:16px;border-top:1px solid #E8E3DC;margin-bottom:20px;">
+                    <label style="display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;margin-bottom:8px;">
+                        Have a Promo Coupon?
+                    </label>
+                    @if($appliedCoupon)
+                        <div style="padding:10px 14px;background:#F0FFF4;border:1px solid #C6F6D5;color:#276749;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:space-between;">
+                            <span>Coupon '{{ $appliedCoupon['code'] }}' Applied</span>
+                            <button type="button" wire:click="removeCoupon" style="background:none;border:none;cursor:pointer;color:#E53E3E;">Remove</button>
                         </div>
+                    @else
+                        <div style="display:flex;gap:8px;">
+                            <input type="text"
+                                   wire:model="coupon_code"
+                                   placeholder="Enter coupon code"
+                                   style="flex:1;padding:10px 12px;background:#FFFFFF;border:1px solid #E8E3DC;font-size:12px;color:#0D0D0D;text-transform:uppercase;outline:none;">
+                            <button type="button"
+                                    wire:click="applyCoupon"
+                                    style="padding:10px 18px;background:#0D0D0D;color:#FFFFFF;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;"
+                                    onmouseover="this.style.background='#C9A96E'"
+                                    onmouseout="this.style.background='#0D0D0D'">
+                                APPLY
+                            </button>
+                        </div>
+                    @endif
+
+                    @if($couponMessage)
+                        <p style="font-size:11px;font-weight:600;color:{{ $couponMessageType === 'success' ? '#276749' : '#C53030' }};margin:6px 0 0;">
+                            {{ $couponMessage }}
+                        </p>
+                    @endif
+                </div>
+
+                {{-- Breakdown --}}
+                <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;font-size:12px;">
+                    <div style="display:flex;justify-content:space-between;color:#666;">
+                        <span>Subtotal</span>
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:#0D0D0D;">
+                            Rs. {{ number_format($subtotal, 0) }}
+                        </span>
                     </div>
 
-                    <!-- Final Payable Total -->
-                    <div class="border-t border-slate-100 pt-4 flex justify-between items-baseline">
-                        <span class="text-base font-extrabold text-slate-900 font-heading">Total Payable</span>
-                        <span class="text-2xl font-extrabold text-rose-600 font-heading">Rs. {{ number_format($total, 2) }}</span>
-                    </div>
+                    @if($discount > 0)
+                        <div style="display:flex;justify-content:space-between;color:#276749;font-weight:700;">
+                            <span>Discount</span>
+                            <span>- Rs. {{ number_format($discount, 0) }}</span>
+                        </div>
+                    @endif
 
-                    <!-- Place Order Action -->
-                    <div class="space-y-2 pt-2">
-                        <button type="submit" 
-                                wire:loading.attr="disabled"
-                                class="w-full py-4 px-6 rounded-2xl bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-extrabold text-sm shadow-md shadow-rose-500/20 transition flex items-center justify-center gap-2">
-                            <span wire:loading.remove>
-                                {{ $payment_method === 'cod' ? 'Place Order (Rs. ' . number_format($total, 2) . ')' : 'Place Order & Proceed to Payment (Rs. ' . number_format($total, 2) . ')' }}
-                            </span>
-                            <span wire:loading class="flex items-center gap-2">
-                                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                <span>Placing Order...</span>
-                            </span>
-                        </button>
+                    <div style="display:flex;justify-content:space-between;color:#666;">
+                        <span>Shipping</span>
+                        <span style="font-weight:600;color:#0D0D0D;">
+                            Rs. {{ number_format($shippingCost, 0) }}
+                        </span>
                     </div>
                 </div>
+
+                {{-- Total Payable --}}
+                <div style="padding-top:14px;border-top:1px solid #E8E3DC;margin-bottom:24px;display:flex;justify-content:space-between;align-items:baseline;">
+                    <span style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;">TOTAL PAYABLE</span>
+                    <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#0D0D0D;">
+                        Rs. {{ number_format($total, 0) }}
+                    </span>
+                </div>
+
+                {{-- Submit Button --}}
+                <button type="submit"
+                        wire:loading.attr="disabled"
+                        style="width:100%;padding:16px;background:#0D0D0D;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.25s;"
+                        onmouseover="this.style.background='#C9A96E'"
+                        onmouseout="this.style.background='#0D0D0D'">
+                    <span wire:loading.remove wire:target="placeOrder">
+                        {{ $payment_method === 'cod' ? 'PLACE ORDER (Rs. ' . number_format($total, 0) . ')' : 'PLACE ORDER & PROCEED (Rs. ' . number_format($total, 0) . ')' }}
+                    </span>
+                    <span wire:loading wire:target="placeOrder">PROCESSING ORDER...</span>
+                </button>
+
             </div>
 
         </div>
     </form>
 </div>
+
+<style>
+/* ── CHECKOUT PAGE RESPONSIVE ── */
+.checkout-grid-wrap {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 36px;
+    align-items: start;
+}
+@media (max-width: 992px) {
+    .checkout-grid-wrap {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .checkout-summary-box {
+        position: static !important;
+        top: auto !important;
+    }
+}
+@media (max-width: 600px) {
+    .saved-addrs-grid,
+    .payment-methods-grid,
+    .checkout-form-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .form-col-full {
+        grid-column: span 1 !important;
+    }
+}
+</style>

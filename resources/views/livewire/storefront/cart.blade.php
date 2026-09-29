@@ -1,47 +1,43 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-    <!-- Breadcrumbs -->
-    <nav class="flex text-xs text-slate-400 font-medium space-x-2">
-        <a href="{{ route('home') }}" class="hover:text-rose-600 transition">Home</a>
-        <span>/</span>
-        <a href="{{ route('shop') }}" class="hover:text-rose-600 transition">Shop</a>
-        <span>/</span>
-        <span class="text-slate-700 font-semibold">Shopping Cart</span>
+<div style="max-width:1200px;margin:0 auto;padding:32px 24px 80px;" class="cart-page-container">
+
+    {{-- ── Breadcrumbs ── --}}
+    <nav style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;color:#999;letter-spacing:0.04em;margin-bottom:28px;">
+        <a href="{{ route('home') }}" style="color:#999;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='#999'">Home</a>
+        <span>›</span>
+        <a href="{{ route('shop') }}" style="color:#999;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='#999'">Shop</a>
+        <span>›</span>
+        <span style="color:#0D0D0D;font-weight:600;">Shopping Bag</span>
     </nav>
 
-    <!-- Page Header -->
-    <div class="flex items-center justify-between border-b border-slate-200/80 pb-5">
+    {{-- ── Page Header ── --}}
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #E8E3DC;flex-wrap:wrap;gap:16px;">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading tracking-tight">
-                Shopping Cart
+            <p style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C9A96E;margin:0 0 4px;">Al Hayat Kids</p>
+            <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,36px);font-weight:600;color:#0D0D0D;margin:0;line-height:1.1;">
+                Shopping Bag
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">Review your selected items before proceeding</p>
         </div>
         @if($items->isNotEmpty())
-            <button type="button" 
-                    wire:click="clearCart" 
+            <button type="button"
+                    wire:click="clearCart"
                     wire:confirm="Are you sure you want to clear your cart?"
-                    class="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:underline transition">
-                Clear Cart
+                    style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#888;transition:color 0.2s;"
+                    onmouseover="this.style.color='#E53E3E'"
+                    onmouseout="this.style.color='#888'">
+                CLEAR BAG
             </button>
         @endif
     </div>
 
-    <!-- Flash Message Notification -->
+    {{-- Flash Notifications --}}
     @if($flashMessage)
-        <div class="p-4 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-between shadow-2xs {{ $flashMessageType === 'success' ? 'bg-emerald-50 border border-emerald-200 text-emerald-800' : 'bg-rose-50 border border-rose-200 text-rose-800' }}">
-            <div class="flex items-center gap-2">
-                @if($flashMessageType === 'success')
-                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                @else
-                    <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                @endif
-                <span>{{ $flashMessage }}</span>
-            </div>
-            <button type="button" wire:click="$set('flashMessage', '')" class="opacity-60 hover:opacity-100">&times;</button>
+        <div style="padding:12px 20px;margin-bottom:24px;background:{{ $flashMessageType === 'success' ? '#F0FFF4' : '#FFF5F5' }};border:1px solid {{ $flashMessageType === 'success' ? '#C6F6D5' : '#FED7D7' }};color:{{ $flashMessageType === 'success' ? '#276749' : '#C53030' }};font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between;">
+            <span>{{ $flashMessage }}</span>
+            <button type="button" wire:click="$set('flashMessage', '')" style="background:none;border:none;cursor:pointer;color:#888;">&times;</button>
         </div>
     @endif
 
-    <!-- 10-Minute Stock Reservation Banner -->
+    {{-- Stock Reservation Banner --}}
     @if($items->isNotEmpty())
         @php
             $remainingSeconds = \App\Services\CartService::getCartReservationRemainingSeconds();
@@ -65,200 +61,212 @@
                     }
                 }, 1000);
              "
-             class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-900 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
-            <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-                    ⏱️
-                </span>
+             style="padding:14px 20px;background:#F7F4EF;border:1px solid #E8E3DC;margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span style="font-size:16px;">⏱️</span>
                 <div>
-                    <h4 class="text-xs sm:text-sm font-bold font-heading">Temporary Stock Reservation (10 Mins)</h4>
-                    <p class="text-[11px] sm:text-xs opacity-80">Items in your cart are temporarily reserved for 10 minutes. Complete order within time to secure stock!</p>
+                    <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#0D0D0D;">Temporary Stock Reservation</div>
+                    <div style="font-size:11px;color:#666;margin-top:2px;">Items in your bag are reserved for 10 minutes to secure stock.</div>
                 </div>
             </div>
-            <div class="shrink-0 bg-white px-3.5 py-1.5 rounded-xl border border-amber-200 shadow-2xs text-center font-mono font-bold text-xs sm:text-sm text-amber-700">
+            <div style="background:#FFFFFF;padding:6px 14px;border:1px solid #E8E3DC;font-family:monospace;font-size:13px;font-weight:700;color:#C9A96E;letter-spacing:0.1em;">
                 <span x-text="secondsLeft > 0 ? formatTime(secondsLeft) : '00:00'"></span>
-                <span class="text-[10px] text-amber-600 font-sans block font-normal" x-text="secondsLeft > 0 ? 'Reserved' : 'Expired'"></span>
             </div>
         </div>
     @endif
 
     @if($items->isEmpty())
-        <!-- Empty Cart State -->
-        <div class="bg-white rounded-3xl border border-slate-200/80 p-12 text-center space-y-6 shadow-xs max-w-lg mx-auto my-8">
-            <div class="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto text-rose-500">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                </svg>
+        {{-- Empty Bag State --}}
+        <div style="padding:64px 24px;text-align:center;background:#FFFFFF;border:1px solid #E8E3DC;max-width:520px;margin:0 auto;">
+            <div style="width:64px;height:64px;border-radius:50%;background:#F7F4EF;display:flex;align-items:center;justify-content:center;color:#C9A96E;margin:0 auto 16px;">
+                <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
             </div>
-            <div class="space-y-2">
-                <h2 class="text-xl font-bold text-slate-900 font-heading">Your cart is empty</h2>
-                <p class="text-xs sm:text-sm text-slate-500">Looks like you haven't added any adorable outfits to your cart yet.</p>
-            </div>
-            <a href="{{ route('shop') }}" class="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-sm shadow-md shadow-rose-500/20 transition">
-                Start Shopping
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#0D0D0D;margin:0 0 8px;">Your Shopping Bag is Empty</h2>
+            <p style="font-size:13px;color:#888;margin:0 0 24px;line-height:1.6;">Discover our luxury kids collections and add your favorite outfits to bag.</p>
+            <a href="{{ route('shop') }}"
+               style="display:inline-block;padding:14px 36px;background:#0D0D0D;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:background 0.2s;"
+               onmouseover="this.style.background='#C9A96E'"
+               onmouseout="this.style.background='#0D0D0D'">
+                START SHOPPING
             </a>
         </div>
     @else
-        <!-- Main Cart Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- Left Column: Cart Items List (8 Cols) -->
-            <div class="lg:col-span-8 space-y-4">
-                <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden divide-y divide-slate-100">
-                    @foreach($items as $item)
-                        @php
-                            $product = $item->product;
-                            $variant = $item->variant;
+        {{-- Main Cart Grid --}}
+        <div class="cart-grid-wrap">
 
-                            $imgUrl = '';
-                            $hasImg = false;
-                            if ($product) {
-                                if ($product->primaryImage && !empty($product->primaryImage->url)) {
-                                    $imgUrl = $product->primaryImage->url;
-                                    $hasImg = true;
-                                } elseif ($product->images->isNotEmpty() && !empty($product->images->first()->url)) {
-                                    $imgUrl = $product->images->first()->url;
-                                    $hasImg = true;
-                                }
+            {{-- LEFT: Cart Items --}}
+            <div style="display:flex;flex-direction:column;gap:16px;">
+                @foreach($items as $item)
+                    @php
+                        $product = $item->product;
+                        $variant = $item->variant;
+
+                        $imgUrl = '';
+                        $hasImg = false;
+                        if ($product) {
+                            if ($product->primaryImage && !empty($product->primaryImage->url)) {
+                                $imgUrl = $product->primaryImage->url;
+                                $hasImg = true;
+                            } elseif ($product->images->isNotEmpty() && !empty($product->images->first()->url)) {
+                                $imgUrl = $product->images->first()->url;
+                                $hasImg = true;
                             }
+                        }
 
-                            $stock = $variant ? $variant->stock_quantity : 0;
-                            $itemTotal = (float) $item->price * $item->quantity;
-                        @endphp
+                        $stock = $variant ? $variant->stock_quantity : 0;
+                        $itemTotal = (float) $item->price * $item->quantity;
+                    @endphp
 
-                        <div class="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-                            <!-- Product Image -->
-                            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-100 border border-slate-200 shrink-0 overflow-hidden relative flex items-center justify-center">
-                                @if($hasImg)
-                                    <img src="{{ $imgUrl }}" alt="{{ $product->name ?? 'Product' }}" class="w-full h-full object-cover">
-                                @else
-                                    <div class="text-[10px] font-bold text-slate-400">Al Hayat Kids</div>
-                                @endif
+                    <div style="padding:20px;background:#FFFFFF;border:1px solid #E8E3DC;display:flex;align-items:center;gap:20px;flex-wrap:wrap;" class="cart-item-card">
+                        
+                        {{-- Thumbnail --}}
+                        <a href="{{ $product ? route('products.show', $product->slug) : '#' }}"
+                           style="width:84px;height:104px;flex-shrink:0;background:#F7F4EF;border:1px solid #E8E3DC;overflow:hidden;display:block;">
+                            @if($hasImg)
+                                <img src="{{ $imgUrl }}" alt="{{ $product->name ?? 'Product' }}" style="width:100%;height:100%;object-fit:cover;display:block;">
+                            @else
+                                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#C9A96E;font-size:10px;">Al Hayat Kids</div>
+                            @endif
+                        </a>
+
+                        {{-- Details --}}
+                        <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px;">
+                            @if($product)
+                                <a href="{{ route('products.show', $product->slug) }}"
+                                   style="font-size:14px;font-weight:600;color:#0D0D0D;text-decoration:none;line-height:1.35;"
+                                   onmouseover="this.style.color='#C9A96E'"
+                                   onmouseout="this.style.color='#0D0D0D'">
+                                    {{ $product->name }}
+                                </a>
+                            @else
+                                <span style="font-size:14px;font-weight:600;color:#0D0D0D;">Unavailable Product</span>
+                            @endif
+
+                            @if($variant)
+                                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;">
+                                    @if($variant->color)
+                                        <span style="font-size:9px;font-weight:700;color:#666;background:#F7F4EF;padding:2px 8px;border:1px solid #E8E3DC;">
+                                            COLOR: {{ strtoupper($variant->color->name) }}
+                                        </span>
+                                    @endif
+                                    @if($variant->size)
+                                        <span style="font-size:9px;font-weight:700;color:#666;background:#F7F4EF;padding:2px 8px;border:1px solid #E8E3DC;">
+                                            SIZE: {{ strtoupper($variant->size->name) }}
+                                        </span>
+                                    @endif
+                                </div>
+                            @endif
+
+                            <div style="font-size:11px;color:#888;margin-top:2px;">
+                                Unit Price: <strong style="color:#0D0D0D;">Rs. {{ number_format($item->price, 0) }}</strong>
                             </div>
+                        </div>
 
-                            <!-- Product Info -->
-                            <div class="flex-1 space-y-1 min-w-0">
-                                @if($product)
-                                    <a href="{{ route('products.show', $product->slug) }}" class="font-bold text-slate-900 hover:text-rose-600 text-sm sm:text-base transition truncate block font-heading">
-                                        {{ $product->name }}
-                                    </a>
-                                @else
-                                    <span class="font-bold text-slate-900 text-sm">Unavailable Product</span>
-                                @endif
-
-                                <!-- Variant Details -->
-                                @if($variant)
-                                    <div class="flex flex-wrap gap-2 text-xs text-slate-500">
-                                        @if($variant->color)
-                                            <span class="bg-slate-100 px-2 py-0.5 rounded-md text-slate-700 font-medium">
-                                                Color: {{ $variant->color->name }}
-                                            </span>
-                                        @endif
-                                        @if($variant->size)
-                                            <span class="bg-slate-100 px-2 py-0.5 rounded-md text-slate-700 font-medium">
-                                                Size: {{ $variant->size->name }}
-                                            </span>
-                                        @endif
-                                    </div>
-                                @endif
-
-                                <!-- Unit Price -->
-                                <div class="text-xs text-slate-500 pt-1">
-                                    Unit Price: <span class="font-semibold text-slate-700">Rs. {{ number_format($item->price, 2) }}</span>
-                                </div>
-                            </div>
-
-                            <!-- Quantity Selector & Total -->
-                            <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
-                                <!-- Stepper -->
-                                <div class="flex items-center border border-slate-200 rounded-xl bg-slate-50 overflow-hidden">
-                                    <button type="button" 
-                                            wire:click="decrementQuantity({{ $item->id }}, {{ $item->quantity }})" 
-                                            class="w-8 h-8 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
-                                    </button>
-                                    <span class="w-9 text-center text-xs font-bold text-slate-900 font-heading">
-                                        {{ $item->quantity }}
-                                    </span>
-                                    <button type="button" 
-                                            wire:click="incrementQuantity({{ $item->id }}, {{ $item->quantity }})" 
-                                            @if($item->quantity >= $stock) disabled @endif
-                                            class="w-8 h-8 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition disabled:opacity-40 disabled:cursor-not-allowed">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                                    </button>
-                                </div>
-
-                                <!-- Item Total Price -->
-                                <div class="text-right">
-                                    <div class="text-sm font-extrabold text-slate-900 font-heading">
-                                        Rs. {{ number_format($itemTotal, 2) }}
-                                    </div>
-                                </div>
-
-                                <!-- Remove Button -->
-                                <button type="button" 
-                                        wire:click="removeItem({{ $item->id }})" 
-                                        title="Remove item"
-                                        class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                    </svg>
+                        {{-- Quantity & Total --}}
+                        <div style="display:flex;align-items:center;gap:24px;margin-left:auto;flex-wrap:wrap;">
+                            {{-- Stepper --}}
+                            <div style="display:flex;align-items:center;border:1px solid #0D0D0D;">
+                                <button type="button"
+                                        wire:click="decrementQuantity({{ $item->id }}, {{ $item->quantity }})"
+                                        style="width:30px;height:32px;background:#FFFFFF;border:none;cursor:pointer;font-size:14px;font-weight:600;color:#0D0D0D;display:flex;align-items:center;justify-content:center;">
+                                    −
+                                </button>
+                                <span style="width:32px;text-align:center;font-size:12px;font-weight:700;color:#0D0D0D;border-left:1px solid #E8E3DC;border-right:1px solid #E8E3DC;line-height:32px;">
+                                    {{ $item->quantity }}
+                                </span>
+                                <button type="button"
+                                        wire:click="incrementQuantity({{ $item->id }}, {{ $item->quantity }})"
+                                        @if($item->quantity >= $stock) disabled @endif
+                                        style="width:30px;height:32px;background:#FFFFFF;border:none;cursor:pointer;font-size:14px;font-weight:600;color:#0D0D0D;display:flex;align-items:center;justify-content:center;">
+                                    +
                                 </button>
                             </div>
+
+                            {{-- Subtotal --}}
+                            <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#0D0D0D;min-width:90px;text-align:right;">
+                                Rs. {{ number_format($itemTotal, 0) }}
+                            </div>
+
+                            {{-- Remove --}}
+                            <button type="button"
+                                    wire:click="removeItem({{ $item->id }})"
+                                    style="background:none;border:none;cursor:pointer;color:#BBB;padding:4px;transition:color 0.2s;"
+                                    onmouseover="this.style.color='#E53E3E'"
+                                    onmouseout="this.style.color='#BBB'"
+                                    title="Remove Item">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
                         </div>
-                    @endforeach
-                </div>
+
+                    </div>
+                @endforeach
             </div>
 
-            <!-- Right Column: Order Summary (4 Cols) -->
-            <div class="lg:col-span-4 space-y-6">
-                <div class="bg-white rounded-3xl border border-slate-200/80 p-6 space-y-6 shadow-xs">
-                    <h2 class="text-lg font-extrabold text-slate-900 font-heading border-b border-slate-100 pb-4">
-                        Order Summary
-                    </h2>
+            {{-- RIGHT: Order Summary --}}
+            <div style="padding:28px;background:#F7F4EF;border:1px solid #E8E3DC;position:sticky;top:24px;">
+                <h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0D0D0D;margin:0 0 20px;padding-bottom:12px;border-bottom:1px solid #E8E3DC;">
+                    Order Summary
+                </h2>
 
-                    <div class="space-y-3 text-sm">
-                        <div class="flex justify-between text-slate-600">
-                            <span>Subtotal</span>
-                            <span class="font-bold text-slate-900 font-heading">Rs. {{ number_format($subtotal, 2) }}</span>
-                        </div>
-                        <div class="flex justify-between text-slate-600">
-                            <span>Estimated Shipping</span>
-                            <span class="text-xs text-slate-500 font-medium">Calculated at checkout</span>
-                        </div>
+                <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;font-size:13px;">
+                    <div style="display:flex;justify-content:space-between;color:#666;">
+                        <span>Subtotal</span>
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#0D0D0D;">
+                            Rs. {{ number_format($subtotal, 0) }}
+                        </span>
                     </div>
-
-                    <div class="border-t border-slate-100 pt-4 flex justify-between items-baseline">
-                        <span class="text-base font-extrabold text-slate-900 font-heading">Total</span>
-                        <span class="text-2xl font-extrabold text-rose-600 font-heading">Rs. {{ number_format($subtotal, 2) }}</span>
+                    <div style="display:flex;justify-content:space-between;color:#666;">
+                        <span>Estimated Shipping</span>
+                        <span style="font-weight:600;color:#0D0D0D;">
+                            {{ $shippingFee == 0 ? 'FREE' : 'Rs. ' . number_format($shippingFee, 0) }}
+                        </span>
                     </div>
-
-                    <!-- Proceed to Checkout Link -->
-                    <div class="space-y-2">
-                        @if($items->isNotEmpty())
-                            <a href="{{ route('checkout.index') }}" 
-                               class="w-full py-4 px-6 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-sm shadow-md shadow-rose-500/20 transition flex items-center justify-center gap-2">
-                                <span>Proceed to Checkout</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                            </a>
-                        @else
-                            <button type="button" 
-                                    disabled 
-                                    class="w-full py-4 px-6 rounded-2xl bg-slate-200 text-slate-400 font-extrabold text-sm cursor-not-allowed flex items-center justify-center gap-2">
-                                <span>Proceed to Checkout</span>
-                            </button>
-                        @endif
-                    </div>
-
-                    <!-- Continue Shopping Link -->
-                    <div class="text-center pt-2">
-                        <a href="{{ route('shop') }}" class="text-xs font-bold text-rose-600 hover:text-rose-700 hover:underline">
-                            &larr; Continue Shopping
-                        </a>
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;border-top:1px solid #E8E3DC;font-size:15px;font-weight:700;color:#0D0D0D;">
+                        <span>ESTIMATED TOTAL</span>
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#0D0D0D;">
+                            Rs. {{ number_format($total, 0) }}
+                        </span>
                     </div>
                 </div>
+
+                <a href="{{ route('checkout.index') }}"
+                   style="display:block;width:100%;padding:16px 20px;background:#0D0D0D;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;text-align:center;transition:background 0.25s;margin-bottom:12px;"
+                   onmouseover="this.style.background='#C9A96E'"
+                   onmouseout="this.style.background='#0D0D0D'">
+                    PROCEED TO CHECKOUT
+                </a>
+
+                <a href="{{ route('shop') }}"
+                   style="display:block;width:100%;padding:12px 20px;background:transparent;color:#0D0D0D;border:1px solid #0D0D0D;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;text-align:center;transition:background 0.2s;"
+                   onmouseover="this.style.background='#FFFFFF'"
+                   onmouseout="this.style.background='transparent'">
+                    CONTINUE SHOPPING
+                </a>
             </div>
 
         </div>
     @endif
+
 </div>
+
+<style>
+/* ── CART PAGE RESPONSIVE ── */
+.cart-grid-wrap {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 36px;
+    align-items: start;
+}
+@media (max-width: 992px) {
+    .cart-grid-wrap {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+@media (max-width: 600px) {
+    .cart-item-card {
+        padding: 14px !important;
+        gap: 12px !important;
+    }
+}
+</style>
