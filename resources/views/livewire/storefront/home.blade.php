@@ -8,7 +8,7 @@
      · Dot indicators bottom center
      · Auto-play 5s, pause on hover, swipe on mobile
 ═══════════════════════════════════════════════════════════════ --}}
-<section id="hero-slider" style="position:relative;overflow:hidden;background:#EDE8DF;width:100%;height:92vh;min-height:520px;max-height:900px;">
+<section id="hero-slider" style="position:relative;overflow:hidden;background:#0D0D0D;width:100%;height:85vh;min-height:480px;max-height:850px;">
 
     {{-- SLIDES TRACK --}}
     <div id="slider-track" style="display:flex;height:100%;transition:transform 0.65s cubic-bezier(0.77,0,0.18,1);will-change:transform;">
@@ -16,36 +16,54 @@
         @php
         $slides = [
             [
-                'image'    => asset('images/user_pic_1.jpg'),
-                'alt_img'  => '/images/user_pic_1.jpg',
-                'fallback' => 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=80',
-                'title'    => 'CRAFTED FOR LITTLE MOMENTS',
-                'type'     => 'NEW SEASON COLLECTION',
-                'url'      => route('shop', ['new_arrival' => 1]),
+                'image'       => asset('images/landscape_banner_1.png'),
+                'alt_img'     => '/images/landscape_banner_1.png',
+                'fallback'    => asset('images/user_pic_1.jpg'),
+                'script_title'=> 'Just For Your',
+                'title'       => 'EXCLUSIVE COLLECTION',
+                'type'        => 'AUTUMN / WINTER FASHION',
+                'button_text' => 'SHOP NOW',
+                'url'         => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image'    => asset('images/user_pic_2.jpg'),
-                'alt_img'  => '/images/user_pic_2.jpg',
-                'fallback' => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1600&q=80',
-                'title'    => 'GARDEN PARTY',
-                'type'     => 'GIRLS COLLECTION',
-                'url'      => route('shop', ['category' => 'girls']),
+                'image'       => asset('images/user_pic_1.jpg'),
+                'alt_img'     => '/images/user_pic_1.jpg',
+                'fallback'    => 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=80',
+                'script_title'=> 'Crafted with Love',
+                'title'       => 'NEW SEASON ARRIVALS',
+                'type'        => 'PREMIUM KIDS WEAR',
+                'button_text' => 'DISCOVER MORE',
+                'url'         => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image'    => asset('images/user_pic_3.jpg'),
-                'alt_img'  => '/images/user_pic_3.jpg',
-                'fallback' => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=1600&q=80',
-                'title'    => 'FESTIVE GLOW',
-                'type'     => 'EID COLLECTION',
-                'url'      => route('shop', ['new_arrival' => 1]),
+                'image'       => asset('images/user_pic_2.jpg'),
+                'alt_img'     => '/images/user_pic_2.jpg',
+                'fallback'    => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1600&q=80',
+                'script_title'=> 'Grace & Elegance',
+                'title'       => 'GIRLS FORMAL & EID WEAR',
+                'type'        => 'COUTURE FOR LITTLE PRINCESSES',
+                'button_text' => 'EXPLORE GIRLS',
+                'url'         => route('shop', ['category' => 'girls']),
             ],
             [
-                'image'    => asset('images/user_pic_4.png'),
-                'alt_img'  => '/images/user_pic_4.png',
-                'fallback' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
-                'title'    => 'GENTLE FROM DAY ONE',
-                'type'     => 'NEWBORN & BABY',
-                'url'      => route('shop', ['category' => 'newborn']),
+                'image'       => asset('images/user_pic_3.jpg'),
+                'alt_img'     => '/images/user_pic_3.jpg',
+                'fallback'    => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=1600&q=80',
+                'script_title'=> 'Smart & Dapper',
+                'title'       => 'BOYS EASTERN & WESTERN',
+                'type'        => 'TRADITIONAL & MODERN STYLES',
+                'button_text' => 'SHOP BOYS',
+                'url'         => route('shop', ['category' => 'boys']),
+            ],
+            [
+                'image'       => asset('images/user_pic_4.png'),
+                'alt_img'     => '/images/user_pic_4.png',
+                'fallback'    => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
+                'script_title'=> 'Gentle Soft Touch',
+                'title'       => 'NEWBORN & BABY ESSENTIALS',
+                'type'        => '100% PURE ORGANIC COTTON',
+                'button_text' => 'SHOP NEWBORN',
+                'url'         => route('shop', ['category' => 'newborn']),
             ],
         ];
         @endphp
@@ -53,58 +71,68 @@
         @foreach($slides as $i => $slide)
         <div style="min-width:100%;height:100%;position:relative;flex-shrink:0;">
 
-            {{-- Full-bleed image with fail-safe fallback --}}
+            {{-- Full landscape background image --}}
             <img src="{{ $slide['image'] }}"
                  alt="{{ $slide['title'] }}"
                  onerror="if(this.src!=='{{ $slide['alt_img'] }}'){this.src='{{ $slide['alt_img'] }}';}else{this.src='{{ $slide['fallback'] }}';}"
                  style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;"
                  loading="{{ $i === 0 ? 'eager' : 'lazy' }}">
 
-            {{-- Subtle bottom vignette only — for text legibility --}}
-            <div style="position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,rgba(0,0,0,0.60) 0%,rgba(0,0,0,0.2) 50%,transparent 100%);"></div>
+            {{-- Smooth overlay for legibility --}}
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);"></div>
 
-            {{-- TEXT — BOTTOM CENTER exactly like Sapphire --}}
-            <div style="position:absolute;bottom:0;left:0;right:0;z-index:5;text-align:center;padding-bottom:56px;">
-                <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4.5vw,56px);font-weight:700;color:#FFFFFF;line-height:1.05;letter-spacing:0.04em;margin-bottom:8px;">
+            {{-- CENTERED TYPOGRAPHY — Awaisia Store Style --}}
+            <div style="position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px;">
+                @if(!empty($slide['script_title']))
+                <span style="font-family:'Great Vibes', cursive; font-size:clamp(32px, 5.5vw, 68px); color:#C9A96E; line-height:1; transform:rotate(-2deg); margin-bottom:-10px; text-shadow:0 2px 8px rgba(0,0,0,0.5);">
+                    {{ $slide['script_title'] }}
+                </span>
+                @endif
+
+                <h1 style="font-family:'Playfair Display', 'Cormorant Garamond', serif; font-size:clamp(30px, 5.8vw, 72px); font-weight:700; color:#FFFFFF; line-height:1.1; letter-spacing:0.08em; text-transform:uppercase; margin:10px 0; text-shadow:0 3px 12px rgba(0,0,0,0.6); max-width:1000px;">
                     {{ $slide['title'] }}
-                </h2>
-                <p style="font-size:11px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.88);margin-bottom:20px;">
+                </h1>
+
+                <p style="font-family:'Inter', sans-serif; font-size:clamp(10px, 1.2vw, 13px); font-weight:600; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.92); margin-bottom:28px; text-shadow:0 1px 4px rgba(0,0,0,0.5);">
                     {{ $slide['type'] }}
                 </p>
+
                 <a href="{{ $slide['url'] }}"
-                   style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#FFFFFF;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.65);padding-bottom:3px;transition:border-color 0.25s,color 0.25s;"
-                   onmouseover="this.style.borderColor='#C9A96E';this.style.color='#C9A96E'"
-                   onmouseout="this.style.borderColor='rgba(255,255,255,0.65)';this.style.color='#FFFFFF'">SHOP NOW</a>
+                   style="display:inline-block; padding:12px 34px; background:#FFFFFF; color:#0D0D0D; font-family:'Inter', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; text-decoration:none; border-radius:0px; transition:all 0.3s ease; box-shadow:0 4px 15px rgba(0,0,0,0.2);"
+                   onmouseover="this.style.background='#C9A96E';this.style.color='#FFFFFF';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='#FFFFFF';this.style.color='#0D0D0D';this.style.transform='translateY(0)'">
+                    {{ $slide['button_text'] }}
+                </a>
             </div>
         </div>
         @endforeach
     </div>
 
-    {{-- LEFT ARROW — far left edge, exactly like Sapphire --}}
+    {{-- LEFT ARROW --}}
     <button id="slider-prev"
             aria-label="Previous slide"
-            style="position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:56px;height:80px;background:transparent;border:none;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;"
-            onmouseover="this.style.background='rgba(255,255,255,0.1)'"
-            onmouseout="this.style.background='transparent'">
-        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            style="position:absolute;left:16px;top:50%;transform:translateY(-50%);z-index:10;width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.2);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s ease;"
+            onmouseover="this.style.background='rgba(201,169,110,0.9)';this.style.borderColor='#C9A96E'"
+            onmouseout="this.style.background='rgba(0,0,0,0.35)';this.style.borderColor='rgba(255,255,255,0.2)'">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
     </button>
 
-    {{-- RIGHT ARROW — far right edge, exactly like Sapphire --}}
+    {{-- RIGHT ARROW --}}
     <button id="slider-next"
             aria-label="Next slide"
-            style="position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:56px;height:80px;background:transparent;border:none;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;"
-            onmouseover="this.style.background='rgba(255,255,255,0.1)'"
-            onmouseout="this.style.background='transparent'">
-        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            style="position:absolute;right:16px;top:50%;transform:translateY(-50%);z-index:10;width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.2);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s ease;"
+            onmouseover="this.style.background='rgba(201,169,110,0.9)';this.style.borderColor='#C9A96E'"
+            onmouseout="this.style.background='rgba(0,0,0,0.35)';this.style.borderColor='rgba(255,255,255,0.2)'">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
     </button>
 
-    {{-- DOT INDICATORS --}}
-    <div id="slider-dots" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:6px;align-items:center;">
+    {{-- DOT INDICATORS — Bottom Center --}}
+    <div id="slider-dots" style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:8px;align-items:center;padding:6px 14px;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);border-radius:20px;border:1px solid rgba(255,255,255,0.15);">
         @foreach($slides as $i => $slide)
             <button class="slider-dot"
                     data-index="{{ $i }}"
                     aria-label="Slide {{ $i + 1 }}"
-                    style="width:{{ $i === 0 ? '22px' : '6px' }};height:6px;background:{{ $i === 0 ? '#FFFFFF' : 'rgba(255,255,255,0.4)' }};border:none;cursor:pointer;transition:all 0.3s ease;padding:0;border-radius:3px;">
+                    style="width:{{ $i === 0 ? '24px' : '8px' }};height:8px;background:{{ $i === 0 ? '#C9A96E' : 'rgba(255,255,255,0.6)' }};border:none;cursor:pointer;transition:all 0.3s ease;padding:0;border-radius:4px;">
             </button>
         @endforeach
     </div>
@@ -128,8 +156,8 @@
         cur = ((n % total) + total) % total;
         track.style.transform = 'translateX(-' + (cur * 100) + '%)';
         dots.forEach(function(d, i) {
-            d.style.width      = i === cur ? '22px' : '6px';
-            d.style.background = i === cur ? '#FFFFFF' : 'rgba(255,255,255,0.4)';
+            d.style.width      = i === cur ? '24px' : '8px';
+            d.style.background = i === cur ? '#C9A96E' : 'rgba(255,255,255,0.6)';
         });
         setTimeout(function(){ busy = false; }, 700);
     }
