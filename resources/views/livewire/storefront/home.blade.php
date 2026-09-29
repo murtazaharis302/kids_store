@@ -9,19 +9,20 @@
      · Auto-play 5s, pause on hover, swipe on mobile
 ═══════════════════════════════════════════════════════════════ --}}
 <style>
-/* ── HERO SLIDER MOBILE FIX ───────────────────────────────── */
-#hero-slider { height: 80vh; min-height: 340px; max-height: 850px; }
+/* ── HERO SLIDER RESPONSIVE FIX ───────────────────────────────── */
+#hero-slider { position: relative; overflow: hidden; background: #0D0D0D; width: 100%; }
+.hero-slide-img { width: 100%; height: auto; min-height: 550px; max-height: 90vh; object-fit: cover; object-position: center top; display: block; }
 @media (max-width: 768px) {
-    #hero-slider { height: 65vh; min-height: 300px; }
+    .hero-slide-img { min-height: 450px !important; }
     #slider-prev, #slider-next { width: 36px !important; height: 36px !important; }
     .hero-script  { font-size: clamp(24px, 8vw, 40px) !important; margin-bottom: -6px !important; }
-    .hero-title   { font-size: clamp(22px, 7vw, 38px) !important; letter-spacing: 0.04em !important; }
+    .hero-title   { font-size: clamp(22px, 7vw, 38px) !important; letter-spacing: 0.04em !important; margin: 6px 0 !important; }
     .hero-type    { font-size: 9px !important; letter-spacing: 0.18em !important; margin-bottom: 16px !important; }
     .hero-btn     { padding: 10px 22px !important; font-size: 10px !important; letter-spacing: 0.18em !important; }
     #slider-dots  { bottom: 14px !important; padding: 4px 10px !important; }
 }
 @media (max-width: 480px) {
-    #hero-slider  { height: 55vh; min-height: 260px; }
+    .hero-slide-img { min-height: 400px !important; object-position: center center !important; }
     #slider-prev  { left: 8px !important; }
     #slider-next  { right: 8px !important; }
     .hero-script  { font-size: clamp(20px, 9vw, 34px) !important; }
@@ -29,10 +30,10 @@
 }
 </style>
 
-<section id="hero-slider" style="position:relative;overflow:hidden;background:#0D0D0D;width:100%;">
+<section id="hero-slider">
 
     {{-- SLIDES TRACK --}}
-    <div id="slider-track" style="display:flex;height:100%;transition:transform 0.65s cubic-bezier(0.77,0,0.18,1);will-change:transform;">
+    <div id="slider-track" style="display:flex;transition:transform 0.65s cubic-bezier(0.77,0,0.18,1);will-change:transform;">
 
         @php
         $slides = [
@@ -90,36 +91,36 @@
         @endphp
 
         @foreach($slides as $i => $slide)
-        <div style="min-width:100%;height:100%;position:relative;flex-shrink:0;">
+        <div style="min-width:100%;position:relative;flex-shrink:0;">
 
-            {{-- Full landscape background image --}}
-            <img src="{{ $slide['image'] }}"
+            {{-- Responsive landscape background image --}}
+            <img class="hero-slide-img" 
+                 src="{{ $slide['image'] }}"
                  alt="{{ $slide['title'] }}"
                  onerror="if(this.src!=='{{ $slide['alt_img'] }}'){this.src='{{ $slide['alt_img'] }}';}else{this.src='{{ $slide['fallback'] }}';}"
-                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"
                  loading="{{ $i === 0 ? 'eager' : 'lazy' }}">
 
             {{-- Overlay --}}
-            <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.65) 100%);"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.7) 100%);"></div>
 
             {{-- CENTERED TYPOGRAPHY --}}
             <div style="position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 16px;">
                 @if(!empty($slide['script_title']))
-                <span class="hero-script" style="font-family:'Great Vibes',cursive;font-size:clamp(28px,5.5vw,68px);color:#C9A96E;line-height:1;transform:rotate(-2deg);margin-bottom:-8px;text-shadow:0 2px 8px rgba(0,0,0,0.5);display:block;">
+                <span class="hero-script" style="font-family:'Great Vibes',cursive;font-size:clamp(32px,5vw,68px);color:#C9A96E;line-height:1;transform:rotate(-2deg);margin-bottom:-8px;text-shadow:0 2px 8px rgba(0,0,0,0.5);display:block;">
                     {{ $slide['script_title'] }}
                 </span>
                 @endif
 
-                <h1 class="hero-title" style="font-family:'Playfair Display','Cormorant Garamond',serif;font-size:clamp(26px,5.8vw,72px);font-weight:800;color:#FFFFFF;line-height:1.1;letter-spacing:0.07em;text-transform:uppercase;margin:10px 0 8px;text-shadow:0 3px 12px rgba(0,0,0,0.6);max-width:900px;">
+                <h1 class="hero-title" style="font-family:'Playfair Display','Cormorant Garamond',serif;font-size:clamp(28px,5vw,72px);font-weight:800;color:#FFFFFF;line-height:1.1;letter-spacing:0.07em;text-transform:uppercase;margin:12px 0 10px;text-shadow:0 3px 12px rgba(0,0,0,0.6);max-width:900px;">
                     {{ $slide['title'] }}
                 </h1>
 
-                <p class="hero-type" style="font-family:'Inter',sans-serif;font-size:clamp(9px,1.1vw,13px);font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.92);margin-bottom:24px;text-shadow:0 1px 4px rgba(0,0,0,0.5);">
+                <p class="hero-type" style="font-family:'Inter',sans-serif;font-size:clamp(10px,1vw,13px);font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.92);margin-bottom:24px;text-shadow:0 1px 4px rgba(0,0,0,0.5);">
                     {{ $slide['type'] }}
                 </p>
 
                 <a href="{{ $slide['url'] }}" class="hero-btn"
-                   style="display:inline-block;padding:11px 30px;background:#FFFFFF;color:#0D0D0D;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(0,0,0,0.25);"
+                   style="display:inline-block;padding:12px 32px;background:#FFFFFF;color:#0D0D0D;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(0,0,0,0.25);"
                    onmouseover="this.style.background='#C9A96E';this.style.color='#FFFFFF';this.style.transform='translateY(-2px)'"
                    onmouseout="this.style.background='#FFFFFF';this.style.color='#0D0D0D';this.style.transform='translateY(0)'">
                     {{ $slide['button_text'] }}
