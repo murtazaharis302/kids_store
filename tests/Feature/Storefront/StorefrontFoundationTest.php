@@ -77,7 +77,7 @@ class StorefrontFoundationTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertStatus(200);
-        $response->assertSee('Search kids dresses, categories');
+        $response->assertSee('Search dresses, newborn sets, categories');
     }
 
     #[Test]
@@ -86,9 +86,9 @@ class StorefrontFoundationTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertStatus(200);
-        $response->assertSee('Log in');
-        $response->assertSee('Register');
-        $response->assertDontSee('Admin Panel');
+        $response->assertSee('Log In');
+        $response->assertSee('Create Account');
+        $response->assertDontSee('Admin Control Panel');
     }
 
     #[Test]
@@ -100,8 +100,8 @@ class StorefrontFoundationTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('My Account');
-        $response->assertSee('Logout');
-        $response->assertDontSee('Admin Panel');
+        $response->assertSee('Sign Out');
+        $response->assertDontSee('Admin Control Panel');
     }
 
     #[Test]
@@ -112,7 +112,7 @@ class StorefrontFoundationTest extends TestCase
         $response = $this->actingAs($admin)->get(route('home'));
 
         $response->assertStatus(200);
-        $response->assertSee('Admin Panel');
+        $response->assertSee('Admin Control Panel');
         $response->assertSee('My Account');
     }
 
@@ -132,8 +132,8 @@ class StorefrontFoundationTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertStatus(200);
-        $response->assertSee('mobileMenuOpen');
-        $response->assertSee('Open Navigation Menu');
+        $response->assertSee('mobile-drawer');
+        $response->assertSee('Open menu');
     }
 
     #[Test]
@@ -142,10 +142,10 @@ class StorefrontFoundationTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertStatus(200);
-        $response->assertSee('Shop Collections');
+        $response->assertSee('Quick Links');
         $response->assertSee('Customer Care');
-        $response->assertSee('Account & Legal', false);
-        $response->assertSee('Al Hayat Kids</span>. All rights reserved.', false);
-        $response->assertSee('100% Secure Checkout');
+        $response->assertSee('Contact');
+        $response->assertSee('Al Hayat Kids. All rights reserved.', false);
+        $response->assertSee('WhatsApp Orders');
     }
 }
