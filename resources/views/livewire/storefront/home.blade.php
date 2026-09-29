@@ -344,7 +344,7 @@
         </div>
 
         @if($featuredProducts->isNotEmpty())
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+            <div class="home-product-grid">
                 @foreach($featuredProducts as $product)
                     <x-storefront.product-card :product="$product" />
                 @endforeach
@@ -376,7 +376,7 @@
                onmouseout="this.style.color='#0D0D0D';this.style.borderColor='#0D0D0D'">View All</a>
         </div>
         @if($newArrivals->isNotEmpty())
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+            <div class="home-product-grid">
                 @foreach($newArrivals as $product)
                     <x-storefront.product-card :product="$product" />
                 @endforeach
@@ -612,22 +612,42 @@
 
 {{-- Responsive --}}
 <style>
+/* ── HOME PRODUCT GRID ─────────────────────────────── */
+.home-product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* ── COLLECTION TILES ──────────────────────────────── */
+.collection-tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
 @media (max-width:1024px) {
     #hero-slider { height:75vh; }
+    .home-product-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width:768px) {
     #hero-slider { height:68vh; min-height:420px; }
-    div[style*="grid-template-columns:repeat(4,1fr)"] { grid-template-columns:repeat(2,1fr) !important; }
-    div[style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns:1fr !important; }
-    div[style*="padding:0 40px"] { padding:0 20px !important; }
-    div[style*="padding:88px 40px"] { padding:56px 20px !important; }
-    div[style*="padding:52px 56px"] { padding:36px 28px !important; }
+    .home-product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .collection-tiles-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    div[style*="grid-template-columns:repeat(4,1fr)"] { grid-template-columns:repeat(2,1fr) !important; gap:10px !important; }
+    div[style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns:repeat(2,1fr) !important; }
+    div[style*="padding:0 40px"] { padding:0 16px !important; }
+    div[style*="padding:88px 40px"] { padding:48px 16px !important; }
+    div[style*="padding:52px 56px"] { padding:32px 20px !important; }
+    div[style*="padding:72px 0"] { padding:48px 0 !important; }
     #hero-slider [style*="padding-bottom:56px"] { padding-bottom:48px !important; }
 }
 @media (max-width:480px) {
     #hero-slider { height:78vh; }
     #hero-slider h2 { font-size:26px !important; }
-    div[style*="grid-template-columns:repeat(4,1fr)"] { grid-template-columns:repeat(2,1fr) !important; gap:10px !important; }
+    .home-product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .collection-tiles-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    div[style*="grid-template-columns:repeat(4,1fr)"] { grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
 }
 </style>
 
