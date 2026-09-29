@@ -84,7 +84,7 @@
         </div>
 
         {{-- ══ RIGHT: Product Info & Purchase ══ --}}
-        <div style="position:sticky;top:24px;">
+        <div class="product-info-col">
 
             {{-- Category & Title --}}
             <div style="margin-bottom:20px;">
@@ -318,15 +318,17 @@
 <style>
 /* ── PRODUCT SHOW RESPONSIVE ── */
 .product-show-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
-.product-main-img-wrap { aspect-ratio: 1 / 1; }
+.product-main-img-wrap { aspect-ratio: 1 / 1; width: 100%; }
 .product-main-img-wrap img { aspect-ratio: 1 / 1; }
+.product-info-col { position: sticky; top: 24px; }
 
 @media (max-width: 1024px) {
-    .product-show-grid { grid-template-columns: 1fr; gap: 40px; }
-    .product-main-img-wrap { max-width: 520px; margin: 0 auto; }
+    .product-show-grid { grid-template-columns: 1fr; gap: 32px; }
+    .product-main-img-wrap { max-width: 100%; margin: 0; }
+    .product-info-col { position: static; }
 }
 @media (max-width: 640px) {
-    .product-show-grid { gap: 28px; }
+    .product-show-grid { gap: 24px; }
     .related-products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
 }
 </style>
