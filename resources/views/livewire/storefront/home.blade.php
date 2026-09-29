@@ -231,6 +231,42 @@
 
 
 {{-- ═══════════════════════════════════════════════════════════════
+     FEATURED PRODUCTS — 4 items managed from Admin Panel
+     Admin: Products → Edit → tick "Featured Product" checkbox
+═══════════════════════════════════════════════════════════════ --}}
+<section style="padding:72px 0;background:#F7F4EF;">
+    <div style="max-width:1400px;margin:0 auto;padding:0 40px;">
+
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;">
+            <div>
+                <p style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C9A96E;margin-bottom:8px;">Hand-Picked</p>
+                <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,44px);font-weight:600;color:#0D0D0D;line-height:1.1;">Featured Products</h2>
+                <p style="font-size:12px;color:#888;margin-top:6px;">Manage these 4 items from <strong style="color:#0D0D0D;">Admin Panel → Products → tick "Featured Product"</strong></p>
+            </div>
+            <a href="{{ route('shop') }}"
+               style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;text-decoration:none;border-bottom:1px solid #0D0D0D;padding-bottom:2px;white-space:nowrap;"
+               onmouseover="this.style.color='#C9A96E';this.style.borderColor='#C9A96E'"
+               onmouseout="this.style.color='#0D0D0D';this.style.borderColor='#0D0D0D'">View All</a>
+        </div>
+
+        @if($featuredProducts->isNotEmpty())
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+                @foreach($featuredProducts as $product)
+                    <x-storefront.product-card :product="$product" />
+                @endforeach
+            </div>
+        @else
+            <x-storefront.empty-state
+                title="No Featured Products Yet"
+                description="Go to Admin Panel → Products → Edit any product → tick 'Featured Product' to show it here."
+                actionText="Go to Admin"
+                actionUrl="/admin/products" />
+        @endif
+    </div>
+</section>
+
+
+{{-- ═══════════════════════════════════════════════════════════════
      NEW ARRIVALS
 ═══════════════════════════════════════════════════════════════ --}}
 <section style="padding:72px 0;background:#F7F4EF;">

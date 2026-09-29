@@ -8,10 +8,10 @@
     <title>{{ $title ?? 'Al Hayat Kids — Premium Children\'s Fashion' }}</title>
     <meta name="description" content="Discover stylish, comfortable, and high-quality clothing for newborn, baby, girls, and boys at Al Hayat Kids Pakistan.">
 
-    <!-- Google Fonts: Cormorant Garamond (editorial/luxury) + Inter (body) -->
+    <!-- Google Fonts: Outfit (brand/headings) + Cormorant Garamond (display) + Inter (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('hot')))
@@ -55,21 +55,23 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        .font-display {
-            font-family: 'Cormorant Garamond', serif;
-        }
+        /* Outfit = brand/logo/headings, Cormorant = editorial display text */
+        .font-brand   { font-family: 'Outfit', sans-serif; }
+        .font-display { font-family: 'Cormorant Garamond', serif; }
 
         /* ── Announcement Bar ── */
         @keyframes ticker {
             0%   { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
+        .ticker-wrap { overflow:hidden; position:relative; }
         .ticker-track {
-            display: flex;
-            width: max-content;
-            animation: ticker 50s linear infinite;
+            display: inline-flex;
+            white-space: nowrap;
+            animation: ticker 40s linear infinite;
         }
         .ticker-track:hover { animation-play-state: paused; }
+        .ticker-item { display:inline-flex; align-items:center; gap:20px; padding:0 40px; }
 
         /* ── Header ── */
         #site-header {
@@ -356,35 +358,37 @@
 <body class="flex flex-col min-h-screen" x-data="{ mobileMenuOpen: false }">
 
     {{-- ══════════════════════════════════════════
-         ANNOUNCEMENT BAR
+         ANNOUNCEMENT BAR — Clean ticker
     ══════════════════════════════════════════ --}}
-    <div style="background:#0D0D0D; color:rgba(255,255,255,0.85); overflow:hidden; position:relative;" class="py-2.5 select-none">
-        {{-- fade edges --}}
-        <div style="position:absolute;left:0;top:0;bottom:0;width:60px;background:linear-gradient(to right,#0D0D0D,transparent);z-index:2;pointer-events:none;"></div>
-        <div style="position:absolute;right:0;top:0;bottom:0;width:60px;background:linear-gradient(to left,#0D0D0D,transparent);z-index:2;pointer-events:none;"></div>
-
-        <div class="ticker-track" style="gap:64px; align-items:center;">
-            {{-- Set 1 --}}
-            <span style="display:inline-flex;align-items:center;gap:32px;white-space:nowrap;font-size:12px;font-weight:500;letter-spacing:0.05em;flex-shrink:0;">
-                <span style="color:var(--gold,#C9A96E);font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;">Welcome to Al Hayat Kids</span>
-                <span style="opacity:0.3;">—</span>
-                <span>Rs 350 Delivery Across Pakistan &nbsp;·&nbsp; Pay in advance &amp; send screenshot on WhatsApp <strong style="font-weight:700;">0324-9171213</strong> to confirm order</span>
-                <span style="opacity:0.3;">—</span>
-                <span style="color:var(--gold,#C9A96E);font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;">COD Not Available 🚚</span>
-                <span style="opacity:0.3;">—</span>
-                <span>Premium Quality Kids Wear &nbsp;·&nbsp; Stitched &amp; Unstitched</span>
-                <span style="opacity:0.3;">—</span>
+    <div style="background:#0D0D0D;" class="ticker-wrap select-none">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:48px;background:linear-gradient(to right,#0D0D0D,transparent);z-index:2;pointer-events:none;"></div>
+        <div style="position:absolute;right:0;top:0;bottom:0;width:48px;background:linear-gradient(to left,#0D0D0D,transparent);z-index:2;pointer-events:none;"></div>
+        <div class="ticker-track" style="padding:10px 0;">
+            {{-- Item set A --}}
+            <span class="ticker-item">
+                <span style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C9A96E;">Welcome to Al Hayat Kids</span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
+                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Rs 350 Delivery Across Pakistan</span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
+                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Pay in advance · WhatsApp <strong style="color:#fff;font-weight:700;">0324-9171213</strong></span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
+                <span style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C9A96E;">COD Not Available</span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
+                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Premium Quality Kids Wear · Stitched &amp; Unstitched</span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
             </span>
-            {{-- Set 2 (duplicate for seamless loop) --}}
-            <span style="display:inline-flex;align-items:center;gap:32px;white-space:nowrap;font-size:12px;font-weight:500;letter-spacing:0.05em;flex-shrink:0;" aria-hidden="true">
-                <span style="color:var(--gold,#C9A96E);font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;">Welcome to Al Hayat Kids</span>
-                <span style="opacity:0.3;">—</span>
-                <span>Rs 350 Delivery Across Pakistan &nbsp;·&nbsp; Pay in advance &amp; send screenshot on WhatsApp <strong style="font-weight:700;">0324-9171213</strong> to confirm order</span>
-                <span style="opacity:0.3;">—</span>
-                <span style="color:var(--gold,#C9A96E);font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;">COD Not Available 🚚</span>
-                <span style="opacity:0.3;">—</span>
-                <span>Premium Quality Kids Wear &nbsp;·&nbsp; Stitched &amp; Unstitched</span>
-                <span style="opacity:0.3;">—</span>
+            {{-- Item set B — exact duplicate for seamless loop --}}
+            <span class="ticker-item" aria-hidden="true">
+                <span style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C9A96E;">Welcome to Al Hayat Kids</span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
+                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Rs 350 Delivery Across Pakistan</span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
+                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Pay in advance · WhatsApp <strong style="color:#fff;font-weight:700;">0324-9171213</strong></span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
+                <span style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C9A96E;">COD Not Available</span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
+                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Premium Quality Kids Wear · Stitched &amp; Unstitched</span>
+                <span style="color:rgba(255,255,255,0.25);">✦</span>
             </span>
         </div>
     </div>
@@ -400,10 +404,10 @@
 
                 {{-- Left: Logo --}}
                 <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:12px;text-decoration:none;width:fit-content;">
-                    <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids" style="height:48px;width:auto;object-fit:contain;" onerror="this.style.display='none'">
+                    <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids" style="height:52px;width:auto;object-fit:contain;" onerror="this.style.display='none'">
                     <div>
-                        <div class="font-display" style="font-size:22px;font-weight:600;color:#0D0D0D;line-height:1;letter-spacing:0.02em;">AL HAYAT <span style="color:#C9A96E;">KIDS</span></div>
-                        <div style="font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#888;margin-top:2px;">Luxury Children's Wear</div>
+                        <div class="font-brand" style="font-size:22px;font-weight:800;color:#0D0D0D;line-height:1;letter-spacing:0.06em;text-transform:uppercase;">AL HAYAT KIDS</div>
+                        <div style="font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#888;margin-top:3px;">Luxury Children's Wear</div>
                     </div>
                 </a>
 

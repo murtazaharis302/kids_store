@@ -110,7 +110,24 @@ class Home extends Component
             ]);
         })->values();
 
-        // 6. Sale Products (shuffled)
+        // 6. Featured Products — 4 items, toggled via admin panel (featured checkbox)
+        $featuredProducts = Product::with(['primaryImage', 'images', 'category'])
+            ->where('status', true)
+            ->where('featured', true)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        // Fallback: if no featured products set, show 4 newest products
+        if ($featuredProducts->isEmpty()) {
+            $featuredProducts = Product::with(['primaryImage', 'images', 'category'])
+                ->where('status', true)
+                ->latest()
+                ->take(4)
+                ->get();
+        }
+
+        // 7. Sale Products (shuffled)
         $saleProducts = Product::with(['primaryImage', 'images', 'category'])
             ->where('status', true)
             ->where(function ($query) {
@@ -125,12 +142,13 @@ class Home extends Component
             ->get();
 
         return view('livewire.storefront.home', [
-            'categories' => $categories,
-            'showcaseProducts' => $showcaseProducts,
-            'newArrivals' => $newArrivals,
+            'categories'         => $categories,
+            'showcaseProducts'   => $showcaseProducts,
+            'newArrivals'        => $newArrivals,
+            'featuredProducts'   => $featuredProducts,
             'featuredCollection' => $featuredCollection,
-            'ageGroups' => $ageGroups,
-            'saleProducts' => $saleProducts,
+            'ageGroups'          => $ageGroups,
+            'saleProducts'       => $saleProducts,
         ])->layout('components.layouts.storefront', [
             'title' => 'Al Hayat Kids | Premium Children\'s Fashion in Pakistan',
         ]);
