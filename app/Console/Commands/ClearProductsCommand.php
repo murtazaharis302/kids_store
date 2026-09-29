@@ -34,8 +34,11 @@ class ClearProductsCommand extends Command
 
         $this->info('Clearing product data...');
 
-        DB::statement('PRAGMA foreign_keys = OFF;');
-        if(config('database.default') !== 'sqlite') {
+        $dbConnection = config('database.default');
+        
+        if ($dbConnection === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = OFF;');
+        } else {
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         }
 
@@ -57,8 +60,9 @@ class ClearProductsCommand extends Command
         DB::table('product_variants')->truncate();
         DB::table('products')->truncate();
 
-        DB::statement('PRAGMA foreign_keys = ON;');
-        if(config('database.default') !== 'sqlite') {
+        if ($dbConnection === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = ON;');
+        } else {
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         }
 
