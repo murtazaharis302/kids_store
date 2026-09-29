@@ -137,12 +137,14 @@ class DatabaseSeeder extends Seeder
 
         $createdAgeGroups = [];
         foreach ($ageGroupsData as $index => $ageName) {
-            $createdAgeGroups[$ageName] = AgeGroup::create([
-                'name' => $ageName,
-                'slug' => Str::slug($ageName),
-                'sort_order' => $index + 1,
-                'status' => true,
-            ]);
+            $createdAgeGroups[$ageName] = AgeGroup::firstOrCreate(
+                ['slug' => Str::slug($ageName)],
+                [
+                    'name' => $ageName,
+                    'sort_order' => $index + 1,
+                    'status' => true,
+                ]
+            );
         }
 
         // 5. Sizes

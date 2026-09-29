@@ -16,25 +16,25 @@
         @php
         $slides = [
             [
-                'image' => 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=80',
+                'image' => asset('images/user_pic_1.jpg'),
                 'title' => 'CRAFTED FOR LITTLE MOMENTS',
                 'type'  => 'NEW SEASON COLLECTION',
                 'url'   => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image' => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1600&q=80',
+                'image' => asset('images/user_pic_2.jpg'),
                 'title' => 'GARDEN PARTY',
                 'type'  => 'GIRLS COLLECTION',
                 'url'   => route('shop', ['category' => 'girls']),
             ],
             [
-                'image' => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=1600&q=80',
+                'image' => asset('images/user_pic_3.jpg'),
                 'title' => 'FESTIVE GLOW',
                 'type'  => 'EID COLLECTION',
                 'url'   => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
+                'image' => asset('images/user_pic_4.png'),
                 'title' => 'GENTLE FROM DAY ONE',
                 'type'  => 'NEWBORN & BABY',
                 'url'   => route('shop', ['category' => 'newborn']),
@@ -198,28 +198,28 @@
             @php
             $cols = [
                 [
-                    'image' => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=600&h=800&q=80',
+                    'image' => asset('images/user_pic_2.jpg'),
                     'label' => 'Girls',
                     'title' => 'Garden Party',
                     'sub'   => 'Embroidered & Floral',
                     'url'   => route('shop', ['category' => 'girls']),
                 ],
                 [
-                    'image' => 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?auto=format&fit=crop&w=600&h=800&q=80',
+                    'image' => asset('images/user_pic_1.jpg'),
                     'label' => 'Boys',
                     'title' => 'Little Gentlemen',
                     'sub'   => 'Classic & Contemporary',
                     'url'   => route('shop', ['category' => 'boys']),
                 ],
                 [
-                    'image' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=600&h=800&q=80',
+                    'image' => asset('images/user_pic_4.png'),
                     'label' => 'Newborn',
                     'title' => 'First Days',
                     'sub'   => 'Soft & Gentle Fabrics',
                     'url'   => route('shop', ['category' => 'newborn']),
                 ],
                 [
-                    'image' => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=600&h=800&q=80',
+                    'image' => asset('images/user_pic_3.jpg'),
                     'label' => 'Eid Collection',
                     'title' => 'Festive Glow',
                     'sub'   => 'Gold Embroidery Sets',

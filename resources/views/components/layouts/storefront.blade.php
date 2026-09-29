@@ -118,7 +118,7 @@
             position: absolute;
             top: calc(100% + 12px);
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(-6px);
             background: var(--white);
             border: 1px solid var(--border);
             min-width: 220px;
@@ -127,7 +127,12 @@
             visibility: hidden;
             pointer-events: none;
             transition: opacity 0.2s, transform 0.2s;
-            transform: translateX(-50%) translateY(-6px);
+            z-index: 100;
+        }
+        .dropdown-menu.dropdown-right {
+            left: auto;
+            right: 0;
+            transform: translateY(-6px);
         }
         .dropdown-wrapper:hover .dropdown-menu,
         .dropdown-menu:hover {
@@ -135,6 +140,10 @@
             visibility: visible;
             pointer-events: auto;
             transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-wrapper:hover .dropdown-menu.dropdown-right,
+        .dropdown-menu.dropdown-right:hover {
+            transform: translateY(0);
         }
         .dropdown-menu a {
             display: flex;
@@ -430,26 +439,49 @@
                     {{-- Cart --}}
                     <livewire:storefront.cart-header-count />
 
-                    {{-- Account --}}
-                    <div class="hidden sm:flex items-center" style="margin-left:8px;padding-left:12px;border-left:1px solid #E0DBD3;">
-                        @guest
-                            <a href="{{ route('login') }}" class="nav-link" style="margin-right:16px;">Log in</a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="btn-primary" style="padding:8px 20px;font-size:11px;">Register</a>
-                            @endif
-                        @endguest
-                        @auth
-                            <div style="display:flex;align-items:center;gap:8px;">
-                                @if(in_array(auth()->user()->role, ['admin', 'staff']))
-                                    <a href="{{ route('admin.dashboard') }}" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#C9A96E;text-decoration:none;">Admin</a>
+                    {{-- Account Dropdown --}}
+                    <div class="dropdown-wrapper" style="position:relative;margin-left:4px;">
+                        <button class="icon-btn" title="Account" aria-label="Account">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        </button>
+                        <div class="dropdown-menu dropdown-right" style="min-width:210px;">
+                            @guest
+                                <div class="dropdown-header">Welcome to Al Hayat Kids</div>
+                                <a href="{{ route('login') }}">
+                                    <span>Log In</span>
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                </a>
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}">
+                                        <span>Create Account</span>
+                                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                    </a>
                                 @endif
-                                <a href="{{ route('dashboard') }}" class="nav-link">Account</a>
-                                <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                            @endguest
+                            @auth
+                                <div class="dropdown-header" style="text-transform:none;letter-spacing:normal;">
+                                    <div style="font-weight:700;color:#0D0D0D;font-size:12px;">{{ auth()->user()->name }}</div>
+                                    <div style="font-size:10px;color:#888;font-weight:400;margin-top:2px;">{{ auth()->user()->email }}</div>
+                                </div>
+                                @if(in_array(auth()->user()->role, ['admin', 'staff']))
+                                    <a href="{{ route('admin.dashboard') }}" style="color:#C9A96E;font-weight:700;">
+                                        <span>Admin Control Panel</span>
+                                        <span class="badge" style="color:#C9A96E;background:rgba(201,169,110,0.12);padding:2px 6px;border-radius:3px;">ADMIN</span>
+                                    </a>
+                                @endif
+                                <a href="{{ route('dashboard') }}">
+                                    <span>My Account & Orders</span>
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                </a>
+                                <a href="#" onclick="event.preventDefault(); document.getElementById('hdr-logout-form').submit();" style="color:#d9534f;">
+                                    <span>Sign Out</span>
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                </a>
+                                <form id="hdr-logout-form" method="POST" action="{{ route('logout') }}" style="display:none;">
                                     @csrf
-                                    <button type="submit" style="background:none;border:none;cursor:pointer;font-size:12px;font-weight:500;color:#888;padding:0;transition:color 0.2s;" onmouseover="this.style.color='#0D0D0D'" onmouseout="this.style.color='#888'">Logout</button>
                                 </form>
-                            </div>
-                        @endauth
+                            @endauth
+                        </div>
                     </div>
 
                     {{-- Mobile Menu Toggle --}}
