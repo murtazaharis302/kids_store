@@ -39,12 +39,12 @@
                  loading="lazy">
             <div style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:#F7F4EF;color:#C9A96E;">
                 <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;color:#888;margin-top:8px;text-transform:uppercase;">Al Hayat Kids</span>
+                <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;color:#888;margin-top:8px;text-transform:uppercase;">Al Hayat Kids Collection</span>
             </div>
         @else
             <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F7F4EF;color:#C9A96E;">
                 <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;color:#888;margin-top:8px;text-transform:uppercase;">Al Hayat Kids</span>
+                <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;color:#888;margin-top:8px;text-transform:uppercase;">Al Hayat Kids Collection</span>
             </div>
         @endif
 
