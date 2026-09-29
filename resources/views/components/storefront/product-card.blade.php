@@ -14,86 +14,91 @@
     }
 
     $regularPrice = (float) $product->price;
-    $salePrice = !is_null($product->sale_price) ? (float) $product->sale_price : null;
-    $hasSale = !is_null($salePrice) && $salePrice < $regularPrice;
+    $salePrice    = !is_null($product->sale_price) ? (float) $product->sale_price : null;
+    $hasSale      = !is_null($salePrice) && $salePrice < $regularPrice;
 @endphp
 
-<div class="group relative bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col h-full overflow-hidden cursor-pointer">
-    
-    <!-- Full Card Clickable Overlay -->
-    <a href="{{ route('products.show', $product->slug) }}" class="absolute inset-0 z-0" aria-label="View {{ $product->name }}"></a>
+{{-- ────────────────────────────────────────────────────
+     PRODUCT CARD  — Sapphire-inspired editorial style
+     Palette: ink #0D0D0D  cream #F7F4EF  gold #C9A96E
+──────────────────────────────────────────────────── --}}
+<div style="position:relative;background:#FFFFFF;border:1px solid #E0DBD3;overflow:hidden;display:flex;flex-direction:column;height:100%;transition:border-color 0.25s;"
+     class="product-card-root"
+     onmouseover="this.style.borderColor='#C9A96E'"
+     onmouseout="this.style.borderColor='#E0DBD3'">
 
-    <!-- Image Container -->
-    <div class="relative aspect-square w-full bg-slate-100 overflow-hidden flex items-center justify-center pointer-events-none">
+    {{-- Full card link --}}
+    <a href="{{ route('products.show', $product->slug) }}"
+       style="position:absolute;inset:0;z-index:1;"
+       aria-label="View {{ $product->name }}"></a>
+
+    {{-- ── Image ── --}}
+    <div style="position:relative;overflow:hidden;background:#F7F4EF;aspect-ratio:3/4;">
         @if($hasValidImage)
-            <img src="{{ $imageUrl }}" 
-                 alt="{{ $primaryImg->alt_text ?? $product->name }}" 
-                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <img src="{{ $imageUrl }}"
+                 alt="{{ $primaryImg->alt_text ?? $product->name }}"
+                 style="width:100%;height:100%;object-fit:cover;transition:transform 0.55s ease;display:block;"
+                 class="product-card-img"
+                 loading="lazy">
         @else
-            <div class="flex flex-col items-center justify-center p-6 text-slate-400 text-center">
-                <svg class="w-12 h-12 stroke-current opacity-40 mb-2" fill="none" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                <span class="text-xs font-semibold text-slate-400">Al Hayat Kids Collection</span>
+            <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#C9A96E;">
+                <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;color:#888;margin-top:10px;text-transform:uppercase;">Al Hayat Kids</span>
             </div>
         @endif
 
-        <!-- Badges Layer -->
-        <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
+        {{-- Badge row --}}
+        <div style="position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:5px;z-index:2;pointer-events:none;">
             @if($hasSale)
-                <span class="px-2.5 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
-                    Sale
-                </span>
+                <span style="display:inline-block;padding:3px 10px;background:#0D0D0D;color:#FFFFFF;font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;">SALE</span>
             @endif
-
             @if($product->new_arrival)
-                <span class="px-2.5 py-1 rounded-lg bg-amber-500 text-white text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
-                    New
-                </span>
+                <span style="display:inline-block;padding:3px 10px;background:#C9A96E;color:#FFFFFF;font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;">NEW</span>
             @endif
         </div>
 
-        <!-- Wishlist Placeholder UI -->
-        <div class="absolute top-3 right-3 z-10 pointer-events-auto">
-            <button type="button" 
-                    @click.prevent="" 
-                    title="Wishlist feature coming soon"
-                    class="w-8 h-8 rounded-full bg-white/80 backdrop-blur-xs border border-slate-200/60 text-slate-400 hover:text-rose-500 hover:bg-white flex items-center justify-center transition shadow-2xs cursor-not-allowed">
-                <svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                </svg>
+        {{-- Wishlist button --}}
+        <div style="position:absolute;top:12px;right:12px;z-index:3;">
+            <button type="button"
+                    @click.prevent=""
+                    title="Save to wishlist"
+                    style="width:32px;height:32px;background:rgba(255,255,255,0.9);border:1px solid #E0DBD3;display:flex;align-items:center;justify-content:center;color:#888;cursor:default;transition:all 0.2s;backdrop-filter:blur(4px);"
+                    onmouseover="this.style.background='#FFFFFF';this.style.color='#0D0D0D'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.9)';this.style.color='#888'">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
             </button>
         </div>
     </div>
 
-    <!-- Product Info -->
-    <div class="p-4 flex flex-col flex-1 justify-between gap-3 relative z-10 pointer-events-none">
-        <div class="space-y-1">
+    {{-- ── Product Info ── --}}
+    <div style="padding:16px;flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:10px;position:relative;z-index:2;pointer-events:none;">
+        <div>
             @if($product->category)
-                <p class="text-[11px] font-semibold text-rose-600 uppercase tracking-wider">
-                    {{ $product->category->name }}
-                </p>
+                <p style="font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#C9A96E;margin-bottom:4px;">{{ $product->category->name }}</p>
             @endif
-
-            <h3 class="text-sm font-bold text-slate-800 line-clamp-2 group-hover:text-rose-600 transition-colors leading-snug font-heading">
+            <h3 style="font-size:13px;font-weight:500;color:#0D0D0D;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
                 {{ $product->name }}
             </h3>
         </div>
 
-        <!-- Pricing -->
-        <div class="pt-2 border-t border-slate-100 flex items-baseline gap-2">
+        {{-- Pricing --}}
+        <div style="display:flex;align-items:baseline;gap:8px;padding-top:10px;border-top:1px solid #E0DBD3;">
             @if($hasSale)
-                <span class="text-base font-extrabold text-rose-600 font-heading">
-                    Rs. {{ number_format($salePrice, 2) }}
+                <span style="font-size:15px;font-weight:700;color:#0D0D0D;font-family:'Cormorant Garamond',serif;">
+                    Rs. {{ number_format($salePrice, 0) }}
                 </span>
-                <span class="text-xs text-slate-400 line-through">
-                    Rs. {{ number_format($regularPrice, 2) }}
+                <span style="font-size:12px;color:#aaa;text-decoration:line-through;">
+                    Rs. {{ number_format($regularPrice, 0) }}
                 </span>
             @else
-                <span class="text-base font-extrabold text-slate-900 font-heading">
-                    Rs. {{ number_format($regularPrice, 2) }}
+                <span style="font-size:15px;font-weight:700;color:#0D0D0D;font-family:'Cormorant Garamond',serif;">
+                    Rs. {{ number_format($regularPrice, 0) }}
                 </span>
             @endif
         </div>
     </div>
 </div>
+
+<style>
+    .product-card-root:hover .product-card-img { transform: scale(1.05); }
+</style>

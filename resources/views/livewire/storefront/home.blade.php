@@ -1,380 +1,421 @@
-<div class="space-y-16 lg:space-y-24 pb-12">
-    <!-- 1. HERO SECTION -->
-    <section class="relative bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50 border-b border-rose-100/60 overflow-hidden py-14 lg:py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                <!-- Left Column: Copy & Actions -->
-                <div class="lg:col-span-7 space-y-6 text-left">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-rose-200 text-rose-700 text-xs font-bold shadow-xs">
-                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
-                        Al Hayat Kids Official Storefront
-                    </div>
+<div>
+    {{-- ══════════════════════════════════════════
+         1. HERO — FULL-WIDTH EDITORIAL BANNER
+    ══════════════════════════════════════════ --}}
+    <section id="hero" style="position:relative;overflow:hidden;background:#F7F4EF;min-height:90vh;display:flex;align-items:stretch;">
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 font-heading tracking-tight leading-tight">
-                        Made for <span class="text-rose-600">Little Moments</span>
-                    </h1>
+        {{-- Background image --}}
+        <div style="position:absolute;inset:0;z-index:0;">
+            <img src="{{ asset('images/hero_kids_teal.png') }}"
+                 alt="Al Hayat Kids Campaign"
+                 style="width:100%;height:100%;object-fit:cover;object-position:center top;"
+                 onerror="this.src='{{ asset('images/hero_kids.png') }}'">
+            {{-- gradient overlay for text readability --}}
+            <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(13,13,13,0.65) 0%,rgba(13,13,13,0.25) 55%,rgba(13,13,13,0.0) 100%);"></div>
+        </div>
 
-                    <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl font-medium">
-                        Discover comfortable, stylish kidswear designed for everyday adventures. From cozy newborn sets to durable playground outfits.
-                    </p>
-
-                    <!-- Primary & Secondary CTAs -->
-                    <div class="flex flex-wrap items-center gap-4 pt-2">
-                        <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-sm rounded-2xl transition-all shadow-md shadow-rose-500/20 hover:shadow-lg hover:shadow-rose-500/30">
-                            Shop New Arrivals
-                        </a>
-                        <a href="{{ route('shop') }}" class="px-8 py-4 bg-white hover:bg-slate-100 text-slate-800 font-extrabold text-sm rounded-2xl border border-slate-200 transition-all shadow-2xs">
-                            Explore Collections
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Right Column: Visual Campaign Artwork Card -->
-                <div class="lg:col-span-5 relative">
-                    <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl bg-white p-3 shadow-2xl border border-rose-100 overflow-hidden transform lg:rotate-1 hover:rotate-0 transition-transform duration-500">
-                        <div class="aspect-4/3 rounded-2xl overflow-hidden relative shadow-inner">
-                            <img src="{{ asset('images/hero_kids.png') }}" alt="Al Hayat Kids Campaign" class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
-                            
-                            <!-- Floating Overlay Badges -->
-                            <div class="absolute bottom-4 left-4 right-4 p-3.5 rounded-2xl bg-white/90 backdrop-blur-md border border-white/60 shadow-lg flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">
-                                        ✨
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xs font-extrabold text-slate-900 font-heading">Al Hayat Kids Apparel</h3>
-                                        <p class="text-[11px] font-medium text-slate-500">100% Breathable Cotton • Pakistan Shipping</p>
-                                    </div>
-                                </div>
-                                <span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-700 text-[10px] font-extrabold uppercase">New</span>
-                            </div>
-                        </div>
-                    </div>
+        {{-- Hero Content --}}
+        <div style="position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:80px 24px;width:100%;display:flex;align-items:center;">
+            <div style="max-width:560px;">
+                <p class="section-label" style="color:#C9A96E;margin-bottom:16px;animation:fadeUp 0.8s ease both;">New Season</p>
+                <h1 class="font-display" style="font-size:clamp(44px,6vw,78px);font-weight:600;color:#FFFFFF;line-height:1.05;margin-bottom:20px;animation:fadeUp 0.9s 0.1s ease both;">
+                    Crafted for<br>Little <em style="font-style:italic;color:#C9A96E;">Moments</em>
+                </h1>
+                <p style="font-size:15px;color:rgba(255,255,255,0.75);line-height:1.75;max-width:400px;margin-bottom:36px;font-weight:400;animation:fadeUp 1s 0.2s ease both;">
+                    Discover our new season collection — premium kidswear designed for comfort, style &amp; every childhood adventure.
+                </p>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;animation:fadeUp 1s 0.3s ease both;">
+                    <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="btn-primary">Shop New Arrivals</a>
+                    <a href="{{ route('shop') }}" class="btn-outline" style="border-color:rgba(255,255,255,0.5);color:#FFFFFF;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">Explore Collections</a>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- NEUTRAL BRAND BADGES -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="p-5 bg-white rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-slate-900 font-heading">Quality Kidswear</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Comfortable & durable fabrics</p>
-                </div>
-            </div>
-
-            <div class="p-5 bg-white rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-slate-900 font-heading">Easy Shopping</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Seamless kids garment browsing</p>
-                </div>
-            </div>
-
-            <div class="p-5 bg-white rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-slate-900 font-heading">Secure Shopping</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Protected store experience</p>
-                </div>
-            </div>
-
-            <div class="p-5 bg-white rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V11a2 2 0 012-2h1.055"/></svg>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-slate-900 font-heading">Pakistan-wide Store</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Serving families nationwide</p>
-                </div>
-            </div>
+        {{-- Bottom scroll cue --}}
+        <div style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,0.5);">
+            <span style="font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;">Scroll</span>
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </div>
     </section>
 
-    <!-- LIVE COLOR SHUFFLE SHOWCASE -->
-    <x-storefront.color-shuffle-showcase />
-
-    <!-- 2. SHOP BY CATEGORY -->
-    @if($categories->isNotEmpty())
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-end justify-between mb-8">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">Shop by Category</h2>
-                    <p class="text-sm text-slate-500 mt-1">Explore tailored collections for every age group</p>
+    {{-- ══════════════════════════════════════════
+         2. TRUST BAR
+    ══════════════════════════════════════════ --}}
+    <div style="background:#0D0D0D;padding:18px 24px;">
+        <div style="max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;text-align:center;">
+            @foreach([
+                ['icon'=>'🧵','title'=>'Premium Fabric','sub'=>'100% breathable cotton'],
+                ['icon'=>'🚚','title'=>'Rs 350 Delivery','sub'=>'Nationwide via TCS'],
+                ['icon'=>'📲','title'=>'WhatsApp Orders','sub'=>'0324-9171213'],
+                ['icon'=>'✦','title'=>'Pay in Advance','sub'=>'Secure & easy payment'],
+            ] as $trust)
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+                <span style="font-size:18px;">{{ $trust['icon'] }}</span>
+                <div style="text-align:left;">
+                    <div style="font-size:12px;font-weight:700;color:#FFFFFF;letter-spacing:0.04em;">{{ $trust['title'] }}</div>
+                    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:1px;">{{ $trust['sub'] }}</div>
                 </div>
-                <a href="{{ route('shop') }}" class="text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition">
-                    View All Categories &rarr;
+            </div>
+            @endforeach
+        </div>
+    </div>
+
+    {{-- ══════════════════════════════════════════
+         3. EDITORIAL ARTICLES — 4 COLLECTION CARDS
+         (Sapphire-style: large image tiles with text overlay)
+    ══════════════════════════════════════════ --}}
+    <section style="padding:80px 0;background:#FFFFFF;">
+        <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
+
+            {{-- Section Header --}}
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px;">
+                <div>
+                    <p class="section-label">The Collections</p>
+                    <h2 class="section-title">Shop by Category</h2>
+                </div>
+                <a href="{{ route('shop') }}" class="view-all-link">View All Collections</a>
+            </div>
+
+            {{-- 4-Column Article Grid --}}
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+
+                @php
+                $articles = [
+                    [
+                        'image'    => asset('images/article_girls_sage.png'),
+                        'label'    => 'Girls Collection',
+                        'title'    => 'Garden Party',
+                        'subtitle' => 'Floral & Embroidered',
+                        'url'      => route('shop', ['category' => 'girls']),
+                        'bg'       => '#EDE9E1',
+                    ],
+                    [
+                        'image'    => asset('images/article_boys_navy.png'),
+                        'label'    => 'Boys Collection',
+                        'title'    => 'Little Gentlemen',
+                        'subtitle' => 'Classic & Contemporary',
+                        'url'      => route('shop', ['category' => 'boys']),
+                        'bg'       => '#E8EDF0',
+                    ],
+                    [
+                        'image'    => asset('images/article_newborn_cream.png'),
+                        'label'    => 'Newborn',
+                        'title'    => 'First Days',
+                        'subtitle' => 'Soft & Gentle Fabrics',
+                        'url'      => route('shop', ['category' => 'newborn']),
+                        'bg'       => '#F4F0EA',
+                    ],
+                    [
+                        'image'    => asset('images/article_eid_gold.png'),
+                        'label'    => 'Eid Collection',
+                        'title'    => 'Festive Glow',
+                        'subtitle' => 'Gold Embroidery Sets',
+                        'url'      => route('shop', ['new_arrival' => 1]),
+                        'bg'       => '#F5EFE0',
+                    ],
+                ];
+                @endphp
+
+                @foreach($articles as $article)
+                <a href="{{ $article['url'] }}"
+                   style="display:block;text-decoration:none;position:relative;overflow:hidden;background:{{ $article['bg'] }};aspect-ratio:3/4;group;"
+                   class="article-card">
+                    {{-- Image --}}
+                    <img src="{{ $article['image'] }}"
+                         alt="{{ $article['title'] }}"
+                         style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;display:block;"
+                         class="article-img"
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+
+                    {{-- Bottom text overlay --}}
+                    <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 22px;background:linear-gradient(to top,rgba(13,13,13,0.72) 0%,rgba(13,13,13,0) 100%);">
+                        <p style="font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#C9A96E;margin-bottom:4px;">{{ $article['label'] }}</p>
+                        <h3 class="font-display" style="font-size:22px;font-weight:600;color:#FFFFFF;line-height:1.15;margin-bottom:4px;">{{ $article['title'] }}</h3>
+                        <p style="font-size:12px;color:rgba(255,255,255,0.7);margin-bottom:14px;">{{ $article['subtitle'] }}</p>
+                        <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#FFFFFF;border-bottom:1px solid rgba(255,255,255,0.5);padding-bottom:2px;">Shop Now</span>
+                    </div>
                 </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- Hover effect for article cards --}}
+    <style>
+        .article-card:hover .article-img { transform: scale(1.04); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 900px) {
+            .article-card { aspect-ratio: 3/4 !important; }
+            .articles-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 560px) {
+            .articles-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+    </style>
+
+    {{-- ══════════════════════════════════════════
+         4. SHOP BY CATEGORY (dynamic DB categories)
+    ══════════════════════════════════════════ --}}
+    @if($categories->isNotEmpty())
+    <section style="padding:80px 0;background:#F7F4EF;">
+        <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px;">
+                <div>
+                    <p class="section-label">Discover</p>
+                    <h2 class="section-title">All Categories</h2>
+                </div>
+                <a href="{{ route('shop') }}" class="view-all-link">View All</a>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;">
                 @foreach($categories as $category)
                     @php
-                        $catImg = $category->image;
-                        $hasCatImg = false;
+                        $catImg   = $category->image;
                         $catImgUrl = '';
-
+                        $hasCatImg = false;
                         if ($catImg) {
                             if (\Illuminate\Support\Str::startsWith($catImg, ['http://', 'https://'])) {
-                                $catImgUrl = $catImg;
-                                $hasCatImg = true;
+                                $catImgUrl = $catImg; $hasCatImg = true;
                             } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($catImg)) {
-                                $catImgUrl = asset('storage/' . $catImg);
-                                $hasCatImg = true;
+                                $catImgUrl = asset('storage/' . $catImg); $hasCatImg = true;
                             } elseif (file_exists(public_path($catImg))) {
-                                $catImgUrl = asset($catImg);
-                                $hasCatImg = true;
+                                $catImgUrl = asset($catImg); $hasCatImg = true;
                             }
                         }
                     @endphp
-
-                    <a href="{{ route('shop', ['category' => $category->slug]) }}" class="group relative bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col p-4 text-center">
-                        <div class="aspect-square w-full rounded-2xl bg-rose-50 overflow-hidden relative mb-4 flex items-center justify-center">
-                            @if($hasCatImg)
-                                <img src="{{ $catImgUrl }}" alt="{{ $category->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
-                            @else
-                                <div class="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                                </div>
-                            @endif
+                    <a href="{{ route('shop', ['category' => $category->slug]) }}"
+                       style="display:block;text-decoration:none;position:relative;overflow:hidden;background:#FFFFFF;border:1px solid #E0DBD3;aspect-ratio:4/5;transition:border-color 0.25s;"
+                       class="cat-card"
+                       onmouseover="this.style.borderColor='#C9A96E'"
+                       onmouseout="this.style.borderColor='#E0DBD3'">
+                        @if($hasCatImg)
+                            <img src="{{ $catImgUrl }}" alt="{{ $category->name }}" style="width:100%;height:80%;object-fit:cover;display:block;transition:transform 0.5s ease;" class="cat-img" loading="lazy">
+                        @else
+                            <div style="width:100%;height:80%;background:#EDE9E1;display:flex;align-items:center;justify-content:center;">
+                                <svg width="36" height="36" fill="none" stroke="#C9A96E" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                            </div>
+                        @endif
+                        <div style="padding:14px 16px;background:#FFFFFF;height:20%;display:flex;flex-direction:column;justify-content:center;">
+                            <h3 style="font-size:13px;font-weight:600;color:#0D0D0D;margin-bottom:2px;">{{ $category->name }}</h3>
+                            <span style="font-size:11px;color:#888;">{{ $category->products_count ?? 0 }} items</span>
                         </div>
-
-                        <h3 class="text-base font-bold text-slate-900 group-hover:text-rose-600 transition-colors font-heading">
-                            {{ $category->name }}
-                        </h3>
-                        <span class="text-xs text-slate-400 mt-1 font-medium group-hover:text-rose-500">
-                            {{ $category->products_count ?? 0 }} Products &rarr;
-                        </span>
                     </a>
                 @endforeach
             </div>
-        </section>
+        </div>
+    </section>
+    <style>.cat-card:hover .cat-img { transform: scale(1.04); }</style>
     @endif
 
-    <!-- DYNAMIC CATEGORY SHOWCASE & LIVE SHUFFLE SECTION -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
-            <div>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold uppercase tracking-wider mb-2">
-                    ✨ Dynamic Catalog Explorer
+    {{-- ══════════════════════════════════════════
+         5. NEW ARRIVALS — PRODUCT GRID
+    ══════════════════════════════════════════ --}}
+    <section style="padding:80px 0;background:#FFFFFF;">
+        <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px;">
+                <div>
+                    <p class="section-label">Just In</p>
+                    <h2 class="section-title">New Arrivals</h2>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
-                    Explore Our Dress Collection
-                </h2>
-                <p class="text-xs sm:text-sm text-slate-500 mt-1">Switch categories or shuffle to discover fresh outfit combinations!</p>
+                <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="view-all-link">View All</a>
             </div>
 
-            <!-- Shuffle Action Button -->
-            <button type="button" 
-                    wire:click="shuffleProducts" 
-                    class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-2xl shadow-md transition flex items-center justify-center gap-2 w-fit">
-                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                <span>🔀 Shuffle Outfits</span>
-            </button>
+            @if($newArrivals->isNotEmpty())
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;">
+                    @foreach($newArrivals as $product)
+                        <x-storefront.product-card :product="$product" />
+                    @endforeach
+                </div>
+            @else
+                <x-storefront.empty-state
+                    title="No New Arrivals Yet"
+                    description="Our upcoming seasonal drops will be added soon."
+                    actionText="Explore Categories"
+                    actionUrl="{{ route('shop') }}" />
+            @endif
         </div>
+    </section>
 
-        <!-- Category Filter Tabs -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none snap-x">
-            <button type="button" 
-                    wire:click="selectCategory('all')"
-                    class="snap-start shrink-0 px-5 py-2.5 rounded-2xl font-extrabold text-xs transition border {{ $selectedCategorySlug === 'all' ? 'bg-rose-600 text-white border-rose-600 shadow-md' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50' }}">
-                All Products
-            </button>
-            @foreach($categories as $catTab)
-                <button type="button" 
-                        wire:click="selectCategory('{{ $catTab->slug }}')"
-                        class="snap-start shrink-0 px-5 py-2.5 rounded-2xl font-extrabold text-xs transition border {{ $selectedCategorySlug === $catTab->slug ? 'bg-rose-600 text-white border-rose-600 shadow-md' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50' }}">
-                    {{ $catTab->name }} ({{ $catTab->products_count }})
+    {{-- ══════════════════════════════════════════
+         6. EDITORIAL BANNER — FULL WIDTH CTA
+    ══════════════════════════════════════════ --}}
+    <section style="background:#0D0D0D;padding:80px 24px;text-align:center;position:relative;overflow:hidden;">
+        {{-- subtle background texture --}}
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(201,169,110,0.08) 0%,transparent 60%),radial-gradient(circle at 80% 50%,rgba(201,169,110,0.06) 0%,transparent 60%);pointer-events:none;"></div>
+        <div style="position:relative;z-index:1;max-width:700px;margin:0 auto;">
+            <p class="section-label" style="color:#C9A96E;margin-bottom:16px;">Explore Our Dress Collection</p>
+            <h2 class="font-display" style="font-size:clamp(36px,5vw,60px);font-weight:600;color:#FFFFFF;line-height:1.1;margin-bottom:20px;">
+                Find Their Next <em style="font-style:italic;color:#C9A96E;">Favourite</em> Look
+            </h2>
+            <p style="font-size:15px;color:rgba(255,255,255,0.55);line-height:1.75;margin-bottom:36px;">
+                Browse our complete collection of shirts, dresses, rompers, tops &amp; accessories — crafted for every little personality.
+            </p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="{{ route('shop') }}" class="btn-gold">Explore Full Catalog</a>
+                <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="btn-outline" style="border-color:rgba(255,255,255,0.3);color:#FFFFFF;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">New Arrivals</a>
+            </div>
+        </div>
+    </section>
+
+    {{-- ══════════════════════════════════════════
+         7. DYNAMIC CATALOG EXPLORER
+    ══════════════════════════════════════════ --}}
+    <section style="padding:80px 0;background:#F7F4EF;">
+        <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
+
+            {{-- Header --}}
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px;">
+                <div>
+                    <p class="section-label">Curated for You</p>
+                    <h2 class="section-title">Dress Collection</h2>
+                    <p style="font-size:13px;color:#888;margin-top:6px;">Switch categories to discover more outfit combinations</p>
+                </div>
+                <button type="button"
+                        wire:click="shuffleProducts"
+                        style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#0D0D0D;color:#FFFFFF;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:1px solid #0D0D0D;cursor:pointer;transition:background 0.2s;"
+                        onmouseover="this.style.background='#2C2C2C'" onmouseout="this.style.background='#0D0D0D'">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    Shuffle Outfits
                 </button>
-            @endforeach
-        </div>
+            </div>
 
-        <!-- Products Grid -->
-        @if($showcaseProducts->isNotEmpty())
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                @foreach($showcaseProducts as $product)
-                    <x-storefront.product-card :product="$product" />
+            {{-- Category Filter Tabs --}}
+            <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:32px;scrollbar-width:none;">
+                <button type="button"
+                        wire:click="selectCategory('all')"
+                        style="flex-shrink:0;padding:9px 20px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:1px solid;cursor:pointer;transition:all 0.2s;white-space:nowrap;{{ $selectedCategorySlug === 'all' ? 'background:#0D0D0D;color:#FFFFFF;border-color:#0D0D0D;' : 'background:transparent;color:#2C2C2C;border-color:#E0DBD3;' }}">
+                    All Products
+                </button>
+                @foreach($categories as $catTab)
+                    <button type="button"
+                            wire:click="selectCategory('{{ $catTab->slug }}')"
+                            style="flex-shrink:0;padding:9px 20px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:1px solid;cursor:pointer;transition:all 0.2s;white-space:nowrap;{{ $selectedCategorySlug === $catTab->slug ? 'background:#0D0D0D;color:#FFFFFF;border-color:#0D0D0D;' : 'background:transparent;color:#2C2C2C;border-color:#E0DBD3;' }}">
+                        {{ $catTab->name }} ({{ $catTab->products_count }})
+                    </button>
                 @endforeach
             </div>
-        @else
-            <x-storefront.empty-state 
-                title="No Products in this Category" 
-                description="Products for this category will be available soon." 
-                actionText="Explore All Outfits"
-                actionUrl="{{ route('shop') }}" />
-        @endif
-    </section>
 
-    <!-- 3. NEW ARRIVALS -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between mb-8">
-            <div>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">New Arrivals</h2>
-                <p class="text-sm text-slate-500 mt-1">Fresh styles for your little ones</p>
-            </div>
-            <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition">
-                View All &rarr;
-            </a>
+            {{-- Products Grid --}}
+            @if($showcaseProducts->isNotEmpty())
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;">
+                    @foreach($showcaseProducts as $product)
+                        <x-storefront.product-card :product="$product" />
+                    @endforeach
+                </div>
+            @else
+                <x-storefront.empty-state
+                    title="No Products in this Category"
+                    description="Products for this category will be available soon."
+                    actionText="Explore All Outfits"
+                    actionUrl="{{ route('shop') }}" />
+            @endif
         </div>
-
-        @if($newArrivals->isNotEmpty())
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                @foreach($newArrivals as $product)
-                    <x-storefront.product-card :product="$product" />
-                @endforeach
-            </div>
-        @else
-            <x-storefront.empty-state 
-                title="No New Arrivals Yet" 
-                description="Our upcoming seasonal drops will be added soon. Check back shortly!" 
-                actionText="Explore Categories"
-                actionUrl="{{ route('shop') }}" />
-        @endif
     </section>
 
-    <!-- 4. FEATURED COLLECTION -->
+    {{-- ══════════════════════════════════════════
+         8. FEATURED COLLECTION
+    ══════════════════════════════════════════ --}}
     @if($featuredCollection && $featuredCollection->products->isNotEmpty())
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gradient-to-r from-rose-600 to-pink-600 rounded-3xl p-8 sm:p-12 text-white mb-8 relative overflow-hidden shadow-lg">
-                <div class="relative z-10 max-w-2xl">
-                    <span class="px-3 py-1 rounded-full bg-white/20 text-white text-xs font-extrabold uppercase tracking-wider">
-                        Featured Collection
-                    </span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 font-heading">
-                        {{ $featuredCollection->name }}
-                    </h2>
+    <section style="padding:80px 0;background:#FFFFFF;">
+        <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
+
+            {{-- Feature Banner --}}
+            <div style="position:relative;overflow:hidden;background:#0D0D0D;padding:56px 48px;margin-bottom:48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;">
+                <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 50%,rgba(201,169,110,0.12) 0%,transparent 60%);pointer-events:none;"></div>
+                <div style="position:relative;z-index:1;">
+                    <p class="section-label" style="color:#C9A96E;margin-bottom:12px;">Featured</p>
+                    <h2 class="font-display" style="font-size:clamp(28px,4vw,48px);font-weight:600;color:#FFFFFF;line-height:1.1;margin-bottom:10px;">{{ $featuredCollection->name }}</h2>
                     @if($featuredCollection->description)
-                        <p class="text-rose-100 text-sm sm:text-base mt-2 leading-relaxed">
-                            {{ $featuredCollection->description }}
-                        </p>
+                        <p style="font-size:14px;color:rgba(255,255,255,0.55);max-width:480px;line-height:1.75;">{{ $featuredCollection->description }}</p>
                     @endif
                 </div>
+                <a href="{{ route('shop') }}" class="btn-gold" style="position:relative;z-index:1;flex-shrink:0;">Shop Collection</a>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;">
                 @foreach($featuredCollection->products as $product)
                     <x-storefront.product-card :product="$product" />
                 @endforeach
             </div>
-        </section>
+        </div>
+    </section>
     @endif
 
-    <!-- 5. SHOP BY AGE -->
+    {{-- ══════════════════════════════════════════
+         9. SHOP BY AGE — CLEAN PILL ROW
+    ══════════════════════════════════════════ --}}
     @if($ageGroups->isNotEmpty())
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-end justify-between mb-8">
+    <section style="padding:60px 0;background:#EDE9E1;border-top:1px solid #E0DBD3;">
+        <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
                 <div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">Shop by Age</h2>
-                    <p class="text-sm text-slate-500 mt-1">Find the perfect fit for every stage of growth</p>
+                    <p class="section-label">For Every Stage</p>
+                    <h2 class="section-title" style="font-size:clamp(24px,3vw,36px);">Shop by Age</h2>
                 </div>
             </div>
-
-            <!-- Scrollable Pill Grid -->
-            <div class="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-none snap-x">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;">
                 @foreach($ageGroups as $ageGroup)
-                    <a href="{{ route('shop', ['age_group' => $ageGroup->slug]) }}" class="snap-start shrink-0 px-6 py-3.5 rounded-2xl bg-white border border-slate-200/80 hover:border-rose-300 hover:bg-rose-50/50 text-slate-700 hover:text-rose-700 font-bold text-sm transition-all shadow-2xs hover:shadow-xs flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                    <a href="{{ route('shop', ['age_group' => $ageGroup->slug]) }}"
+                       style="display:inline-flex;align-items:center;gap:6px;padding:10px 22px;background:#FFFFFF;border:1px solid #E0DBD3;font-size:12px;font-weight:600;letter-spacing:0.06em;color:#2C2C2C;text-decoration:none;text-transform:uppercase;transition:all 0.2s;"
+                       onmouseover="this.style.background='#0D0D0D';this.style.color='#FFFFFF';this.style.borderColor='#0D0D0D'"
+                       onmouseout="this.style.background='#FFFFFF';this.style.color='#2C2C2C';this.style.borderColor='#E0DBD3'">
                         {{ $ageGroup->name }}
                     </a>
                 @endforeach
             </div>
-        </section>
+        </div>
+    </section>
     @endif
 
-    <!-- 6. SALE / PROMOTIONAL SECTION -->
+    {{-- ══════════════════════════════════════════
+         10. SALE PRODUCTS
+    ══════════════════════════════════════════ --}}
     @if($saleProducts->isNotEmpty())
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-end justify-between mb-8">
+    <section style="padding:80px 0;background:#FFFFFF;">
+        <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px;">
                 <div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">Special Offers & Sale</h2>
-                    <p class="text-sm text-slate-500 mt-1">Great values on selected kids apparel</p>
+                    <p class="section-label" style="color:#C9A96E;">Limited Time</p>
+                    <h2 class="section-title">Special Offers &amp; Sale</h2>
                 </div>
-                <a href="{{ route('shop', ['sale' => 1]) }}" class="text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition">
-                    View All Deals &rarr;
-                </a>
+                <a href="{{ route('shop', ['sale' => 1]) }}" class="view-all-link">View All Deals</a>
             </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;">
                 @foreach($saleProducts as $product)
                     <x-storefront.product-card :product="$product" />
                 @endforeach
             </div>
-        </section>
+        </div>
+    </section>
     @endif
 
-    <!-- 7. BRAND VALUE SECTION -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-slate-900 rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-xl">
-            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
-                <span class="px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold uppercase tracking-wider">
-                    Our Philosophy
-                </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold font-heading">
-                    Why Families Love Al Hayat Kids
-                </h2>
-                <p class="text-slate-400 text-sm">
-                    Designing comfortable, stylish, and durable clothing made for real childhood moments.
-                </p>
+    {{-- ══════════════════════════════════════════
+         11. BRAND VALUES — 3 PILLARS
+    ══════════════════════════════════════════ --}}
+    <section style="padding:80px 0;background:#F7F4EF;border-top:1px solid #E0DBD3;">
+        <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
+            <div style="text-align:center;margin-bottom:56px;">
+                <p class="section-label">Our Promise</p>
+                <h2 class="section-title">Why Families Love Al Hayat Kids</h2>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-slate-800/60 rounded-2xl p-6 border border-slate-700/60 space-y-3 text-center sm:text-left">
-                    <div class="w-12 h-12 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto sm:mx-0">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold font-heading text-white">Comfort for Everyday Adventures</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Soft, breathable, and durable fabrics that keep up with active play, nap times, and daily adventures.
-                    </p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;">
+                @foreach([
+                    ['icon'=>'🧵','heading'=>'Comfort for Everyday Adventures','body'=>'Soft, breathable fabrics that keep up with active play, nap times, and daily adventures.'],
+                    ['icon'=>'✦','heading'=>'Styles for Little Personalities','body'=>'Charming palettes, delightful patterns, and timeless cuts crafted for little personalities.'],
+                    ['icon'=>'🎀','heading'=>'Thoughtful Details','body'=>'Flexible waistbands, tagless labels, and easy-snap closures — designed for stress-free dressing.'],
+                ] as $pillar)
+                <div style="padding:40px 32px;background:#FFFFFF;border:1px solid #E0DBD3;">
+                    <div style="font-size:28px;margin-bottom:20px;">{{ $pillar['icon'] }}</div>
+                    <h3 class="font-display" style="font-size:22px;font-weight:600;color:#0D0D0D;margin-bottom:12px;line-height:1.25;">{{ $pillar['heading'] }}</h3>
+                    <p style="font-size:13px;color:#888;line-height:1.8;">{{ $pillar['body'] }}</p>
                 </div>
-
-                <div class="bg-slate-800/60 rounded-2xl p-6 border border-slate-700/60 space-y-3 text-center sm:text-left">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto sm:mx-0">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold font-heading text-white">Styles Made for Little Personalities</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Charming color palettes, delightful patterns, and timeless cuts crafted for little personalities.
-                    </p>
-                </div>
-
-                <div class="bg-slate-800/60 rounded-2xl p-6 border border-slate-700/60 space-y-3 text-center sm:text-left">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto sm:mx-0">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold font-heading text-white">Thoughtful Details for Growing Kids</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Flexible waistbands, tagless neck labels, and easy-snap closures designed for stress-free dressing.
-                    </p>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
 
-    <!-- 8. FINAL CTA SECTION -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-br from-amber-100/70 via-rose-100/70 to-pink-100/70 rounded-3xl p-8 sm:p-14 text-center space-y-6 border border-rose-200/60 shadow-sm">
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading">
-                Find Their Next Favourite Look
-            </h2>
-            <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-                Browse our complete collection of shirts, dresses, rompers, tops, and accessories.
-            </p>
-            <div class="pt-2">
-                <a href="{{ route('shop') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm rounded-2xl transition shadow-lg shadow-rose-500/25">
-                    Explore Full Catalog
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </a>
-            </div>
-        </div>
-    </section>
 </div>
