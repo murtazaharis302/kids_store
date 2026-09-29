@@ -386,7 +386,7 @@
                 <span style="color:rgba(255,255,255,0.25);">✦</span>
                 <span style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C9A96E;">COD Not Available</span>
                 <span style="color:rgba(255,255,255,0.25);">✦</span>
-                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Premium Quality Kids Wear · Stitched &amp; Unstitched</span>
+                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Premium Quality Kids Wear</span>
                 <span style="color:rgba(255,255,255,0.25);">✦</span>
             </span>
             {{-- Item set B — exact duplicate for seamless loop --}}
@@ -399,7 +399,7 @@
                 <span style="color:rgba(255,255,255,0.25);">✦</span>
                 <span style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C9A96E;">COD Not Available</span>
                 <span style="color:rgba(255,255,255,0.25);">✦</span>
-                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Premium Quality Kids Wear · Stitched &amp; Unstitched</span>
+                <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);">Premium Quality Kids Wear</span>
                 <span style="color:rgba(255,255,255,0.25);">✦</span>
             </span>
         </div>
@@ -411,13 +411,11 @@
     <style>
         /* Responsive Header Logic (Pure CSS) */
         .hdr-desktop-search { display: block; }
-        .hdr-mobile-menu-btn { display: none; }
         .hdr-desktop-nav { display: flex; }
         .hdr-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 0; gap: 16px; }
         
         @media (max-width: 900px) {
             .hdr-desktop-search { display: none !important; }
-            .hdr-mobile-menu-btn { display: inline-flex !important; }
             .hdr-desktop-nav { display: none !important; }
             .hdr-grid { display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 12px 0 !important; }
             .hdr-logo-img { height: 32px !important; }
@@ -433,17 +431,22 @@
     <header id="site-header">
         <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
 
-            {{-- Top Row: Logo | Search | Icons --}}
+            {{-- Top Row: Hamburger + Logo | Search | Icons --}}
             <div class="hdr-grid">
 
-                {{-- Left: Logo --}}
-                <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:10px;text-decoration:none;width:fit-content;">
-                    <img class="hdr-logo-img" src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" style="height:46px;width:auto;object-fit:contain;" onerror="this.style.display='none'">
-                    <div>
-                        <div class="font-brand hdr-logo-text" style="font-size:22px;font-weight:900;color:#0D0D0D;line-height:1;letter-spacing:0.06em;text-transform:uppercase;">AL HAYAT KIDS</div>
-                        <div class="hdr-logo-sub" style="font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#888;margin-top:3px;">Luxury Children's Wear</div>
-                    </div>
-                </a>
+                {{-- Left: Hamburger Menu + Logo --}}
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <button class="icon-btn" id="mobile-menu-btn" aria-label="Open menu" title="Menu" style="flex-shrink:0;">
+                        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                    <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:10px;text-decoration:none;width:fit-content;">
+                        <img class="hdr-logo-img" src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" style="height:46px;width:auto;object-fit:contain;" onerror="this.style.display='none'">
+                        <div>
+                            <div class="font-brand hdr-logo-text" style="font-size:22px;font-weight:900;color:#0D0D0D;line-height:1;letter-spacing:0.06em;text-transform:uppercase;">AL HAYAT KIDS</div>
+                            <div class="hdr-logo-sub" style="font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#888;margin-top:3px;">Luxury Children's Wear</div>
+                        </div>
+                    </a>
+                </div>
 
                 {{-- Center: Search (desktop) --}}
                 <form action="{{ route('shop') }}" method="GET" class="hdr-desktop-search" style="min-width:340px;max-width:480px;width:100%;">
@@ -508,11 +511,6 @@
                             @endauth
                         </div>
                     </div>
-
-                    {{-- Mobile Menu Toggle --}}
-                    <button class="icon-btn hdr-mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" style="margin-left:4px;">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h7"/></svg>
-                    </button>
                 </div>
             </div>
 
