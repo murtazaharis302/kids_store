@@ -80,11 +80,15 @@ class Cart extends Component
             ->get();
 
         $subtotal = CartService::getSubtotal();
+        $shippingFee = 350.0;
+        $total = $subtotal > 0 ? $subtotal + $shippingFee : 0;
 
         return view('livewire.storefront.cart', [
             'cart' => $cart,
             'items' => $items,
             'subtotal' => $subtotal,
+            'shippingFee' => $shippingFee,
+            'total' => $total,
         ])->layout('components.layouts.storefront', [
             'title' => 'Shopping Cart | AH Kids',
         ]);
