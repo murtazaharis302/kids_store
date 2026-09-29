@@ -639,7 +639,7 @@
                 <div style="display:flex;flex-direction:column;">
                     @auth
                         <a href="{{ route('dashboard') }}">My Account</a>
-                        <a href="{{ route('orders.index') }}">Track Order</a>
+                        <a href="{{ route('dashboard') }}">My Orders</a>
                     @endauth
                     @guest
                         <a href="{{ route('login') }}">Log In</a>
