@@ -405,23 +405,41 @@
     {{-- ══════════════════════════════════════════
          MAIN HEADER
     ══════════════════════════════════════════ --}}
+    <style>
+        /* Responsive Header Logic (Pure CSS) */
+        .hdr-desktop-search { display: block; }
+        .hdr-mobile-menu-btn { display: none; }
+        .hdr-desktop-nav { display: flex; }
+        .hdr-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 0; gap: 16px; }
+        
+        @media (max-width: 900px) {
+            .hdr-desktop-search { display: none !important; }
+            .hdr-mobile-menu-btn { display: inline-flex !important; }
+            .hdr-desktop-nav { display: none !important; }
+            .hdr-grid { display: flex !important; justify-content: space-between !important; }
+            .hdr-logo-img { height: 36px !important; }
+            .hdr-logo-text { font-size: 18px !important; }
+            .hdr-logo-sub { font-size: 8px !important; }
+        }
+    </style>
+
     <header id="site-header">
         <div style="max-width:1400px;margin:0 auto;padding:0 24px;">
 
             {{-- Top Row: Logo | Search | Icons --}}
-            <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 0;gap:16px;">
+            <div class="hdr-grid">
 
                 {{-- Left: Logo --}}
-                <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:12px;text-decoration:none;width:fit-content;">
-                    <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" style="height:46px;width:auto;object-fit:contain;" onerror="this.style.display='none'">
+                <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:10px;text-decoration:none;width:fit-content;">
+                    <img class="hdr-logo-img" src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids Logo" style="height:46px;width:auto;object-fit:contain;" onerror="this.style.display='none'">
                     <div>
-                        <div class="font-brand" style="font-size:22px;font-weight:900;color:#0D0D0D;line-height:1;letter-spacing:0.06em;text-transform:uppercase;">AL HAYAT KIDS</div>
-                        <div style="font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#888;margin-top:3px;">Luxury Children's Wear</div>
+                        <div class="font-brand hdr-logo-text" style="font-size:22px;font-weight:900;color:#0D0D0D;line-height:1;letter-spacing:0.06em;text-transform:uppercase;">AL HAYAT KIDS</div>
+                        <div class="hdr-logo-sub" style="font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#888;margin-top:3px;">Luxury Children's Wear</div>
                     </div>
                 </a>
 
                 {{-- Center: Search (desktop) --}}
-                <form action="{{ route('shop') }}" method="GET" class="hidden md:block" style="min-width:340px;max-width:480px;width:100%;">
+                <form action="{{ route('shop') }}" method="GET" class="hdr-desktop-search" style="min-width:340px;max-width:480px;width:100%;">
                     <div style="position:relative;">
                         <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:#888;pointer-events:none;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         <input class="search-input" type="text" name="search" value="{{ request('search') }}" placeholder="Search dresses, newborn sets, categories…" aria-label="Search products">
@@ -485,7 +503,7 @@
                     </div>
 
                     {{-- Mobile Menu Toggle --}}
-                    <button class="icon-btn md:hidden" id="mobile-menu-btn" aria-label="Open menu" style="margin-left:4px;">
+                    <button class="icon-btn hdr-mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" style="margin-left:4px;">
                         <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h7"/></svg>
                     </button>
                 </div>
@@ -496,7 +514,7 @@
                 $navCategories = \App\Models\Category::whereNull('parent_id')->where('status', true)->orderBy('sort_order')->get();
                 $deskAgeAdded = false;
             @endphp
-            <nav class="hidden md:flex" style="align-items:center;justify-content:center;gap:40px;padding:14px 0;border-top:1px solid #E0DBD3;">
+            <nav class="hdr-desktop-nav" style="align-items:center;justify-content:center;gap:40px;padding:14px 0;border-top:1px solid #E0DBD3;">
 
                 <a href="{{ route('shop') }}" class="nav-link">Shop All</a>
                 <a href="{{ route('shop', ['new_arrival' => 1]) }}" class="nav-link">New Arrivals</a>
