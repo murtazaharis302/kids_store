@@ -416,10 +416,14 @@
             .hdr-desktop-search { display: none !important; }
             .hdr-mobile-menu-btn { display: inline-flex !important; }
             .hdr-desktop-nav { display: none !important; }
-            .hdr-grid { display: flex !important; justify-content: space-between !important; }
-            .hdr-logo-img { height: 36px !important; }
-            .hdr-logo-text { font-size: 18px !important; }
-            .hdr-logo-sub { font-size: 8px !important; }
+            .hdr-grid { display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 12px 0 !important; }
+            .hdr-logo-img { height: 32px !important; }
+            .hdr-logo-text { font-size: 16px !important; letter-spacing: 0.03em !important; }
+            .hdr-logo-sub { display: none !important; }
+        }
+        @media (max-width: 480px) {
+            .hdr-grid { gap: 6px !important; }
+            .hdr-logo-text { font-size: 14px !important; }
         }
     </style>
 

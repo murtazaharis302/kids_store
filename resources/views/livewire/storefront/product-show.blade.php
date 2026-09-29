@@ -1,7 +1,7 @@
-<div style="max-width:1380px;margin:0 auto;padding:32px 24px 80px;">
+<div class="product-show-container">
 
     {{-- ── Breadcrumbs ── --}}
-    <nav style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;color:#999;letter-spacing:0.04em;margin-bottom:32px;flex-wrap:wrap;">
+    <nav style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;color:#999;letter-spacing:0.04em;margin-bottom:24px;flex-wrap:wrap;">
         <a href="{{ route('home') }}" style="color:#999;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='#999'">Home</a>
         <span>›</span>
         @if($product->category)
@@ -16,7 +16,7 @@
     </nav>
 
     {{-- ── Main Product Grid ── --}}
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;" class="product-show-grid">
+    <div class="product-show-grid">
 
         {{-- ══ LEFT: Image Gallery ══ --}}
         <div>
@@ -36,11 +36,10 @@
             @endphp
 
             {{-- Main Hero Image --}}
-            <div style="position:relative;width:100%;background:#F7F4EF;overflow:hidden;border:1px solid #E8E3DC;" class="product-main-img-wrap">
+            <div class="product-main-img-wrap">
                 @if($hasActiveImg)
                     <img src="{{ $activeImgUrl }}"
                          alt="{{ $product->name }}"
-                         style="width:100%;height:100%;object-fit:contain;object-position:center;display:block;transition:opacity 0.3s ease;"
                          id="main-product-image">
                 @else
                     <div style="width:100%;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F7F4EF;color:#C9A96E;gap:12px;">
@@ -62,7 +61,7 @@
 
             {{-- Thumbnail Strip --}}
             @if($galleryImages->count() > 1)
-                <div style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:4px;" class="product-thumbs-strip">
+                <div style="display:flex;gap:10px;margin-top:12px;overflow-x:auto;padding-bottom:4px;" class="product-thumbs-strip">
                     @foreach($galleryImages as $gImg)
                         @php
                             $thumbUrl = $gImg->url;
@@ -90,31 +89,31 @@
             <div style="margin-bottom:20px;">
                 @if($product->category)
                     <a href="{{ route('shop', ['category' => $product->category->slug]) }}"
-                       style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C9A96E;text-decoration:none;margin-bottom:10px;display:block;">
+                       style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C9A96E;text-decoration:none;margin-bottom:8px;display:block;">
                         {{ $product->category->name }}
                     </a>
                 @endif
-                <h1 style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:clamp(26px,3vw,40px);font-weight:600;color:#0D0D0D;line-height:1.15;margin:0 0 8px;">
+                <h1 style="font-family:'Cormorant Garamond','Playfair Display',serif;font-size:clamp(24px,3.5vw,38px);font-weight:600;color:#0D0D0D;line-height:1.2;margin:0 0 8px;">
                     {{ $product->name }}
                 </h1>
                 <p style="font-size:11px;color:#AAA;margin:0;">SKU: <strong style="color:#666;">{{ $product->sku }}</strong></p>
             </div>
 
             {{-- Price --}}
-            <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid #E8E3DC;">
-                <div style="display:flex;align-items:baseline;gap:12px;">
+            <div style="margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #E8E3DC;">
+                <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
                     @if($this->pricing['has_sale'])
-                        <span style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#0D0D0D;line-height:1;">
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#0D0D0D;line-height:1;">
                             Rs. {{ number_format($this->pricing['sale_price'], 0) }}
                         </span>
-                        <span style="font-size:18px;color:#CCC;text-decoration:line-through;">
+                        <span style="font-size:16px;color:#CCC;text-decoration:line-through;">
                             Rs. {{ number_format($this->pricing['regular_price'], 0) }}
                         </span>
-                        <span style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#FFFFFF;background:#0D0D0D;padding:3px 8px;">
+                        <span style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#FFFFFF;background:#0D0D0D;padding:3px 8px;">
                             SAVE {{ round((($this->pricing['regular_price'] - $this->pricing['sale_price']) / $this->pricing['regular_price']) * 100) }}%
                         </span>
                     @else
-                        <span style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#0D0D0D;line-height:1;">
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#0D0D0D;line-height:1;">
                             Rs. {{ number_format($this->pricing['regular_price'], 0) }}
                         </span>
                     @endif
@@ -123,7 +122,7 @@
 
             {{-- Short Description --}}
             @if($product->short_description)
-                <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid #E8E3DC;">
+                <div style="margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #E8E3DC;">
                     <p style="font-size:14px;color:#555;line-height:1.75;margin:0;">
                         {{ $product->short_description }}
                     </p>
@@ -132,7 +131,7 @@
 
             {{-- Variant Selectors --}}
             @if($product->variants->isNotEmpty())
-                <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid #E8E3DC;display:flex;flex-direction:column;gap:20px;">
+                <div style="margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #E8E3DC;display:flex;flex-direction:column;gap:18px;">
 
                     {{-- Color --}}
                     @if($availableColors->isNotEmpty())
@@ -140,7 +139,7 @@
                             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
                                 <span style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#0D0D0D;">Color</span>
                                 @if($selectedColorId && ($colObj = $availableColors->firstWhere('id', $selectedColorId)))
-                                    <span style="font-size:11px;color:#666;font-weight:500;">{{ $colObj->name }}</span>
+                                    <span style="font-size:11px;color:#666;font-weight:600;">{{ $colObj->name }}</span>
                                 @endif
                             </div>
                             <div style="display:flex;flex-wrap:wrap;gap:8px;">
@@ -165,7 +164,7 @@
                             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
                                 <span style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#0D0D0D;">Size</span>
                                 @if($selectedSizeId && ($szObj = $availableSizes->firstWhere('id', $selectedSizeId)))
-                                    <span style="font-size:11px;color:#666;font-weight:500;">{{ $szObj->name }}</span>
+                                    <span style="font-size:11px;color:#666;font-weight:600;">{{ $szObj->name }}</span>
                                 @endif
                             </div>
                             <div style="display:flex;flex-wrap:wrap;gap:8px;">
@@ -173,7 +172,7 @@
                                     @php $isSelected = $selectedSizeId == $sz->id; @endphp
                                     <button type="button"
                                             wire:click="selectSize({{ $sz->id }})"
-                                            style="min-width:44px;padding:10px 16px;border:2px solid {{ $isSelected ? '#C9A96E' : '#E8E3DC' }};background:{{ $isSelected ? '#C9A96E' : '#FFFFFF' }};color:{{ $isSelected ? '#FFFFFF' : '#0D0D0D' }};font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:0.06em;text-align:center;">
+                                            style="min-width:44px;padding:9px 15px;border:2px solid {{ $isSelected ? '#C9A96E' : '#E8E3DC' }};background:{{ $isSelected ? '#C9A96E' : '#FFFFFF' }};color:{{ $isSelected ? '#FFFFFF' : '#0D0D0D' }};font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:0.06em;text-align:center;">
                                         {{ $sz->name }}
                                     </button>
                                 @endforeach
@@ -189,7 +188,7 @@
 
             {{-- Stock Badge --}}
             @php $stock = $this->availableStock; @endphp
-            <div style="margin-bottom:24px;">
+            <div style="margin-bottom:20px;">
                 @if($stock > 15)
                     <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#2F855A;">
                         <span style="width:8px;height:8px;border-radius:50%;background:#48BB78;"></span>
@@ -197,7 +196,7 @@
                     </span>
                 @elseif($stock > 0)
                     <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#B7791F;">
-                        <span style="width:8px;height:8px;border-radius:50%;background:#ECC94B;animation:pulse 1.5s infinite;"></span>
+                        <span style="width:8px;height:8px;border-radius:50%;background:#ECC94B;"></span>
                         Only {{ $stock }} left — Order Soon!
                     </span>
                 @else
@@ -209,25 +208,25 @@
             </div>
 
             {{-- Quantity & Add to Cart --}}
-            <div style="display:flex;gap:12px;align-items:stretch;margin-bottom:16px;">
+            <div style="display:flex;gap:12px;align-items:stretch;margin-bottom:16px;" class="atc-btn-wrap">
 
                 {{-- Quantity Stepper --}}
                 <div style="display:flex;align-items:center;border:2px solid #0D0D0D;overflow:hidden;flex-shrink:0;">
                     <button type="button"
                             wire:click="decrementQuantity"
                             @if($quantity <= 1 || $stock <= 0) disabled @endif
-                            style="width:44px;height:52px;background:#FFFFFF;border:none;font-size:20px;font-weight:300;color:#0D0D0D;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;"
+                            style="width:44px;height:50px;background:#FFFFFF;border:none;font-size:20px;font-weight:300;color:#0D0D0D;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;"
                             onmouseover="this.style.background='#F7F4EF'"
                             onmouseout="this.style.background='#FFFFFF'">
                         −
                     </button>
-                    <span style="width:48px;text-align:center;font-size:14px;font-weight:700;color:#0D0D0D;border-left:1px solid #E8E3DC;border-right:1px solid #E8E3DC;height:52px;display:flex;align-items:center;justify-content:center;">
+                    <span style="width:44px;text-align:center;font-size:14px;font-weight:700;color:#0D0D0D;border-left:1px solid #E8E3DC;border-right:1px solid #E8E3DC;height:50px;display:flex;align-items:center;justify-content:center;">
                         {{ $quantity }}
                     </span>
                     <button type="button"
                             wire:click="incrementQuantity"
                             @if($quantity >= $stock || $stock <= 0) disabled @endif
-                            style="width:44px;height:52px;background:#FFFFFF;border:none;font-size:20px;font-weight:300;color:#0D0D0D;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;"
+                            style="width:44px;height:50px;background:#FFFFFF;border:none;font-size:20px;font-weight:300;color:#0D0D0D;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;"
                             onmouseover="this.style.background='#F7F4EF'"
                             onmouseout="this.style.background='#FFFFFF'">
                         +
@@ -239,7 +238,7 @@
                         wire:click="addToCart"
                         @if($stock <= 0) disabled @endif
                         wire:loading.attr="disabled"
-                        style="flex:1;height:52px;background:{{ $stock > 0 ? '#0D0D0D' : '#CCC' }};color:#FFFFFF;border:none;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;cursor:{{ $stock > 0 ? 'pointer' : 'not-allowed' }};transition:background 0.25s ease;display:flex;align-items:center;justify-content:center;gap:8px;"
+                        style="flex:1;height:50px;background:{{ $stock > 0 ? '#0D0D0D' : '#CCC' }};color:#FFFFFF;border:none;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;cursor:{{ $stock > 0 ? 'pointer' : 'not-allowed' }};transition:background 0.25s ease;display:flex;align-items:center;justify-content:center;gap:8px;"
                         onmouseover="if(!this.disabled)this.style.background='#C9A96E'"
                         onmouseout="if(!this.disabled)this.style.background='{{ $stock > 0 ? '#0D0D0D' : '#CCC' }}'">
                     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
@@ -282,11 +281,11 @@
 
     {{-- ── Full Description ── --}}
     @if($product->description)
-        <div style="margin-top:64px;padding:48px;background:#FFFFFF;border:1px solid #E8E3DC;">
-            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#0D0D0D;margin:0 0 24px;padding-bottom:16px;border-bottom:1px solid #E8E3DC;">
+        <div style="margin-top:48px;padding:36px;background:#FFFFFF;border:1px solid #E8E3DC;" class="product-desc-box">
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#0D0D0D;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #E8E3DC;">
                 Product Description
             </h2>
-            <div style="font-size:14px;color:#555;line-height:1.9;max-width:800px;">
+            <div style="font-size:14px;color:#555;line-height:1.8;max-width:800px;">
                 {!! nl2br(e($product->description)) !!}
             </div>
         </div>
@@ -294,18 +293,18 @@
 
     {{-- ── Related Products ── --}}
     @if($relatedProducts->isNotEmpty())
-        <div style="margin-top:64px;">
-            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #E8E3DC;">
+        <div style="margin-top:56px;">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #E8E3DC;">
                 <div>
-                    <p style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C9A96E;margin:0 0 6px;">You May Also Like</p>
-                    <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#0D0D0D;margin:0;line-height:1.1;">Related Products</h2>
+                    <p style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C9A96E;margin:0 0 4px;">You May Also Like</p>
+                    <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#0D0D0D;margin:0;line-height:1.1;">Related Products</h2>
                 </div>
                 <a href="{{ route('shop') }}"
                    style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#0D0D0D;text-decoration:none;border-bottom:1px solid #0D0D0D;padding-bottom:2px;white-space:nowrap;"
                    onmouseover="this.style.color='#C9A96E';this.style.borderColor='#C9A96E'"
                    onmouseout="this.style.color='#0D0D0D';this.style.borderColor='#0D0D0D'">View All</a>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="related-products-grid">
+            <div class="related-products-grid">
                 @foreach($relatedProducts as $relProduct)
                     <x-storefront.product-card :product="$relProduct" />
                 @endforeach
@@ -316,19 +315,63 @@
 </div>
 
 <style>
-/* ── PRODUCT SHOW RESPONSIVE ── */
-.product-show-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
-.product-main-img-wrap { aspect-ratio: 1 / 1; width: 100%; }
-.product-main-img-wrap img { aspect-ratio: 1 / 1; }
-.product-info-col { position: sticky; top: 24px; }
-
-@media (max-width: 1024px) {
-    .product-show-grid { grid-template-columns: 1fr; gap: 32px; }
-    .product-main-img-wrap { max-width: 100%; margin: 0; }
-    .product-info-col { position: static; }
+/* ── PRODUCT SHOW CSS ── */
+.product-show-container {
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
 }
-@media (max-width: 640px) {
-    .product-show-grid { gap: 24px; }
-    .related-products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+.product-show-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+}
+.product-main-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #F7F4EF;
+    overflow: hidden;
+    border: 1px solid #E8E3DC;
+}
+.product-main-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+}
+.product-info-col {
+    position: sticky;
+    top: 24px;
+}
+.related-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 868px) {
+    .product-show-container {
+        padding: 16px 16px 60px !important;
+    }
+    .product-show-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+    .product-info-col {
+        position: static !important;
+        top: auto !important;
+        margin-top: 0 !important;
+    }
+    .product-desc-box {
+        padding: 20px !important;
+        margin-top: 32px !important;
+    }
+    .related-products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
 }
 </style>
