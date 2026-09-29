@@ -16,25 +16,25 @@
         @php
         $slides = [
             [
-                'image' => asset('images/user_pic_1.jpg'),
+                'image' => '/images/user_pic_1.jpg',
                 'title' => 'CRAFTED FOR LITTLE MOMENTS',
                 'type'  => 'NEW SEASON COLLECTION',
                 'url'   => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image' => asset('images/user_pic_2.jpg'),
+                'image' => '/images/user_pic_2.jpg',
                 'title' => 'GARDEN PARTY',
                 'type'  => 'GIRLS COLLECTION',
                 'url'   => route('shop', ['category' => 'girls']),
             ],
             [
-                'image' => asset('images/user_pic_3.jpg'),
+                'image' => '/images/user_pic_3.jpg',
                 'title' => 'FESTIVE GLOW',
                 'type'  => 'EID COLLECTION',
                 'url'   => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image' => asset('images/user_pic_4.png'),
+                'image' => '/images/user_pic_4.png',
                 'title' => 'GENTLE FROM DAY ONE',
                 'type'  => 'NEWBORN & BABY',
                 'url'   => route('shop', ['category' => 'newborn']),
@@ -198,28 +198,28 @@
             @php
             $cols = [
                 [
-                    'image' => asset('images/user_pic_2.jpg'),
+                    'image' => '/images/user_pic_2.jpg',
                     'label' => 'Girls',
                     'title' => 'Garden Party',
                     'sub'   => 'Embroidered & Floral',
                     'url'   => route('shop', ['category' => 'girls']),
                 ],
                 [
-                    'image' => asset('images/user_pic_1.jpg'),
+                    'image' => '/images/user_pic_1.jpg',
                     'label' => 'Boys',
                     'title' => 'Little Gentlemen',
                     'sub'   => 'Classic & Contemporary',
                     'url'   => route('shop', ['category' => 'boys']),
                 ],
                 [
-                    'image' => asset('images/user_pic_4.png'),
+                    'image' => '/images/user_pic_4.png',
                     'label' => 'Newborn',
                     'title' => 'First Days',
                     'sub'   => 'Soft & Gentle Fabrics',
                     'url'   => route('shop', ['category' => 'newborn']),
                 ],
                 [
-                    'image' => asset('images/user_pic_3.jpg'),
+                    'image' => '/images/user_pic_3.jpg',
                     'label' => 'Eid Collection',
                     'title' => 'Festive Glow',
                     'sub'   => 'Gold Embroidery Sets',

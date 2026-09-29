@@ -412,12 +412,9 @@
             <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 0;gap:16px;">
 
                 {{-- Left: Logo --}}
-                <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:12px;text-decoration:none;width:fit-content;">
-                    <img src="{{ asset('images/logo.png') }}" alt="Al Hayat Kids" style="height:52px;width:auto;object-fit:contain;" onerror="this.style.display='none'">
-                    <div>
-                        <div class="font-brand" style="font-size:22px;font-weight:800;color:#0D0D0D;line-height:1;letter-spacing:0.06em;text-transform:uppercase;">AL HAYAT KIDS</div>
-                        <div style="font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#888;margin-top:3px;">Luxury Children's Wear</div>
-                    </div>
+                <a href="{{ route('home') }}" style="display:flex;flex-direction:column;text-decoration:none;width:fit-content;">
+                    <div class="font-brand" style="font-size:24px;font-weight:900;color:#0D0D0D;line-height:1;letter-spacing:0.08em;text-transform:uppercase;">AL HAYAT KIDS</div>
+                    <div style="font-size:9px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:#888;margin-top:4px;">Luxury Children's Wear</div>
                 </a>
 
                 {{-- Center: Search (desktop) --}}
