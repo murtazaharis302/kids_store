@@ -16,25 +16,25 @@
         @php
         $slides = [
             [
-                'image' => asset('images/hero_kids_teal.png'),
+                'image' => 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=80',
                 'title' => 'CRAFTED FOR LITTLE MOMENTS',
-                'type'  => 'UNSTITCHED',
+                'type'  => 'NEW SEASON COLLECTION',
                 'url'   => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image' => asset('images/slide_girls_collection.png'),
+                'image' => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1600&q=80',
                 'title' => 'GARDEN PARTY',
                 'type'  => 'GIRLS COLLECTION',
                 'url'   => route('shop', ['category' => 'girls']),
             ],
             [
-                'image' => asset('images/slide_eid_collection.png'),
+                'image' => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=1600&q=80',
                 'title' => 'FESTIVE GLOW',
                 'type'  => 'EID COLLECTION',
                 'url'   => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image' => asset('images/slide_newborn_collection.png'),
+                'image' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
                 'title' => 'GENTLE FROM DAY ONE',
                 'type'  => 'NEWBORN & BABY',
                 'url'   => route('shop', ['category' => 'newborn']),
@@ -197,10 +197,34 @@
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
             @php
             $cols = [
-                ['image'=>asset('images/slide_girls_collection.png'), 'label'=>'Girls','title'=>'Garden Party',       'sub'=>'Embroidered & Floral',     'url'=>route('shop',['category'=>'girls'])],
-                ['image'=>asset('images/article_boys_navy.png'),      'label'=>'Boys', 'title'=>'Little Gentlemen',   'sub'=>'Classic & Contemporary',   'url'=>route('shop',['category'=>'boys'])],
-                ['image'=>asset('images/slide_newborn_collection.png'),'label'=>'Newborn','title'=>'First Days',      'sub'=>'Soft & Gentle Fabrics',    'url'=>route('shop',['category'=>'newborn'])],
-                ['image'=>asset('images/slide_eid_collection.png'),   'label'=>'Eid',  'title'=>'Festive Glow',      'sub'=>'Gold Embroidery Sets',     'url'=>route('shop',['new_arrival'=>1])],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=600&h=800&q=80',
+                    'label' => 'Girls',
+                    'title' => 'Garden Party',
+                    'sub'   => 'Embroidered & Floral',
+                    'url'   => route('shop', ['category' => 'girls']),
+                ],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?auto=format&fit=crop&w=600&h=800&q=80',
+                    'label' => 'Boys',
+                    'title' => 'Little Gentlemen',
+                    'sub'   => 'Classic & Contemporary',
+                    'url'   => route('shop', ['category' => 'boys']),
+                ],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=600&h=800&q=80',
+                    'label' => 'Newborn',
+                    'title' => 'First Days',
+                    'sub'   => 'Soft & Gentle Fabrics',
+                    'url'   => route('shop', ['category' => 'newborn']),
+                ],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=600&h=800&q=80',
+                    'label' => 'Eid Collection',
+                    'title' => 'Festive Glow',
+                    'sub'   => 'Gold Embroidery Sets',
+                    'url'   => route('shop', ['new_arrival' => 1]),
+                ],
             ];
             @endphp
 
