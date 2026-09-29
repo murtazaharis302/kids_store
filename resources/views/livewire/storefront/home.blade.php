@@ -8,7 +8,28 @@
      · Dot indicators bottom center
      · Auto-play 5s, pause on hover, swipe on mobile
 ═══════════════════════════════════════════════════════════════ --}}
-<section id="hero-slider" style="position:relative;overflow:hidden;background:#0D0D0D;width:100%;height:85vh;min-height:480px;max-height:850px;">
+<style>
+/* ── HERO SLIDER MOBILE FIX ───────────────────────────────── */
+#hero-slider { height: 80vh; min-height: 340px; max-height: 850px; }
+@media (max-width: 768px) {
+    #hero-slider { height: 65vh; min-height: 300px; }
+    #slider-prev, #slider-next { width: 36px !important; height: 36px !important; }
+    .hero-script  { font-size: clamp(24px, 8vw, 40px) !important; margin-bottom: -6px !important; }
+    .hero-title   { font-size: clamp(22px, 7vw, 38px) !important; letter-spacing: 0.04em !important; }
+    .hero-type    { font-size: 9px !important; letter-spacing: 0.18em !important; margin-bottom: 16px !important; }
+    .hero-btn     { padding: 10px 22px !important; font-size: 10px !important; letter-spacing: 0.18em !important; }
+    #slider-dots  { bottom: 14px !important; padding: 4px 10px !important; }
+}
+@media (max-width: 480px) {
+    #hero-slider  { height: 55vh; min-height: 260px; }
+    #slider-prev  { left: 8px !important; }
+    #slider-next  { right: 8px !important; }
+    .hero-script  { font-size: clamp(20px, 9vw, 34px) !important; }
+    .hero-title   { font-size: clamp(18px, 8vw, 30px) !important; }
+}
+</style>
+
+<section id="hero-slider" style="position:relative;overflow:hidden;background:#0D0D0D;width:100%;">
 
     {{-- SLIDES TRACK --}}
     <div id="slider-track" style="display:flex;height:100%;transition:transform 0.65s cubic-bezier(0.77,0,0.18,1);will-change:transform;">
@@ -75,30 +96,30 @@
             <img src="{{ $slide['image'] }}"
                  alt="{{ $slide['title'] }}"
                  onerror="if(this.src!=='{{ $slide['alt_img'] }}'){this.src='{{ $slide['alt_img'] }}';}else{this.src='{{ $slide['fallback'] }}';}"
-                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;"
+                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"
                  loading="{{ $i === 0 ? 'eager' : 'lazy' }}">
 
-            {{-- Smooth overlay for legibility --}}
-            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);"></div>
+            {{-- Overlay --}}
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.65) 100%);"></div>
 
-            {{-- CENTERED TYPOGRAPHY — Awaisia Store Style --}}
-            <div style="position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px;">
+            {{-- CENTERED TYPOGRAPHY --}}
+            <div style="position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 16px;">
                 @if(!empty($slide['script_title']))
-                <span style="font-family:'Great Vibes', cursive; font-size:clamp(32px, 5.5vw, 68px); color:#C9A96E; line-height:1; transform:rotate(-2deg); margin-bottom:-10px; text-shadow:0 2px 8px rgba(0,0,0,0.5);">
+                <span class="hero-script" style="font-family:'Great Vibes',cursive;font-size:clamp(28px,5.5vw,68px);color:#C9A96E;line-height:1;transform:rotate(-2deg);margin-bottom:-8px;text-shadow:0 2px 8px rgba(0,0,0,0.5);display:block;">
                     {{ $slide['script_title'] }}
                 </span>
                 @endif
 
-                <h1 style="font-family:'Playfair Display', 'Cormorant Garamond', serif; font-size:clamp(30px, 5.8vw, 72px); font-weight:700; color:#FFFFFF; line-height:1.1; letter-spacing:0.08em; text-transform:uppercase; margin:10px 0; text-shadow:0 3px 12px rgba(0,0,0,0.6); max-width:1000px;">
+                <h1 class="hero-title" style="font-family:'Playfair Display','Cormorant Garamond',serif;font-size:clamp(26px,5.8vw,72px);font-weight:800;color:#FFFFFF;line-height:1.1;letter-spacing:0.07em;text-transform:uppercase;margin:10px 0 8px;text-shadow:0 3px 12px rgba(0,0,0,0.6);max-width:900px;">
                     {{ $slide['title'] }}
                 </h1>
 
-                <p style="font-family:'Inter', sans-serif; font-size:clamp(10px, 1.2vw, 13px); font-weight:600; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.92); margin-bottom:28px; text-shadow:0 1px 4px rgba(0,0,0,0.5);">
+                <p class="hero-type" style="font-family:'Inter',sans-serif;font-size:clamp(9px,1.1vw,13px);font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.92);margin-bottom:24px;text-shadow:0 1px 4px rgba(0,0,0,0.5);">
                     {{ $slide['type'] }}
                 </p>
 
-                <a href="{{ $slide['url'] }}"
-                   style="display:inline-block; padding:12px 34px; background:#FFFFFF; color:#0D0D0D; font-family:'Inter', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; text-decoration:none; border-radius:0px; transition:all 0.3s ease; box-shadow:0 4px 15px rgba(0,0,0,0.2);"
+                <a href="{{ $slide['url'] }}" class="hero-btn"
+                   style="display:inline-block;padding:11px 30px;background:#FFFFFF;color:#0D0D0D;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(0,0,0,0.25);"
                    onmouseover="this.style.background='#C9A96E';this.style.color='#FFFFFF';this.style.transform='translateY(-2px)'"
                    onmouseout="this.style.background='#FFFFFF';this.style.color='#0D0D0D';this.style.transform='translateY(0)'">
                     {{ $slide['button_text'] }}
@@ -111,32 +132,34 @@
     {{-- LEFT ARROW --}}
     <button id="slider-prev"
             aria-label="Previous slide"
-            style="position:absolute;left:16px;top:50%;transform:translateY(-50%);z-index:10;width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.2);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s ease;"
-            onmouseover="this.style.background='rgba(201,169,110,0.9)';this.style.borderColor='#C9A96E'"
-            onmouseout="this.style.background='rgba(0,0,0,0.35)';this.style.borderColor='rgba(255,255,255,0.2)'">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            style="position:absolute;left:14px;top:50%;transform:translateY(-50%);z-index:10;width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,0.40);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.25);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s ease;"
+            onmouseover="this.style.background='rgba(201,169,110,0.9)'"
+            onmouseout="this.style.background='rgba(0,0,0,0.40)'">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
     </button>
 
     {{-- RIGHT ARROW --}}
     <button id="slider-next"
             aria-label="Next slide"
-            style="position:absolute;right:16px;top:50%;transform:translateY(-50%);z-index:10;width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.2);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s ease;"
-            onmouseover="this.style.background='rgba(201,169,110,0.9)';this.style.borderColor='#C9A96E'"
-            onmouseout="this.style.background='rgba(0,0,0,0.35)';this.style.borderColor='rgba(255,255,255,0.2)'">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            style="position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:10;width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,0.40);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.25);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s ease;"
+            onmouseover="this.style.background='rgba(201,169,110,0.9)'"
+            onmouseout="this.style.background='rgba(0,0,0,0.40)'">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
     </button>
 
     {{-- DOT INDICATORS — Bottom Center --}}
-    <div id="slider-dots" style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:8px;align-items:center;padding:6px 14px;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);border-radius:20px;border:1px solid rgba(255,255,255,0.15);">
+    <div id="slider-dots" style="position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:7px;align-items:center;padding:5px 12px;background:rgba(0,0,0,0.35);backdrop-filter:blur(6px);border-radius:20px;border:1px solid rgba(255,255,255,0.15);">
         @foreach($slides as $i => $slide)
             <button class="slider-dot"
                     data-index="{{ $i }}"
                     aria-label="Slide {{ $i + 1 }}"
-                    style="width:{{ $i === 0 ? '24px' : '8px' }};height:8px;background:{{ $i === 0 ? '#C9A96E' : 'rgba(255,255,255,0.6)' }};border:none;cursor:pointer;transition:all 0.3s ease;padding:0;border-radius:4px;">
+                    style="width:{{ $i === 0 ? '22px' : '7px' }};height:7px;background:{{ $i === 0 ? '#C9A96E' : 'rgba(255,255,255,0.55)' }};border:none;cursor:pointer;transition:all 0.3s ease;padding:0;border-radius:4px;">
             </button>
         @endforeach
     </div>
 </section>
+
+
 
 {{-- SLIDER JS --}}
 <script>
