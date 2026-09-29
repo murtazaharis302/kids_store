@@ -39,8 +39,8 @@
         $slides = [
             [
                 'image'       => asset('images/landscape_banner_1.png'),
-                'alt_img'     => '/images/landscape_banner_1.png',
-                'fallback'    => asset('images/user_pic_1.jpg'),
+                'alt_img'     => 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=80',
+                'fallback'    => 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=80',
                 'script_title'=> 'Just For Your',
                 'title'       => 'EXCLUSIVE COLLECTION',
                 'type'        => 'AUTUMN / WINTER FASHION',
@@ -48,18 +48,8 @@
                 'url'         => route('shop', ['new_arrival' => 1]),
             ],
             [
-                'image'       => asset('images/user_pic_1.jpg'),
-                'alt_img'     => '/images/user_pic_1.jpg',
-                'fallback'    => 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=80',
-                'script_title'=> 'Crafted with Love',
-                'title'       => 'NEW SEASON ARRIVALS',
-                'type'        => 'PREMIUM KIDS WEAR',
-                'button_text' => 'DISCOVER MORE',
-                'url'         => route('shop', ['new_arrival' => 1]),
-            ],
-            [
-                'image'       => asset('images/user_pic_2.jpg'),
-                'alt_img'     => '/images/user_pic_2.jpg',
+                'image'       => asset('images/slide_girls_collection.png'),
+                'alt_img'     => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1600&q=80',
                 'fallback'    => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1600&q=80',
                 'script_title'=> 'Grace & Elegance',
                 'title'       => 'GIRLS FORMAL & EID WEAR',
@@ -68,8 +58,18 @@
                 'url'         => route('shop', ['category' => 'girls']),
             ],
             [
-                'image'       => asset('images/user_pic_3.jpg'),
-                'alt_img'     => '/images/user_pic_3.jpg',
+                'image'       => asset('images/slide_eid_collection.png'),
+                'alt_img'     => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
+                'fallback'    => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
+                'script_title'=> 'Festive & Glamour',
+                'title'       => 'EID SPECIAL COLLECTION',
+                'type'        => 'GOLD EMBROIDERY & LUXURY SETS',
+                'button_text' => 'SHOP EID',
+                'url'         => route('shop', ['new_arrival' => 1]),
+            ],
+            [
+                'image'       => asset('images/article_boys_navy.png'),
+                'alt_img'     => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=1600&q=80',
                 'fallback'    => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=1600&q=80',
                 'script_title'=> 'Smart & Dapper',
                 'title'       => 'BOYS EASTERN & WESTERN',
@@ -78,8 +78,8 @@
                 'url'         => route('shop', ['category' => 'boys']),
             ],
             [
-                'image'       => asset('images/user_pic_4.png'),
-                'alt_img'     => '/images/user_pic_4.png',
+                'image'       => asset('images/slide_newborn_collection.png'),
+                'alt_img'     => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
                 'fallback'    => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1600&q=80',
                 'script_title'=> 'Gentle Soft Touch',
                 'title'       => 'NEWBORN & BABY ESSENTIALS',
@@ -259,8 +259,8 @@
             @php
             $cols = [
                 [
-                    'image'    => asset('images/user_pic_2.jpg'),
-                    'alt_img'  => '/images/user_pic_2.jpg',
+                    'image'    => asset('images/article_girls_sage.png'),
+                    'alt_img'  => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=600&h=800&q=80',
                     'fallback' => 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=600&h=800&q=80',
                     'label'    => 'Girls',
                     'title'    => 'Garden Party',
@@ -268,8 +268,8 @@
                     'url'      => route('shop', ['category' => 'girls']),
                 ],
                 [
-                    'image'    => asset('images/user_pic_1.jpg'),
-                    'alt_img'  => '/images/user_pic_1.jpg',
+                    'image'    => asset('images/article_boys_navy.png'),
+                    'alt_img'  => 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?auto=format&fit=crop&w=600&h=800&q=80',
                     'fallback' => 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?auto=format&fit=crop&w=600&h=800&q=80',
                     'label'    => 'Boys',
                     'title'    => 'Little Gentlemen',
@@ -277,8 +277,8 @@
                     'url'      => route('shop', ['category' => 'boys']),
                 ],
                 [
-                    'image'    => asset('images/user_pic_4.png'),
-                    'alt_img'  => '/images/user_pic_4.png',
+                    'image'    => asset('images/article_newborn_cream.png'),
+                    'alt_img'  => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=600&h=800&q=80',
                     'fallback' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=600&h=800&q=80',
                     'label'    => 'Newborn',
                     'title'    => 'First Days',
@@ -286,8 +286,8 @@
                     'url'      => route('shop', ['category' => 'newborn']),
                 ],
                 [
-                    'image'    => asset('images/user_pic_3.jpg'),
-                    'alt_img'  => '/images/user_pic_3.jpg',
+                    'image'    => asset('images/article_eid_gold.png'),
+                    'alt_img'  => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=600&h=800&q=80',
                     'fallback' => 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=600&h=800&q=80',
                     'label'    => 'Eid Collection',
                     'title'    => 'Festive Glow',
